@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/sms/sms.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const SMS_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./sms-list/sms-list.component').then(m => m.SmsListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./sms-list/sms-list.component').then(m => m.SmsListComponent)\r\n  },\r\n  {\r\n    path: 'send',\r\n    loadComponent: () => import('./sms-send/sms-send.component').then(m => m.SmsSendComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,aAAqB;EAChC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+B,EAAE,KAAK,OAAK,EAAE,gBAAgB;;EAE3F;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+B,EAAE,KAAK,OAAK,EAAE,gBAAgB;;EAE3F;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+B,EAAE,KAAK,OAAK,EAAE,gBAAgB;;;",
+  "names": []
+}

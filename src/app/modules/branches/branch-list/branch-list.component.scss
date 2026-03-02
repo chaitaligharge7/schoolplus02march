@@ -1,0 +1,20 @@
+.branch-list-container {
+  padding: 16px 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  .page-header {
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .status-filter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    .status-label { margin: 0; font-weight: 500; }
+    .status-select { width: auto; min-width: 100px; }
+  }
+}

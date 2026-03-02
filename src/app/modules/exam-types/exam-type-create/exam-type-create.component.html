@@ -1,0 +1,54 @@
+<div class="exam-type-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Exam Type' : 'Create Exam Type' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update exam type details' : 'Add a new exam type' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/exam-types'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="examTypeForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Exam Type Name *</label>
+          <input
+            type="text"
+            formControlName="exam_type_name"
+            class="form-control"
+            placeholder="e.g., Unit Test, Mid Term, Final Exam"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Exam Type Code *</label>
+          <input
+            type="text"
+            formControlName="exam_type_code"
+            class="form-control"
+            placeholder="e.g., UT, MT, FE"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/exam-types'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || examTypeForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Exam Type</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

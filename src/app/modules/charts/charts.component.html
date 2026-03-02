@@ -1,0 +1,87 @@
+<div class="charts-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Charts & Visualizations</h1>
+      <p class="page-subtitle">Interactive data visualization and analytics</p>
+    </div>
+  </div>
+
+  <div class="chart-types-container">
+    <div class="chart-types">
+      <button *ngFor="let type of chartTypes" class="chart-type-btn" [class.active]="activeChartType === type.value"
+        (click)="setActiveChartType(type.value)">
+        {{ type.label }}
+      </button>
+    </div>
+  </div>
+
+  <div class="filters-card">
+    <form [formGroup]="chartForm" (ngSubmit)="generateChart()">
+      <div class="filters-grid">
+        <div class="form-group">
+          <label>Chart Type</label>
+          <select formControlName="chart_type" class="form-control">
+            <option *ngFor="let type of chartTypes" [value]="type.value">
+              {{ type.label }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Academic Year</label>
+          <select formControlName="academic_year_id" class="form-control">
+            <option [value]="null">Select Academic Year</option>
+            <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+              {{ year.academic_year_name }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Class</label>
+          <select formControlName="class_id" class="form-control">
+            <option [value]="null">All Classes</option>
+            <option *ngFor="let cls of classes" [value]="cls.class_id">
+              {{ cls.class_name }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" formControlName="start_date" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="date" formControlName="end_date" class="form-control" />
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            <i class="bi bi-bar-chart"></i> Generate Chart
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="chart-card" *ngIf="chartData">
+    <div class="chart-header">
+      <h3>{{ activeChartType | titlecase }} Chart</h3>
+      <div class="chart-actions">
+        <button class="btn btn-sm btn-outline-primary" (click)="exportChart('png')">
+          <i class="bi bi-download"></i> PNG
+        </button>
+        <button class="btn btn-sm btn-outline-primary" (click)="exportChart('pdf')">
+          <i class="bi bi-file-pdf"></i> PDF
+        </button>
+      </div>
+    </div>
+    <div class="chart-container">
+
+      <div class="chart-container">
+        <!-- <canvas #chartCanvas></canvas> -->
+    <div #chartContainer style="position: relative; height:400px; width:100%;">
+      <canvas #chartCanvas></canvas>
+    </div>
+      </div>
+      <!-- Chart will be rendered here using Chart.js or similar library -->
+    </div>
+  </div>
+</div>

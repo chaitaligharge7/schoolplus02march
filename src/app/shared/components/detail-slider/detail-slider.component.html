@@ -1,0 +1,18 @@
+<div class="slider-overlay" 
+     [class.slider-overlay-visible]="visible"
+     (click)="onOverlayClick()"
+     role="presentation">
+  <div class="slider-panel" 
+       [class.slider-panel-visible]="visible"
+       (click)="onPanelClick($event)"
+       role="dialog"
+       aria-modal="true"
+       [attr.aria-label]="title">
+    <div class="slider-header">
+      <button type="button" class="slider-close" (click)="onClose()" title="Close (Esc)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

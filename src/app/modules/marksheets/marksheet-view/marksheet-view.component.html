@@ -1,0 +1,159 @@
+<div class="marksheet-view-container">
+  <div class="page-header no-print">
+    <div>
+      <h1 class="page-title">Marksheet Details</h1>
+      <p class="page-subtitle">View marksheet information</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="print()" *ngIf="marksheet">
+        <i class="bi bi-printer"></i>
+        Print
+      </button>
+      <button class="btn btn-secondary" (click)="downloadMarksheet()" *ngIf="marksheet?.marksheet_file">
+        <i class="bi bi-download"></i>
+        Download
+      </button>
+      <a [routerLink]="['/app/marksheets/edit', marksheet?.marksheet_id]" class="btn btn-primary" *ngIf="marksheet">
+        <i class="bi bi-pencil"></i>
+        Edit
+      </a>
+      <button class="btn btn-secondary" (click)="router.navigate(['/app/marksheets'])">
+        <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+    </div>
+  </div>
+
+  <div class="details-card print-document marksheet-print" *ngIf="!isLoading && marksheet" id="marksheet-print">
+    <div class="print-header marksheet-print-header" *ngIf="marksheet">
+      <h1 class="print-title">MARKSHEET</h1>
+      <p class="print-subtitle">{{ marksheet.academic_year_name }} · {{ marksheet.examination_name }}</p>
+    </div>
+    <div class="details-section">
+      <h3>Student Information</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Student Name</label>
+          <p>{{ marksheet.first_name }} {{ marksheet.last_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Admission Number</label>
+          <p>{{ marksheet.admission_number }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Class</label>
+          <p>{{ marksheet.class_name }} {{ marksheet.section_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Academic Year</label>
+          <p>{{ marksheet.academic_year_name }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <h3>Examination Details</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Examination</label>
+          <p>{{ marksheet.examination_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Examination Code</label>
+          <p>{{ marksheet.examination_code }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Start Date</label>
+          <p>{{ marksheet.start_date | dateFormat }}</p>
+        </div>
+        <div class="detail-item">
+          <label>End Date</label>
+          <p>{{ marksheet.end_date | dateFormat }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <h3>Marks Summary</h3>
+      <div class="marks-summary">
+        <div class="mark-card">
+          <div class="mark-label">Total Marks</div>
+          <div class="mark-value">{{ marksheet.total_marks }}</div>
+        </div>
+        <div class="mark-card">
+          <div class="mark-label">Obtained Marks</div>
+          <div class="mark-value">{{ marksheet.obtained_marks }}</div>
+        </div>
+        <div class="mark-card">
+          <div class="mark-label">Percentage</div>
+          <div class="mark-value">{{ marksheet.percentage }}%</div>
+        </div>
+        <div class="mark-card">
+          <div class="mark-label">Grade</div>
+          <div class="mark-value badge badge-info">{{ marksheet.grade }}</div>
+        </div>
+        <div class="mark-card" *ngIf="marksheet.rank">
+          <div class="mark-label">Rank</div>
+          <div class="mark-value">{{ marksheet.rank }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section" *ngIf="marksheet.subject_results && marksheet.subject_results.length > 0">
+      <h3>Subject-wise Results</h3>
+      <table class="subject-table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Marks Obtained</th>
+            <th>Max Marks</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of marksheet.subject_results">
+            <td>{{ result.subject_name }}</td>
+            <td>{{ result.marks_obtained }}</td>
+            <td>{{ result.max_marks }}</td>
+            <td><span class="badge badge-info">{{ result.grade }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="details-section">
+      <h3>Status Information</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Status</label>
+          <p>
+            <span class="badge" 
+                  [class.badge-success]="marksheet.status === 'sent'"
+                  [class.badge-warning]="marksheet.status === 'published'"
+                  [class.badge-secondary]="marksheet.status === 'draft'">
+              {{ marksheet.status }}
+            </span>
+          </p>
+        </div>
+        <div class="detail-item" *ngIf="marksheet.sent_to_parent">
+          <label>Sent to Parent</label>
+          <p><i class="bi bi-check-circle text-success"></i> Yes</p>
+        </div>
+        <div class="detail-item" *ngIf="marksheet.sent_via_whatsapp">
+          <label>Sent via WhatsApp</label>
+          <p><i class="bi bi-whatsapp text-success"></i> Yes</p>
+        </div>
+        <div class="detail-item" *ngIf="marksheet.sent_at">
+          <label>Sent At</label>
+          <p>{{ marksheet.sent_at | dateFormat }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading marksheet...</p>
+  </div>
+</div>
+

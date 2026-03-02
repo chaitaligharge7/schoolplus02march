@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/sports/sports.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const SPORTS_ROUTES: Routes = [\r\n  { path: '', redirectTo: 'list', pathMatch: 'full' },\r\n  { path: 'list', loadComponent: () => import('./event-list/event-list.component').then(m => m.EventListComponent) },\r\n  { path: 'create', loadComponent: () => import('./event-create/event-create.component').then(m => m.EventCreateComponent) },\r\n  { path: 'edit/:id', loadComponent: () => import('./event-create/event-create.component').then(m => m.EventCreateComponent) }\r\n];\r\n"],
+  "mappings": ";;;AAEO,IAAM,gBAAwB;EACnC,EAAE,MAAM,IAAI,YAAY,QAAQ,WAAW,OAAM;EACjD,EAAE,MAAM,QAAQ,eAAe,MAAM,OAAO,qBAAmC,EAAE,KAAK,OAAK,EAAE,kBAAkB,EAAC;EAChH,EAAE,MAAM,UAAU,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB,EAAC;EACxH,EAAE,MAAM,YAAY,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB,EAAC;;",
+  "names": []
+}

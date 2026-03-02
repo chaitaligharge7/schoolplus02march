@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/security-guard/daily-report-create/daily-report-create.component.scss"],
+  "sourcesContent": [".page-container { width: 100%; padding: 1rem; }\r\n.form-card { width: 100%; }\r\n.form-row { display: flex; gap: 1rem; flex-wrap: wrap; }\r\n.form-group { flex: 1; min-width: 180px; margin-bottom: 1rem; }\r\n.form-actions { margin-top: 1rem; display: flex; gap: 0.5rem; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,SAAA;AAAa,WAAA;;AAC/B,CAAA;AAAa,SAAA;;AACb,CAAA;AAAY,WAAA;AAAe,OAAA;AAAW,aAAA;;AACtC,CAAA;AAAc,QAAA;AAAS,aAAA;AAAkB,iBAAA;;AACzC,CAAA;AAAgB,cAAA;AAAkB,WAAA;AAAe,OAAA;;",
+  "names": []
+}

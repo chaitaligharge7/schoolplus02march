@@ -1,0 +1,20 @@
+.events-view-container {
+  .view-card {
+    background: var(--card-bg, #fff);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .detail-item {
+    label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 0.25rem; }
+    span { font-weight: 500; }
+    &.full-width { grid-column: 1 / -1; }
+    .description { margin: 0.25rem 0 0; white-space: pre-wrap; }
+  }
+  .loading-state, .empty-state { padding: 2rem; text-align: center; color: #666; }
+}

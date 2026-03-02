@@ -1,0 +1,98 @@
+<div class="mess-schedule-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mess Schedules</h1>
+      <p class="page-subtitle">Manage mess meal schedules</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <select class="form-control" [(ngModel)]="academicYearId" (change)="onAcademicYearChange(academicYearId)">
+        <option [value]="undefined">All Academic Years</option>
+        <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+       {{ year.academic_year_name }}
+    </option>
+
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Schedule Type:</label>
+      <select class="form-control" [(ngModel)]="scheduleType" (change)="onScheduleTypeChange(scheduleType)">
+        <option [value]="undefined">All Types</option>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+        <option value="snacks">Snacks</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="schedules"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'schedule_id'"
+    [addRoute]="'/app/mess-schedules/create'"
+    [addLabel]="'Create Schedule'"
+    [searchPlaceholder]="'Search mess schedules...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (deleteClick)="onDelete($event)"
+    (editClick)="onEdit($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Expandable Meals List -->
+  <div class="schedule-details" *ngIf="schedules.length > 0">
+    <div class="schedule-item" *ngFor="let schedule of schedules">
+      <div class="schedule-header" (click)="toggleMeals(schedule.schedule_id)">
+        <div>
+          <h4>{{ schedule.schedule_type | titlecase }} Schedule</h4>
+          <p class="schedule-info">
+            Week: {{ schedule.week_start_date | dateFormat }} - {{ schedule.week_end_date | dateFormat }}
+            <span class="badge badge-info">{{ (scheduleMeals[schedule.schedule_id] && scheduleMeals[schedule.schedule_id].length) || schedule.meal_count || 0 }} meals</span>
+          </p>
+        </div>
+        <i class="bi" [ngClass]="expandedScheduleId === schedule.schedule_id ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+      </div>
+      
+      <div class="meals-list" *ngIf="expandedScheduleId === schedule.schedule_id && scheduleMeals[schedule.schedule_id]">
+        <table class="meals-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Meal Type</th>
+              <th>Menu Items</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let meal of scheduleMeals[schedule.schedule_id]">
+              <td>{{ meal.meal_date | dateFormat }}</td>
+              <td>{{ meal.meal_type }}</td>
+              <td>{{ meal.menu_items }}</td>
+              <td>{{ meal.meal_time || '-' }}</td>
+            </tr>
+            <tr *ngIf="scheduleMeals[schedule.schedule_id]?.length === 0">
+              <td colspan="4" class="text-center">No meals scheduled</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

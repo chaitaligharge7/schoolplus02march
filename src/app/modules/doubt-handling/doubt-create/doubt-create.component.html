@@ -1,0 +1,233 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">
+      {{ isResponse ? 'Respond to Doubt' : 'Add Doubt' }}
+    </h1>
+    <p class="page-subtitle">
+      {{ isResponse ? 'Provide response to student doubt' : 'Submit a new doubt to teacher' }}
+    </p>
+  </div>
+                 
+  <form (ngSubmit)="save()" class="form-card">
+
+    <!-- STUDENT -->
+    <div class="form-group" *ngIf="!isResponse">
+      <label>Student</label>
+      <select class="form-control" [(ngModel)]="model.student_id" name="student_id" required>
+        <option [ngValue]="null">Select Student</option>
+        <option *ngFor="let s of students" [ngValue]="s.student_id">
+          {{ s.full_name }} ({{ s.admission_number }})
+        </option>
+      </select>
+    </div>
+
+    <!-- CLASS / SUBJECT / TEACHER -->
+    <div class="form-row" *ngIf="!isResponse">
+
+      <div class="form-group">
+        <label>Class</label>
+        <select
+          class="form-control"
+          [(ngModel)]="model.class_id"
+          name="class_id"
+          (change)="loadSubjects(model.class_id)"
+          required>
+          <option [ngValue]="null">Select Class</option>
+          <option *ngFor="let c of classes" [ngValue]="c.class_id">
+            {{ c.class_name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Subject</label>
+        <select class="form-control" [(ngModel)]="model.subject_id" name="subject_id" required>
+          <option [ngValue]="null">Select Subject</option>
+          <option *ngFor="let s of subjects" [ngValue]="s.subject_id">
+            {{ s.subject_name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Teacher</label>
+        <select class="form-control" [(ngModel)]="model.teacher_id" name="teacher_id" required>
+          <option [ngValue]="null">Select Teacher</option>
+          <option *ngFor="let t of teachers" [ngValue]="t.teacher_id">
+            {{ t.full_name || (t.first_name + ' ' + t.last_name) }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <!-- CHAPTER / TOPIC / PRIORITY -->
+    <div class="form-row" *ngIf="!isResponse">
+      <div class="form-group ">
+        <label>Chapter</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="model.chapter_name"
+          name="chapter_name"
+          placeholder="Enter chapter name"
+        />
+      </div>
+
+      <div class="form-group ">
+        <label>Topic</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="model.topic_name"
+          name="topic_name"
+          placeholder="Enter topic name"
+        />
+      </div>
+
+      <div class="form-group ">
+        <label>Priority</label>
+        <select
+          class="form-control"
+          [(ngModel)]="model.pripority_level"
+          name="pripority_level"
+        >
+          <option [ngValue]="null">Select Priority</option>
+          <option value="High">Urgent</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Preferred Response Mode</label>
+        <select class="form-control form-control-sm" [(ngModel)]="model.preferred_response_mode" name="preferred_response_mode">
+          <option [ngValue]="null">Select Mode</option>
+          <option value="in-app">In-App</option>
+          <option value="in-class">IN-Class</option>
+          <option value="personally">Personally</option>
+        </select>
+      </div>
+    </div>
+    <!-- DOUBT TEXT -->
+    <div class="form-group" *ngIf="!isResponse">
+      <div class="form-group">
+        <label>Attach Doubt File (PDF/Doc)</label>
+        <input
+          type="file"
+          class="form-control"
+          accept=".pdf,.doc,.docx"
+          (change)="onDoubtFileSelected($event)"  
+        />
+        <small class="form-text">Upload PDF or document file</small>
+      </div>
+      <label>Doubt / Question <span class="required">*</span></label>  
+      <textarea
+        class="form-control"
+        [(ngModel)]="model.doubt_text"
+        name="doubt_text"
+        rows="4"
+        required
+        placeholder="Enter your doubt here">
+      </textarea>
+    </div>
+
+    <!-- DOUBT TEXT -->
+    <div class="row" *ngIf="isResponse">
+      <div class="col-md-4" *ngIf="model.student_id">
+        <label>Student Name</label>
+        <div class="doubt-box">{{ model.student_name }}</div>
+      </div>
+
+      <div class="col-md-4" *ngIf="model.class_id">
+        <label>Class</label>
+        <div class="doubt-box">{{ model.class_name }}</div>
+      </div>
+
+      <div class="col-md-4" *ngIf="model.subject_id">
+        <label>Subject</label>
+        <div class="doubt-box">{{ model.subject_name }}</div>
+      </div>
+    </div>
+
+    <div class="row  mt-2" *ngIf="isResponse">
+      <div class="col-md-4" *ngIf="model.chapter_name">
+        <label>Chapter Name</label>
+        <div class="doubt-box">{{ model.chapter_name }}</div>
+      </div>
+
+      <div class="col-md-4" *ngIf="model.topic_name">
+        <label>Topic Name</label>
+        <div class="doubt-box">{{ model.topic_name }}</div>
+      </div>
+
+      <div class="col-md-4" *ngIf="model.priority_level">
+        <label>Priority Level</label>
+        <div class="doubt-box">{{ model.priority_level }}</div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isResponse && model.preferred_response_mode">
+      <div class="col-md-4">
+        <label>Preferred Response Mode</label>
+        <div class="doubt-box">{{ model.preferred_response_mode }}</div>
+      </div>
+    </div>
+
+    <!-- ORIGINAL DOUBT (READ ONLY) -->
+    <div class="form-group" *ngIf="isResponse && model.doubt_text">
+      <label class="fw-bold">Original Doubt</label>
+      <div class="doubt-box">{{ model.doubt_text }}</div>
+    </div>
+    <div class="form-group" *ngIf="isResponse">
+      <label class="fw-bold">Student Attached File</label>
+      <div>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-primary"
+          (click)="onView(model)">
+          View Student PDF
+        </button>
+      </div>
+    </div>
+    <!-- RESPONSE INPUT -->
+    <div class="form-group" *ngIf="isResponse">
+      <label>
+        Your Response <span class="required">*</span>
+      </label>
+      <textarea
+        class="form-control"
+        [(ngModel)]="responseText"
+        name="response_text"
+        rows="4"
+        required
+        placeholder="Write your response here">
+      </textarea>
+    </div>
+    <!-- Response File (response only) -->
+    <div class="form-group" *ngIf="isResponse">
+      <label>Attach Response File (PDF)</label>
+      <input
+        type="file"
+        class="form-control"
+        accept=".pdf"
+        (change)="onResponseFileSelected($event)"
+      />
+      <small class="form-text">Upload PDF as your response</small>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="form-actions d-flex justify-content-end gap-2">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="cancel()">
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loading">
+        {{ loading ? 'Saving...' : (isResponse ? 'Submit Response' : 'Submit Doubt') }}
+      </button>
+    </div>
+  </form>
+</div>

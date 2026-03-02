@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/book-distribution/book-distribution.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const BOOK_DISTRIBUTION_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./book-distribution-list/book-distribution-list.component').then(m => m.BookDistributionListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./book-distribution-list/book-distribution-list.component').then(m => m.BookDistributionListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./book-distribution-create/book-distribution-create.component').then(m => m.BookDistributionCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./book-distribution-create/book-distribution-create.component').then(m => m.BookDistributionCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,2BAAmC;EAC9C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2D,EAAE,KAAK,OAAK,EAAE,6BAA6B;;EAEpI;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2D,EAAE,KAAK,OAAK,EAAE,6BAA6B;;EAEpI;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+D,EAAE,KAAK,OAAK,EAAE,+BAA+B;;EAE1I;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+D,EAAE,KAAK,OAAK,EAAE,+BAA+B;;;",
+  "names": []
+}

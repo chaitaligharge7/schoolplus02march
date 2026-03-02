@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/receptionist/receptionist-dashboard/receptionist-dashboard.component.scss"],
+  "sourcesContent": [".page-container { padding: 1rem; }\r\n.loading { padding: 2rem; text-align: center; }\r\n.dashboard-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }\r\n.dashboard-cards .card { padding: 1.5rem; background: var(--bg-secondary); border-radius: 8px; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; }\r\n.dashboard-cards .card:hover { background: var(--bg-hover); }\r\n.card-value { font-size: 1.75rem; font-weight: 700; }\r\n.card-label { font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem; }\r\n.quick-links h3 { margin-bottom: 0.75rem; }\r\n.quick-links .links { display: flex; flex-wrap: wrap; gap: 0.5rem; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,WAAA;;AAClB,CAAA;AAAW,WAAA;AAAe,cAAA;;AAC1B,CAAA;AAAmB,WAAA;AAAe,yBAAA,OAAA,SAAA,EAAA,OAAA,KAAA,EAAA;AAA8D,OAAA;AAAW,iBAAA;;AAC3G,CADA,gBACA,CAAA;AAAyB,WAAA;AAAiB,cAAA,IAAA;AAAiC,iBAAA;AAAoB,mBAAA;AAAuB,SAAA;AAAgB,WAAA;AAAe,kBAAA;AAAwB,eAAA;;AAC7K,CAFA,gBAEA,CADA,IACA;AAA+B,cAAA,IAAA;;AAC/B,CAAA;AAAc,aAAA;AAAoB,eAAA;;AAClC,CAAA;AAAc,aAAA;AAAqB,SAAA,IAAA;AAA8B,cAAA;;AACjE,CAAA,YAAA;AAAkB,iBAAA;;AAClB,CADA,YACA,CAAA;AAAsB,WAAA;AAAe,aAAA;AAAiB,OAAA;;",
+  "names": []
+}

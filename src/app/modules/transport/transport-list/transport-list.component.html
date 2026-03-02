@@ -1,0 +1,44 @@
+<div class="transport-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Transport Management</h1>
+      <p class="page-subtitle">Manage transport routes and vehicles</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Route Name:</label>
+      <input type="text" class="form-control" [(ngModel)]="routeName" (input)="onRouteNameChange(routeName)" placeholder="Filter by route name">
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="routes"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'route_id'"
+    [addRoute]="'/app/transport/add'"
+    [addLabel]="'Add Route'"
+    [searchPlaceholder]="'Search by route name, vehicle number...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

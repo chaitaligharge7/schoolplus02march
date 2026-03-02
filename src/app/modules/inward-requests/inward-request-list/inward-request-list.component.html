@@ -1,0 +1,71 @@
+<div class="inward-request-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Inward Requests</h1>
+      <p class="page-subtitle">Manage inward requests and resolutions</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Request Type:</label>
+      <select class="form-control" [(ngModel)]="requestType" (change)="onRequestTypeChange(requestType)">
+        <option [value]="undefined">All Types</option>
+        <option value="maintenance">Maintenance</option>
+        <option value="supply">Supply</option>
+        <option value="repair">Repair</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All Status</option>
+        <option value="open">Open</option>
+        <option value="in_progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+        <option value="closed">Closed</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="requests"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'request_id'"
+    [addRoute]="'/app/inward-requests/create'"
+    [addLabel]="'New Request'"
+    [searchPlaceholder]="'Search by request number or title...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Resolve Request Button for Selected Row -->
+  <div class="resolve-action" *ngIf="selectedRowId && getSelectedRequest() && getSelectedRequest()?.status !== 'resolved' && getSelectedRequest()?.status !== 'closed'">
+    <button 
+      class="btn btn-success"
+      (click)="resolveRequest(selectedRowId)"
+      title="Resolve Request">
+      <i class="bi bi-check-circle"></i>
+      Resolve Request
+    </button>
+  </div>
+</div>

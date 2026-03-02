@@ -1,0 +1,165 @@
+<div class="visitor-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Visitor Record' : 'Register Visitor' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update visitor details' : 'Register a new visitor' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="visitorForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Visitor Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Visitor Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="visitor_name"
+              class="form-control"
+              [class.is-invalid]="visitorForm.get('visitor_name')?.invalid && visitorForm.get('visitor_name')?.touched"
+              placeholder="Enter visitor name"
+            />
+            <div class="invalid-feedback" *ngIf="visitorForm.get('visitor_name')?.invalid && visitorForm.get('visitor_name')?.touched">
+              Visitor name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Visitor Type <span class="required">*</span></label>
+            <select
+              formControlName="visitor_type"
+              class="form-control"
+              [class.is-invalid]="visitorForm.get('visitor_type')?.invalid && visitorForm.get('visitor_type')?.touched"
+            >
+              <option [value]="null">Select Type</option>
+              <option *ngFor="let category of categories" [value]="category.category_name">
+                {{ category.category_name }}
+              </option>
+              <option value="parent">Parent</option>
+              <option value="vendor">Vendor</option>
+              <option value="guest">Guest</option>
+              <option value="other">Other</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="visitorForm.get('visitor_type')?.invalid && visitorForm.get('visitor_type')?.touched">
+              Visitor type is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Mobile <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="mobile"
+              class="form-control"
+              [class.is-invalid]="visitorForm.get('mobile')?.invalid && visitorForm.get('mobile')?.touched"
+              placeholder="10-digit mobile number"
+              maxlength="10"
+            />
+            <div class="invalid-feedback" *ngIf="visitorForm.get('mobile')?.invalid && visitorForm.get('mobile')?.touched">
+              Valid 10-digit mobile number is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              formControlName="email"
+              class="form-control"
+              [class.is-invalid]="visitorForm.get('email')?.invalid && visitorForm.get('email')?.touched"
+              placeholder="Enter email address"
+            />
+            <div class="invalid-feedback" *ngIf="visitorForm.get('email')?.invalid && visitorForm.get('email')?.touched">
+              Valid email address is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Purpose <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="purpose"
+              class="form-control"
+              [class.is-invalid]="visitorForm.get('purpose')?.invalid && visitorForm.get('purpose')?.touched"
+              placeholder="Enter visit purpose"
+            />
+            <div class="invalid-feedback" *ngIf="visitorForm.get('purpose')?.invalid && visitorForm.get('purpose')?.touched">
+              Purpose is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Person to Meet</label>
+            <input
+              type="text"
+              formControlName="person_to_meet"
+              class="form-control"
+              placeholder="Enter person name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Visit Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="visit_date"
+              class="form-control"
+              [class.is-invalid]="visitorForm.get('visit_date')?.invalid && visitorForm.get('visit_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="visitorForm.get('visit_date')?.invalid && visitorForm.get('visit_date')?.touched">
+              Visit date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Visit Time <span class="required">*</span></label>
+            <input
+              type="time"
+              formControlName="visit_time"
+              class="form-control"
+              [class.is-invalid]="visitorForm.get('visit_time')?.invalid && visitorForm.get('visit_time')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="visitorForm.get('visit_time')?.invalid && visitorForm.get('visit_time')?.touched">
+              Visit time is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="in">In</option>
+              <option value="out">Out</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional remarks"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || visitorForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Register' }} Visitor</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

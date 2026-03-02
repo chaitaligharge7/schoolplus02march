@@ -1,0 +1,140 @@
+<div class="fee-assign-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Assign Fees to Students</h1>
+      <p class="page-subtitle">Assign fee types to one or more students</p>
+    </div>
+    <button class="btn btn-outline" (click)="cancel()">
+      <i class="bi bi-x-circle"></i>
+      Cancel
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="feeForm" (ngSubmit)="onSubmit()">
+      <div class="form-sections">
+        <div class="form-section">
+          <h3 class="section-title">Fee Details</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Fee Type <span class="required">*</span></label>
+              <app-search-select
+                [options]="feeTypeOptions"
+                formControlName="fee_type_id"
+                placeholder="Search or select fee type"
+                [class.is-invalid]="feeForm.get('fee_type_id')?.invalid && feeForm.get('fee_type_id')?.touched">
+              </app-search-select>
+              <div class="invalid-feedback" *ngIf="feeForm.get('fee_type_id')?.invalid && feeForm.get('fee_type_id')?.touched">
+                Fee type is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Fee Amount <span class="required">*</span></label>
+              <input
+                type="number"
+                formControlName="fee_amount"
+                class="form-control"
+                [class.is-invalid]="feeForm.get('fee_amount')?.invalid && feeForm.get('fee_amount')?.touched"
+                min="0.01"
+                step="0.01"
+                placeholder="Enter fee amount"
+              />
+              <div class="invalid-feedback" *ngIf="feeForm.get('fee_amount')?.invalid && feeForm.get('fee_amount')?.touched">
+                Valid fee amount is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Due Date <span class="required">*</span></label>
+              <input
+                type="date"
+                formControlName="due_date"
+                class="form-control"
+                [class.is-invalid]="feeForm.get('due_date')?.invalid && feeForm.get('due_date')?.touched"
+              />
+              <div class="invalid-feedback" *ngIf="feeForm.get('due_date')?.invalid && feeForm.get('due_date')?.touched">
+                Due date is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3 class="section-title">Select Students</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Class</label>
+              <app-search-select
+                [options]="classOptions"
+                formControlName="class_id"
+                (valueChange)="onClassChange()"
+                placeholder="Search or select class">
+              </app-search-select>
+            </div>
+
+            <div class="form-group">
+              <label>Section</label>
+              <app-search-select
+                [options]="sectionOptions"
+                formControlName="section_id"
+                (valueChange)="onSectionChange()"
+                [disabled]="!feeForm.get('class_id')?.value"
+                placeholder="Search or select section">
+              </app-search-select>
+            </div>
+          </div>
+
+          <div class="student-selection" *ngIf="students.length > 0">
+            <div class="selection-header">
+              <h4>Select Students ({{ selectedStudents.length }} selected)</h4>
+              <div class="selection-actions">
+                <button type="button" class="btn btn-sm btn-outline" (click)="selectAll()">Select All</button>
+                <button type="button" class="btn btn-sm btn-outline" (click)="deselectAll()">Deselect All</button>
+              </div>
+            </div>
+
+            <div class="students-grid">
+              <div
+                *ngFor="let student of students"
+                class="student-card"
+                [class.selected]="selectedStudents.includes(student.student_id)"
+                (click)="toggleStudent(student.student_id)"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="selectedStudents.includes(student.student_id)"
+                  (change)="toggleStudent(student.student_id)"
+                  (click)="$event.stopPropagation()"
+                />
+                <div class="student-info">
+                  <div class="student-name">{{ student.full_name }}</div>
+                  <div class="student-details">
+                    {{ student.admission_number }} | {{ student.class_name }} - {{ student.section_name }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="empty-state" *ngIf="students.length === 0">
+            <i class="bi bi-people"></i>
+            <p>Select a class to view students</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || selectedStudents.length === 0">
+          <span *ngIf="!isSaving">Assign Fees ({{ selectedStudents.length }})</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Assigning...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

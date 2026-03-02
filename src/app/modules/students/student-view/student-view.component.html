@@ -1,0 +1,68 @@
+<div class="student-view-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Student Details</h1>
+      <p class="page-subtitle" *ngIf="student">{{ student.full_name }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" (click)="router.navigate(['/app/students/list'])">
+        <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+      <button class="btn btn-primary" (click)="onEdit()" *ngIf="student">
+        <i class="bi bi-pencil"></i>
+        Edit
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <span class="spinner"></span> Loading...
+  </div>
+
+  <div *ngIf="!loading && student" class="view-card">
+    <h3>Basic Information</h3>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <label>Admission No.</label>
+        <span>{{ student.admission_number }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Roll No.</label>
+        <span>{{ student.roll_number || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Name</label>
+        <span>{{ student.full_name }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Class</label>
+        <span>{{ student.class_name || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Section</label>
+        <span>{{ student.section_name || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Status</label>
+        <span class="badge" [class.badge-success]="student.student_status === 'Active'" [class.badge-warning]="student.student_status === 'Inactive'">
+          {{ student.student_status }}
+        </span>
+      </div>
+      <div class="detail-item">
+        <label>Mobile</label>
+        <span>{{ student.mobile || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Email</label>
+        <span>{{ student.email || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Date of Birth</label>
+        <span>{{ student.date_of_birth ? (student.date_of_birth | date:'mediumDate') : '-' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !student" class="empty-state">Student not found.</div>
+</div>

@@ -1,0 +1,69 @@
+<div class="book-distribution-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Book Distribution</h1>
+      <p class="page-subtitle">Manage book distribution and returns</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <select class="form-control" [(ngModel)]="academicYearId" (change)="onAcademicYearChange(academicYearId)">
+        <option [value]="undefined">All Academic Years</option>
+        <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+          {{ year.academic_year_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Return Status:</label>
+      <select class="form-control" [(ngModel)]="returnStatus" (change)="onReturnStatusChange(returnStatus)">
+        <option [value]="undefined">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="returned">Returned</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="distributions"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'distribution_id'"
+    [addRoute]="'/app/book-distribution/create'"
+    [addLabel]="'Distribute Book'"
+    [searchPlaceholder]="'Search book distributions...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+
+     <div class="return-action" 
+     *ngIf="selectedRowId && getSelectedDistribution() && 
+      ['issued', 'overdue'].includes(getSelectedDistribution()?.return_status)">
+     <button 
+      class="btn btn-success"
+      (click)="returnBook(selectedRowId)"
+      title="Return Book">
+      <i class="bi bi-arrow-return-left"></i>
+      Return Book
+     </button>
+</div>
+</div>

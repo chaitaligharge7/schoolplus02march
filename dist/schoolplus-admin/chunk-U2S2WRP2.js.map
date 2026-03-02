@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/receptionist/receptionist.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const RECEPTIONIST_ROUTES: Routes = [\r\n  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },\r\n  { path: 'dashboard', loadComponent: () => import('./receptionist-dashboard/receptionist-dashboard.component').then(m => m.ReceptionistDashboardComponent) },\r\n  { path: 'inquiries', loadComponent: () => import('./receptionist-inquiry-list/receptionist-inquiry-list.component').then(m => m.ReceptionistInquiryListComponent) },\r\n  { path: 'inquiries/edit/:id', loadComponent: () => import('./receptionist-inquiry-edit/receptionist-inquiry-edit.component').then(m => m.ReceptionistInquiryEditComponent) }\r\n];\r\n"],
+  "mappings": ";;;AAEO,IAAM,sBAA8B;EACzC,EAAE,MAAM,IAAI,YAAY,aAAa,WAAW,OAAM;EACtD,EAAE,MAAM,aAAa,eAAe,MAAM,OAAO,qBAA2D,EAAE,KAAK,OAAK,EAAE,8BAA8B,EAAC;EACzJ,EAAE,MAAM,aAAa,eAAe,MAAM,OAAO,qBAAiE,EAAE,KAAK,OAAK,EAAE,gCAAgC,EAAC;EACjK,EAAE,MAAM,sBAAsB,eAAe,MAAM,OAAO,qBAAiE,EAAE,KAAK,OAAK,EAAE,gCAAgC,EAAC;;",
+  "names": []
+}

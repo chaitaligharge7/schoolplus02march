@@ -1,0 +1,25 @@
+.fee-defaulters-container {
+  padding: 16px 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  .page-header { margin-bottom: var(--spacing-lg); display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--spacing-md); }
+  .summary-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    .summary-icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; }
+    .summary-icon-warning { background: rgba(245, 158, 11, 0.2); color: #d97706; }
+    .summary-value { margin: 0; font-size: 1.5rem; }
+    .summary-label { margin: 0; font-size: var(--font-size-sm); color: var(--text-secondary); }
+  }
+  .additional-filters {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    .filter-group { min-width: 150px; label { font-size: var(--font-size-sm); font-weight: 500; } .form-control { padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); } }
+  }
+}

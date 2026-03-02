@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/documents/documents.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const DOCUMENT_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./document-list/document-list.component').then(m => m.DocumentListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./document-list/document-list.component').then(m => m.DocumentListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./document-create/document-create.component').then(m => m.DocumentCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./document-create/document-create.component').then(m => m.DocumentCreateComponent)\r\n  },\r\n  {\r\n    path: 'half-day-permissions',\r\n    loadComponent: () => import('./half-day-permission-list/half-day-permission-list.component').then(m => m.HalfDayPermissionListComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,kBAA0B;EACrC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE1G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE1G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA6C,EAAE,KAAK,OAAK,EAAE,uBAAuB;;EAEhH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA6C,EAAE,KAAK,OAAK,EAAE,uBAAuB;;EAEhH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+D,EAAE,KAAK,OAAK,EAAE,8BAA8B;;;",
+  "names": []
+}

@@ -1,0 +1,60 @@
+<div class="certificate-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Certificates</h1>
+      <p class="page-subtitle">Manage and generate student certificates</p>
+    </div>
+    <div class="filter-panel header-dropdowns" [class.expanded]="showFilters">
+      <div class="filter-group">
+        <label>Certificate Type:</label>
+        <app-search-select
+          [options]="certificateTypeOptions"
+          [(ngModel)]="certificateType"
+          (valueChange)="onCertificateTypeChange($event)"
+          placeholder="Search or select certificate type">
+        </app-search-select>
+      </div>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="certificates"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'certificate_id'"
+    [addRoute]="'/app/certificates/create'"
+    [addLabel]="'Create Certificate'"
+    [searchPlaceholder]="'Search by student name, certificate type...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    [showPrintButton]="true"
+    (printClick)="onPrintCertificate($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Generate Certificate Button for Selected Row -->
+  <div class="generate-action" *ngIf="selectedRowId && getSelectedCertificate()?.status === 'Pending'">
+    <button 
+      class="btn btn-primary"
+      (click)="generateCertificate(selectedRowId)"
+      title="Generate Certificate">
+      <i class="bi bi-download"></i>
+      Generate Certificate
+    </button>
+  </div>
+</div>

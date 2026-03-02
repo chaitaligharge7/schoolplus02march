@@ -1,0 +1,36 @@
+<div class="visitor-list-container">
+
+  <!-- Header -->
+  <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <h1 class="page-title">Visitor Categories</h1>
+      <p class="page-subtitle">Manage visitor categories</p>
+    </div>
+     <div>
+    <button class="btn btn-secondary" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+  </div>
+
+  <!-- Reusable Table -->
+  <app-enhanced-table
+    [data]="categories"
+    [columns]="columns"
+   
+    [loading]="loading"
+   
+    [rowIdKey]="'category_id'"
+    [searchPlaceholder]="'Search category...'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+ 
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (deleteClick)="onDelete($event)"
+    (editClick)="onEdit($event)">
+  </app-enhanced-table>
+
+</div>

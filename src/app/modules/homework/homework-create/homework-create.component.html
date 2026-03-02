@@ -1,0 +1,117 @@
+<div class="homework-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Homework' : 'Create Homework' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update homework details' : 'Assign new homework to students' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/homework'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="homeworkForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Homework Title *</label>
+        <input
+          type="text"
+          formControlName="homework_title"
+          class="form-control"
+          placeholder="Enter homework title"
+          required
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Class *</label>
+          <select formControlName="class_id" class="form-control" required>
+            <option [value]="null">Select Class</option>
+            <option *ngFor="let cls of classes" [value]="cls.class_id">
+              {{ cls.class_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Section</label>
+          <select formControlName="section_id" class="form-control">
+            <option [value]="null">All Sections</option>
+            <option *ngFor="let section of sections" [value]="section.section_id">
+              {{ section.section_name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Subject *</label>
+        <select formControlName="subject_id" class="form-control" required>
+          <option [value]="null">Select Subject</option>
+          <option *ngFor="let subject of subjects" [value]="subject.subject_id">
+            {{ subject.subject_name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Assigned Date *</label>
+          <input
+            type="date"
+            formControlName="assigned_date"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Due Date *</label>
+          <input
+            type="date"
+            formControlName="due_date"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Maximum Marks</label>
+        <input
+          type="number"
+          formControlName="max_marks"
+          class="form-control"
+          placeholder="Enter maximum marks (optional)"
+          min="0"
+          step="0.01"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          formControlName="description"
+          class="form-control"
+          rows="5"
+          placeholder="Enter homework description and instructions..."
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/homework'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || homeworkForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Homework</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

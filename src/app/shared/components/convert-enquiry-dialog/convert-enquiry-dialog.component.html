@@ -1,0 +1,42 @@
+<div class="convert-enquiry-dialog">
+  <div class="dialog-header">
+    <div class="dialog-icon icon-info">
+      <i class="bi bi-info-circle-fill"></i>
+    </div>
+    <h2 class="dialog-title">{{ step === 'choice' ? 'Convert enquiry' : 'Allot counsellor' }}</h2>
+  </div>
+  <div class="dialog-content">
+    <ng-container *ngIf="step === 'choice'">
+      <p>Choose an action for {{ data.studentName || 'this student' }}.</p>
+      <div class="dialog-actions vertical">
+        <button type="button" class="btn btn-primary full-width" (click)="convertToAdmission()">
+          <i class="bi bi-person-plus"></i> Convert to Admission
+        </button>
+        <button type="button" class="btn btn-outline full-width" (click)="chooseAllotCounsellor()">
+          <i class="bi bi-person-workspace"></i> Allot Counsellor
+        </button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="step === 'counsellor'">
+      <p>Select a counsellor to assign this lead to. They will receive a notification.</p>
+      <div class="form-group">
+        <label>Counsellor</label>
+        <select class="form-control" [(ngModel)]="selectedCounselorId" name="counselor_id">
+          <option [value]="null">Select counsellor</option>
+          <option *ngFor="let c of data.counselors" [value]="c.user_id">
+            {{ c.full_name }}{{ c.stream ? ' (' + c.stream + ')' : '' }}
+          </option>
+        </select>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-outline" (click)="back()">Back</button>
+        <button type="button" class="btn btn-primary" [disabled]="!selectedCounselorId" (click)="confirmAllot()">
+          Allot & Notify
+        </button>
+      </div>
+    </ng-container>
+  </div>
+  <div class="dialog-actions" *ngIf="step === 'choice'">
+    <button type="button" class="btn btn-outline" (click)="onCancel()">Cancel</button>
+  </div>
+</div>

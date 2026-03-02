@@ -1,0 +1,144 @@
+<div class="uniform-distribution-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Uniform Distribution' : 'Distribute Uniform' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update distribution details' : 'Record uniform distribution to student' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="distributionForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Distribution Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student <span class="required">*</span></label>
+            <select
+              formControlName="student_id"
+              class="form-control"
+              [class.is-invalid]="distributionForm.get('student_id')?.invalid && distributionForm.get('student_id')?.touched"
+            >
+              <option [value]="null">Select Student</option>
+              <option *ngFor="let student of students" [value]="student.student_id">
+                {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="distributionForm.get('student_id')?.invalid && distributionForm.get('student_id')?.touched">
+              Student selection is required
+            </div>
+          </div>
+
+        <div class="form-group">
+        <label>Uniform Type <span class="required">*</span></label>
+
+            <select
+               formControlName="uniform_type"
+               class="form-control"
+               [ngClass]="{
+               'is-invalid': distributionForm.get('uniform_type')?.invalid &&
+                distributionForm.get('uniform_type')?.touched
+             }"
+               >
+                 <option value="" disabled>Select Uniform Type</option>
+                 <option value="Shirt">Shirt</option>
+                 <option value="Pant">Pant</option>
+                <option value="Skirt">Skirt</option>
+                <option value="Tie">Tie</option>
+                <option value="Blazer">Blazer</option>
+                </select>
+
+            <div class="invalid-feedback"
+                     *ngIf="distributionForm.get('uniform_type')?.invalid &&
+                      distributionForm.get('uniform_type')?.touched">
+                  Uniform type is required
+                </div>
+                </div>
+
+              <div class="form-group">
+              <label>Uniform Size <span class="required">*</span></label>
+              <select
+               formControlName="uniform_size"
+               class="form-control"
+               [class.is-invalid]="distributionForm.get('uniform_size')?.invalid 
+                && distributionForm.get('uniform_size')?.touched"
+                   >
+               <option value="">Select Size</option>
+               <option value="S">S</option>
+               <option value="M">M</option>
+               <option value="L">L</option>
+               <option value="XL">XL</option>
+             </select>
+             <div class="invalid-feedback"
+                 *ngIf="distributionForm.get('uniform_size')?.invalid 
+                  && distributionForm.get('uniform_size')?.touched">
+                 Size is required
+                </div>
+                </div>
+
+          <div class="form-group">
+            <label>Quantity <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="quantity"
+              class="form-control"
+              [class.is-invalid]="distributionForm.get('quantity')?.invalid && distributionForm.get('quantity')?.touched"
+              min="1"
+            />
+            <div class="invalid-feedback" *ngIf="distributionForm.get('quantity')?.invalid && distributionForm.get('quantity')?.touched">
+              Quantity must be at least 1
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Distribution Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="distribution_date"
+              class="form-control"
+              [class.is-invalid]="distributionForm.get('distribution_date')?.invalid && distributionForm.get('distribution_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="distributionForm.get('distribution_date')?.invalid && distributionForm.get('distribution_date')?.touched">
+              Distribution date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="return_status"
+              class="form-control"
+            >
+              <option value="distributed">Distributed</option>
+              <option value="pending">Pending</option>
+              <option value="returned">Returned</option>
+              <option value="not_returned"> not Returned</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional remarks"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || distributionForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Distribute' }} Uniform</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

@@ -1,0 +1,18 @@
+.leave-list-container {
+  width: 100%;
+  padding: 0;
+  .page-header { margin-bottom: var(--spacing-lg); }
+  .additional-filters {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+      min-width: 150px;
+      label { font-size: var(--font-size-sm); font-weight: 500; }
+      .form-control { padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); }
+    }
+  }
+}

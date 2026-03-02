@@ -1,0 +1,51 @@
+@import '../../../../styles.scss';
+
+.exam-results-container {
+  padding: var(--spacing-xl);
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.results-table {
+  font-size: var(--font-size-sm);
+
+  th {
+    text-align: center;
+    vertical-align: middle;
+    font-size: var(--font-size-xs);
+  }
+
+  td {
+    padding: var(--spacing-sm);
+    text-align: center;
+  }
+
+  .form-control-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: var(--font-size-xs);
+    min-width: 60px;
+  }
+}
+
+.empty-state-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+
+  i {
+    font-size: 4rem;
+    color: var(--text-tertiary);
+    opacity: 0.5;
+    margin-bottom: var(--spacing-md);
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    margin: 0;
+  }
+}
+

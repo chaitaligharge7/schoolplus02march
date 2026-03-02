@@ -1,0 +1,109 @@
+<div class="water-tds-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Water TDS Reading' : 'Add Water TDS Reading' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update reading details' : 'Record a new water TDS reading' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="readingForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Reading Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Location <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="location"
+              class="form-control"
+              [class.is-invalid]="readingForm.get('location')?.invalid && readingForm.get('location')?.touched"
+              placeholder="e.g., Main Building, Block A, etc."
+            />
+            <div class="invalid-feedback" *ngIf="readingForm.get('location')?.invalid && readingForm.get('location')?.touched">
+              Location is required
+            </div>
+          </div>
+               
+             <div class="form-group">
+              <label for="student_id">Student</label>
+             <input type="number" id="student_id" class="form-control" formControlName="student_id" required>
+             </div>
+
+             <div class="form-group">
+             <label for="measurement_date">Measurement Date</label>
+             <input type="date" id="measurement_date" class="form-control" formControlName="measurement_date" required>
+             </div>
+
+          <div class="form-group">
+            <label>TDS Value (ppm) <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="tds_value"
+              class="form-control"
+              [class.is-invalid]="readingForm.get('tds_value')?.invalid && readingForm.get('tds_value')?.touched"
+              min="0"
+              step="0.01"
+              placeholder="Enter TDS value"
+            />
+            <small class="form-text text-muted">
+              Normal: ≤500 ppm | High: 501-1000 ppm | Critical: &gt;1000 ppm
+            </small>
+            <div class="invalid-feedback" *ngIf="readingForm.get('tds_value')?.invalid && readingForm.get('tds_value')?.touched">
+              TDS value is required and must be a positive number
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Reading Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="reading_date"
+              class="form-control"
+              [class.is-invalid]="readingForm.get('reading_date')?.invalid && readingForm.get('reading_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="readingForm.get('reading_date')?.invalid && readingForm.get('reading_date')?.touched">
+              Reading date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="normal">Normal (≤500 ppm)</option>
+              <option value="high">High (501-1000 ppm)</option>
+              <option value="critical">Critical (&gt;1000 ppm)</option>
+            </select>
+            <small class="form-text text-muted">Status will be auto-calculated based on TDS value if not manually set</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="4"
+            placeholder="Enter any additional remarks or observations"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || readingForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Save' }} Reading</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

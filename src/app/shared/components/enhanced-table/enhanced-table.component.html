@@ -1,0 +1,287 @@
+<div class="enhanced-table-container" appKeyboardShortcuts
+     (f2Pressed)="onF2Pressed()"
+     (f3Pressed)="onF3Pressed()"
+     (f5Pressed)="onF5Pressed()"
+     (ctrlFPressed)="onCtrlFPressed()"
+     (deletePressed)="onDeletePressed()">
+  
+  <!-- Header Section -->
+  <div class="table-header">
+    <div class="header-left">
+      <div class="search-container">
+        <i class="bi bi-search search-icon"></i>
+        <input 
+          #searchInput
+          type="text" 
+          class="search-input"
+          [placeholder]="searchPlaceholder"
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="onSearch()"
+          (input)="onSearch()"
+        />
+        <span class="search-shortcut">Ctrl+F</span>
+      </div>
+      
+      <div class="date-filters" *ngIf="enableDateFilter">
+        <input 
+          type="date" 
+          class="date-input"
+          [(ngModel)]="startDate"
+          (change)="onDateFilterChange()"
+          placeholder="Start Date"
+        />
+        <span class="date-separator">to</span>
+        <input 
+          type="date" 
+          class="date-input"
+          [(ngModel)]="endDate"
+          (change)="onDateFilterChange()"
+          placeholder="End Date"
+        />
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="action-buttons-group">
+        <!-- Filter Button -->
+        <button 
+          *ngIf="showFilterButton !== false" 
+          class="btn btn-outline filter-btn" 
+          (click)="onFilterToggle()" 
+          [class.active]="filterVisible"
+          title="Toggle Filters">
+          <i class="bi bi-funnel"></i>
+          <span class="btn-label">Filters</span>
+        </button>
+
+        <!-- Export Dropdown -->
+        <div class="dropdown" *ngIf="enableExport">
+          <button 
+            class="btn btn-outline dropdown-toggle"
+            (click)="exportDropdownOpen = !exportDropdownOpen"
+            type="button">
+            <i class="bi bi-download"></i>
+            Export
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-menu" [class.show]="exportDropdownOpen" *ngIf="exportDropdownOpen">
+            <a class="dropdown-item" (click)="onExport('csv')">
+              <i class="bi bi-filetype-csv"></i> Export CSV
+            </a>
+            <a class="dropdown-item" (click)="onExport('pdf')">
+              <i class="bi bi-filetype-pdf"></i> Export PDF
+            </a>
+            <a class="dropdown-item" (click)="onExport('print')">
+              <i class="bi bi-printer"></i> Print
+            </a>
+            <a class="dropdown-item" (click)="onExport('copy')">
+              <i class="bi bi-clipboard"></i> Copy to Clipboard
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="showColumnVisibility = !showColumnVisibility">
+              <i class="bi bi-eye"></i> Column Visibility
+            </a>
+          </div>
+        </div>
+
+        <!-- Refresh Button -->
+        <button class="btn btn-outline" (click)="onRefresh()" title="Refresh (F5)">
+          <i class="bi bi-arrow-clockwise"></i>
+          <span class="btn-label">Refresh</span>
+          <span class="shortcut-badge">F5</span>
+        </button>
+
+        <!-- Add Button -->
+        <a *ngIf="addRoute" [routerLink]="addRoute" class="btn btn-primary">
+          <i class="bi bi-plus-circle"></i>
+          <span class="btn-label">{{ addLabel }}</span>
+          <span class="shortcut-badge">F2</span>
+        </a>
+        <button *ngIf="!addRoute" class="btn btn-primary" (click)="onAdd()">
+          <i class="bi bi-plus-circle"></i>
+          <span class="btn-label">{{ addLabel }}</span>
+          <span class="shortcut-badge">F2</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Column Visibility Panel -->
+  <div class="column-visibility-panel" *ngIf="showColumnVisibility">
+    <div class="panel-header">
+      <h4>Column Visibility</h4>
+      <button class="btn-icon" (click)="showColumnVisibility = false">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+    <div class="panel-body">
+      <label *ngFor="let col of columns" class="checkbox-label">
+        <input 
+          type="checkbox" 
+          [checked]="visibleColumns.has(col.key)"
+          (change)="toggleColumnVisibility(col.key)"
+        />
+        <span>{{ col.label }}</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Table Container -->
+  <div class="table-wrapper">
+    <div class="table-loading-overlay" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+
+    <table class="enhanced-table" [class.table-loading]="loading">
+      <thead>
+        <tr>
+          <th *ngFor="let col of visibleColumnsList" 
+              [class.sortable]="col.sortable"
+              [style.width]="col.width"
+              (click)="onSort(col)">
+            <div class="th-content">
+              <span>{{ col.label }}</span>
+              <i *ngIf="col.sortable" 
+                 class="bi" 
+                 [ngClass]="getSortIcon(col)"></i>
+            </div>
+          </th>
+          <th class="actions-column">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of data" 
+            [class.selected]="isRowSelected(row)"
+            (click)="onRowClick(row)">
+          <td *ngFor="let col of visibleColumnsList">
+            <ng-container *ngIf="col.template; else defaultCell">
+              <ng-container *ngTemplateOutlet="col.template; context: { $implicit: row, column: col }"></ng-container>
+            </ng-container>
+            <ng-template #defaultCell>
+              <ng-container *ngIf="col.link; else plainCell">
+                <a
+                  class="cell-fk-link"
+                  [routerLink]="col.link!.route"
+                  [queryParams]="getLinkQueryParams(row, col)"
+                  (click)="$event.stopPropagation()"
+                  [innerHTML]="getCellValue(row, col)">
+                </a>
+              </ng-container>
+              <ng-template #plainCell>
+                <span [innerHTML]="getCellValue(row, col)"></span>
+              </ng-template>
+            </ng-template>
+          </td>
+          <td class="actions-column">
+            <div class="action-buttons">
+              <button class="btn-icon btn-sm" *ngIf="showPayButton" (click)="onPay(row); $event.stopPropagation()"
+                title="Collect Payment">
+                <i class="bi bi-cash"></i>
+              </button>
+              <button
+                *ngIf="showPrintButton"
+                class="btn-icon btn-print"
+                (click)="onPrint(row); $event.stopPropagation()"
+                title="Print">
+                <i class="bi bi-printer"></i>
+              </button>
+              <button 
+                *ngIf="showViewButton"
+                class="btn-icon btn-view" 
+                (click)="onView(row); $event.stopPropagation()"
+                title="View">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button 
+                *ngIf="showConvertButton"
+                class="btn-icon btn-convert"
+                (click)="onConvert(row); $event.stopPropagation()"
+                title="Convert to Admission">
+                <i class="bi bi-person-plus"></i>
+              </button>
+              <button 
+                class="btn-icon btn-edit" 
+                (click)="onEdit(row); $event.stopPropagation()"
+                title="Edit (F3)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button 
+                class="btn-icon btn-delete" 
+                (click)="onDelete(row); $event.stopPropagation()"
+                title="Delete">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && data.length === 0">
+          <td [attr.colspan]="visibleColumnsList.length + 1" class="empty-row">
+            <div class="empty-state">
+              <i class="bi bi-inbox"></i>
+              <p>No data available</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Footer -->
+  <div class="table-footer" *ngIf="pagination.pages > 1 || pagination.total > 0">
+    <div class="footer-left">
+      <span class="records-info">
+        Showing {{ ((pagination.page - 1) * pagination.limit) + 1 }} to 
+        {{ Math.min(pagination.page * pagination.limit, pagination.total) }} of 
+        {{ pagination.total }} entries
+      </span>
+      <select 
+        class="page-size-select"
+        [ngModel]="pagination.limit"
+        (ngModelChange)="onPageSizeChange($event)">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">
+          {{ size }} per page
+        </option>
+      </select>
+    </div>
+
+    <div class="footer-right">
+      <div class="pagination-controls">
+        <button 
+          class="btn btn-sm btn-outline"
+          [disabled]="pagination.page === 1"
+          (click)="onPageChange(1)"
+          title="First Page">
+          <i class="bi bi-chevron-double-left"></i>
+        </button>
+        <button 
+          class="btn btn-sm btn-outline"
+          [disabled]="pagination.page === 1"
+          (click)="onPageChange(pagination.page - 1)"
+          title="Previous Page">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        
+        <span class="page-info">
+          Page {{ pagination.page }} of {{ pagination.pages }}
+        </span>
+        
+        <button 
+          class="btn btn-sm btn-outline"
+          [disabled]="pagination.page === pagination.pages"
+          (click)="onPageChange(pagination.page + 1)"
+          title="Next Page">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+        <button 
+          class="btn btn-sm btn-outline"
+          [disabled]="pagination.page === pagination.pages"
+          (click)="onPageChange(pagination.pages)"
+          title="Last Page">
+          <i class="bi bi-chevron-double-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

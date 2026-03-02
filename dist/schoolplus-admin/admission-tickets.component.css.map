@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/fees/admission-tickets/admission-tickets.component.scss"],
+  "sourcesContent": [".modal.fade.show { background: rgba(0,0,0,.5); }\r\n.modal-backdrop.fade.show { opacity: 0.5; }\r\n"],
+  "mappings": ";AAAA,CAAA,KAAA,CAAA,IAAA,CAAA;AAAmB,cAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;;AACnB,CAAA,cAAA,CADA,IACA,CADA;AAC4B,WAAA;;",
+  "names": []
+}

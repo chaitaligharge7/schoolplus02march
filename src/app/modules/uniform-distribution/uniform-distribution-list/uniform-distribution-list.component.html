@@ -1,0 +1,68 @@
+<div class="uniform-distribution-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Uniform Distribution</h1>
+      <p class="page-subtitle">Manage uniform distribution and returns</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Uniform Type:</label>
+      <select class="form-control" [(ngModel)]="uniformType" (change)="onUniformTypeChange(uniformType)">
+        <option [value]="undefined">All Types</option>
+        <option value="shirt">shirt</option>
+        <option value="pant">pant</option>
+        <option value="skirt">Skirt</option>
+        <option value="tie">Tie</option>
+        <option value="blazer">Blazer</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Return Status:</label>
+      <select class="form-control" [(ngModel)]="returnStatus" (change)="onReturnStatusChange(returnStatus)">
+        <option [value]="undefined">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="returned">Returned</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="distributions"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'distribution_id'"
+    [addRoute]="'/app/uniform-distribution/create'"
+    [addLabel]="'Distribute Uniform'"
+    [searchPlaceholder]="'Search uniform distributions...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEditDistribution($event)"
+    (deleteClick)="onDeleteDistribution($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Return Uniform Action -->
+  <div class="return-action" *ngIf="selectedRowId && getSelectedDistribution() && getSelectedDistribution()?.return_status === 'distributed'">
+    <button 
+      class="btn btn-success"
+      (click)="returnUniform(selectedRowId)"
+      title="Return Uniform">
+      <i class="bi bi-arrow-return-left"></i>
+      Return Uniform
+    </button>
+  </div>
+</div>

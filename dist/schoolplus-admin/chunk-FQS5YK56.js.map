@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/food-calendar/food-calendar.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const FOOD_CALENDAR_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./food-calendar-list/food-calendar-list.component').then(m => m.FoodCalendarListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./food-calendar-list/food-calendar-list.component').then(m => m.FoodCalendarListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./food-calendar-create/food-calendar-create.component').then(m => m.FoodCalendarCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./food-calendar-create/food-calendar-create.component').then(m => m.FoodCalendarCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,uBAA+B;EAC1C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,yBAAyB;;EAExH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,yBAAyB;;EAExH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,2BAA2B;;EAE9H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,2BAA2B;;;",
+  "names": []
+}

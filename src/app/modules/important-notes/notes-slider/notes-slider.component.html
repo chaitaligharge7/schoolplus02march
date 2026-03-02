@@ -1,0 +1,61 @@
+<div class="notes-view-container" *ngIf="!isLoading && notes.length">
+  <div class="page-header">
+    <h1 class="page-title">{{ notes[currentIndex].note_title }}</h1>
+    <button class="btn btn-secondary" (click)="close()">
+<i class="bi bi-arrow-left"></i>      Back
+    </button>
+  </div>
+
+  <div class="details-card">
+    <div class="details-section">
+      <h3>Note Information</h3>
+      <div class="details-grid">
+        <!-- <div class="detail-item">
+          <label>Academic Year</label>
+          <p>{{ notes[currentIndex].academic_year_name }}</p>
+        </div> -->
+        <div class="detail-item">
+          <label>Class</label>
+          <p>{{ notes[currentIndex].class_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Subject</label>
+          <p>{{ notes[currentIndex].subject_name }}</p>
+        </div>
+  <div class="detail-item">
+  <label>Teacher</label>
+  <p>{{ currentNoteTeacherName }}</p>
+</div>
+
+        <div class="detail-item">
+          <label>Note Type</label>
+          <p>{{ notes[currentIndex].note_type }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Status</label>
+          <p>{{ notes[currentIndex].status }}</p>
+        </div>
+      </div>
+
+      <div class="detail-item full-width" *ngIf="notes[currentIndex].note_description">
+        <label>Description</label>
+        <p>{{ notes[currentIndex].note_description }}</p>
+      </div>
+
+      <div class="detail-item full-width" *ngIf="notes[currentIndex].note_file">
+        <label>File</label>
+        <div>
+        <button class="btn btn-link"(click)="viewFile(notes[currentIndex].note_id)">
+          View File
+        </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="loading-state" *ngIf="isLoading">
+  <div class="spinner"></div>
+  <p>Loading note...</p>
+</div>

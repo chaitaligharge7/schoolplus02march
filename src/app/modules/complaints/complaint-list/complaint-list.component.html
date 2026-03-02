@@ -1,0 +1,76 @@
+<div class="complaint-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Complaint Management</h1>
+      <p class="page-subtitle">Manage and resolve complaints</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Category:</label>
+      <app-search-select
+        [options]="complaintCategoryOptions"
+        [(ngModel)]="complaintCategory"
+        (valueChange)="onComplaintCategoryChange($event)"
+        placeholder="Search or select category">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="complaintStatusOptions"
+        [(ngModel)]="status"
+        (valueChange)="onStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Priority:</label>
+      <app-search-select
+        [options]="complaintPriorityOptions"
+        [(ngModel)]="priority"
+        (valueChange)="onPriorityChange($event)"
+        placeholder="Search or select priority">
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="complaints"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'complaint_id'"
+    [addRoute]="'/app/complaints/create'"
+    [addLabel]="'New Complaint'"
+    [searchPlaceholder]="'Search complaints...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Resolve Complaint Button for Selected Row -->
+  <div class="resolve-action" *ngIf="selectedRowId && getSelectedComplaint() && getSelectedComplaint()?.status !== 'resolved' && getSelectedComplaint()?.status !== 'closed'">
+    <button 
+      class="btn btn-success"
+      (click)="resolveComplaint(selectedRowId)"
+      title="Resolve Complaint">
+      <i class="bi bi-check-circle"></i>
+      Resolve Complaint
+    </button>
+  </div>
+</div>

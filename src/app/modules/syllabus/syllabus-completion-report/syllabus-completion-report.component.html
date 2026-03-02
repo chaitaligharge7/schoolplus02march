@@ -1,0 +1,114 @@
+<div class="completion-report-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Syllabus Completion Report</h1>
+      <p class="page-subtitle">Track syllabus completion progress and identify delays</p>
+    </div>
+  </div>
+
+  <div class="filters-card">
+    <form [formGroup]="reportForm" (ngSubmit)="generateReport()">
+      <div class="filters-grid">
+        <div class="form-group">
+          <label>Academic Year</label>
+          <select formControlName="academic_year_id" class="form-control">
+            <option [value]="null">All Academic Years</option>
+            <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+              {{ year.academic_year_name }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Class</label>
+          <select formControlName="class_id" class="form-control">
+            <option [value]="null">All Classes</option>
+            <option *ngFor="let cls of classes" [value]="cls.class_id">
+              {{ cls.class_name }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" formControlName="show_delayed_only" />
+            Show Delayed Only
+          </label>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            <i class="bi bi-search"></i> Generate Report
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="report-card" *ngIf="reportData">
+    <div class="report-header">
+      <h3>Syllabus Completion Report</h3>
+      <button class="btn btn-sm btn-outline-primary" (click)="exportReport()">
+        <i class="bi bi-download"></i> Export
+      </button>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-item">
+        <div class="summary-label">Total Syllabi</div>
+        <div class="summary-value">{{ reportData.summary?.total_syllabi || 0 }}</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-label">Average Completion</div>
+        <div class="summary-value">{{ reportData.summary?.avg_completion || 0 }}%</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-label">Delayed Chapters</div>
+        <div class="summary-value text-danger">{{ reportData.summary?.delayed_chapters || 0 }}</div>
+      </div>
+    </div>
+
+    <div class="table-section">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Subject</th>
+            <th>Total Chapters</th>
+            <th>Completed</th>
+            <th>In Progress</th>
+            <th>Delayed</th>
+            <th>Completion %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of reportData.syllabi">
+            <td><strong>{{ item.class_name }}</strong></td>
+            <td>{{ item.subject_name }}</td>
+            <td>{{ item.total_chapters || 0 }}</td>
+            <td><span class="badge badge-success">{{ item.completed_chapters || 0 }}</span></td>
+            <td><span class="badge badge-warning">{{ item.in_progress_chapters || 0 }}</span></td>
+            <td><span class="badge badge-danger">{{ item.delayed_chapters || 0 }}</span></td>
+            <td>
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="item.completion_percentage || 0"
+                     [class.bg-danger]="(item.completion_percentage || 0) < 50"
+                     [class.bg-warning]="(item.completion_percentage || 0) >= 50 && (item.completion_percentage || 0) < 80"
+                     [class.bg-success]="(item.completion_percentage || 0) >= 80">
+                </div>
+                <span class="progress-text">{{ item.completion_percentage || 0 }}%</span>
+              </div>
+            </td>
+            <td>
+              <span class="badge" [class.badge-success]="item.completion_percentage >= 80"
+                    [class.badge-warning]="item.completion_percentage >= 50 && item.completion_percentage < 80"
+                    [class.badge-danger]="item.completion_percentage < 50">
+                {{ item.completion_percentage >= 80 ? 'On Track' : 
+                   item.completion_percentage >= 50 ? 'At Risk' : 'Delayed' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

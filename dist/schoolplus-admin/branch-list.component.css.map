@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/branches/branch-list/branch-list.component.scss"],
+  "sourcesContent": [".branch-list-container {\r\n  padding: 16px 20px;\r\n  max-width: 1600px;\r\n  margin: 0 auto;\r\n  .page-header { margin-bottom: var(--spacing-lg); }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA,KAAA;AACA,aAAA;AACA,UAAA,EAAA;;AACA,CAJF,sBAIE,CAAA;AAAe,iBAAA,IAAA;;",
+  "names": []
+}

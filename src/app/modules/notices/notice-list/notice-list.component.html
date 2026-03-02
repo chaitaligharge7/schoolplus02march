@@ -1,0 +1,73 @@
+<div class="notice-list-container">
+  <!-- Beautiful Header Card -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="bi bi-megaphone"></i>
+      </div>
+      <div class="header-text">
+        <h1 class="page-title">Notices & Announcements</h1>
+        <p class="page-subtitle">Manage school notices and announcements</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible Filters -->
+  <div class="filters-panel" [class.expanded]="showFilters" *ngIf="classes.length > 0">
+    <div class="filters-row">
+      <div class="filter-item">
+        <label>Notice Type:</label>
+        <select class="form-control" [(ngModel)]="noticeType" (change)="onNoticeTypeChange(noticeType)">
+          <option [value]="undefined">All Types</option>
+          <option value="General">General</option>
+          <option value="Exam">Exam</option>
+          <option value="Fee">Fee</option>
+          <option value="Event">Event</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label>Target Audience:</label>
+        <select class="form-control" [(ngModel)]="targetAudience" (change)="onTargetAudienceChange(targetAudience)">
+          <option [value]="undefined">All</option>
+          <option value="All">All</option>
+          <option value="Students">Students</option>
+          <option value="Teachers">Teachers</option>
+          <option value="Parents">Parents</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label>Class:</label>
+        <select class="form-control" [(ngModel)]="classId" (change)="onClassChange(classId)">
+          <option [value]="undefined">All Classes</option>
+          <option *ngFor="let cls of classes" [value]="cls.class_id">{{ cls.class_name }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="notices"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'notice_id'"
+    [addRoute]="'/app/notices/add'"
+    [addLabel]="'Create Notice'"
+    [searchPlaceholder]="'Search notices...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

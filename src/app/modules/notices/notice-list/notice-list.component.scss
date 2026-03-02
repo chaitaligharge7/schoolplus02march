@@ -1,0 +1,204 @@
+@import '../../../../styles.scss';
+
+.notice-list-container {
+  width: 100%;
+  padding: 0;
+
+  .filters-panel {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .filters-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+      flex-wrap: wrap;
+      
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .filter-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+        min-width: 180px;
+        
+        label {
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--text-secondary);
+        }
+        
+        .form-control {
+          padding: 10px 14px;
+          border: 2px solid var(--border-color);
+          border-radius: 12px;
+          background: var(--bg-primary);
+          color: var(--text-primary);
+          font-size: 14px;
+          transition: all 0.3s ease;
+          box-shadow: 
+            inset 0 2px 4px rgba(0, 0, 0, 0.02),
+            0 1px 2px rgba(0, 0, 0, 0.05);
+          
+          &:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 
+              0 0 0 4px rgba(37, 99, 235, 0.1),
+              inset 0 2px 4px rgba(0, 0, 0, 0.02),
+              0 1px 2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-1px);
+          }
+          
+          &:hover {
+            border-color: var(--primary-light);
+          }
+        }
+      }
+    }
+}
+
+.notices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.notice-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  &.important {
+    border-left: 4px solid var(--warning-color);
+    background: linear-gradient(to right, #fef3c7 0%, var(--bg-primary) 5%);
+  }
+}
+
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+}
+
+.notice-title-section {
+  flex: 1;
+}
+
+.notice-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.notice-meta {
+  display: flex;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+}
+
+.notice-type {
+  background: var(--primary-lighter);
+  color: var(--primary-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.notice-badge {
+  background: var(--warning-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+
+  i {
+    font-size: 0.875rem;
+  }
+}
+
+.notice-content {
+  flex: 1;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.notice-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.notice-info {
+  display: flex;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+
+    i {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.notice-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.empty-state-card {
+  grid-column: 1 / -1;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+
+  i {
+    font-size: 4rem;
+    color: var(--text-tertiary);
+    opacity: 0.5;
+    margin-bottom: var(--spacing-md);
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    margin: 0;
+  }
+}
+
+// Reuse common styles
+@import '../../students/student-list/student-list.component.scss';
+

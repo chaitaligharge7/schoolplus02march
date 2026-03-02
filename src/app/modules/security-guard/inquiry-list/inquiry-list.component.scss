@@ -1,0 +1,31 @@
+@use '../../../shared/styles/responsive' as *;
+.page-container { padding: 1rem; }
+.page-header {
+  margin-bottom: 1rem;
+  &.inquiry-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+.header-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  .header-filter-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .header-filter-select {
+    min-width: 140px;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+  }
+}
+.filters { margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+.filter-group label { display: block; margin-bottom: 0.25rem; font-weight: 500; }

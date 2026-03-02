@@ -1,0 +1,133 @@
+<div class="uniform-fine-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Uniform Fine' : 'Create Uniform Fine' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update fine details' : 'Create a new uniform fine for a student' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="fineForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Fine Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student <span class="required">*</span></label>
+            <select
+              formControlName="person_id"
+              class="form-control"
+              [class.is-invalid]="fineForm.get('person_id')?.invalid && fineForm.get('person_id')?.touched"
+            >
+              <option value="">Select Student</option>
+              <option *ngFor="let student of students" [value]="student.student_id">
+                {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+              </option>
+            </select>
+            <div class="invalid-feedback"
+            *ngIf="fineForm.get('person_id')?.invalid && fineForm.get('person_id')?.touched">
+              Student selection is required
+           </div>
+
+          </div>
+
+          <div class="form-group">
+            <label>Fine Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="fine_date"
+              class="form-control"
+              [class.is-invalid]="fineForm.get('fine_date')?.invalid && fineForm.get('fine_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="fineForm.get('fine_date')?.invalid && fineForm.get('fine_date')?.touched">
+              Fine date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>fine Type <span class="required">*</span></label>
+            <select
+              formControlName="fine_type"
+              class="form-control"
+            >
+              <option value="uniform_damage">Uniform Damage</option>
+              <option value="uniform_loss">Uniform Loss</option>
+              <option value="uniform_misuse">Uniform Misuse</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Amount <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="fine_amount"
+              class="form-control"
+              [class.is-invalid]="fineForm.get('fine_amount')?.invalid && fineForm.get('fine_amount')?.touched"
+              min="0"
+              step="0.01"
+            />
+            <div class="invalid-feedback" *ngIf="fineForm.get('fine_amount')?.invalid && fineForm.get('fine_amount')?.touched">
+              Amount is required and must be greater than 0
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control">
+              <option value="pending">Pending</option>
+              <option value="paid">Paid</option>
+              <option value="waived">Waived</option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="fineForm.get('status')?.value === 'paid'">
+            <label>Payment Date</label>
+            <input
+              type="date"
+              formControlName="payment_date"
+              class="form-control"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description <span class="required">*</span></label>
+          <textarea
+            formControlName="description"
+            class="form-control"
+            rows="4"
+            [class.is-invalid]="fineForm.get('description')?.invalid && fineForm.get('description')?.touched"
+            placeholder="Enter fine description"
+          ></textarea>
+          <div class="invalid-feedback" *ngIf="fineForm.get('description')?.invalid && fineForm.get('description')?.touched">
+            Description is required
+          </div>
+        </div>
+      </div>
+
+       <div class="form-group">
+         <label>Violation type</label>
+         <input
+         type="text"
+         formControlName="violation_type"
+        class="form-control"
+        placeholder="e.g. Shirt lost in playground"
+         />
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || fineForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Fine</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

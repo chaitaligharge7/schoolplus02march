@@ -1,0 +1,36 @@
+<div class="page-container">
+  <div class="page-header">
+    <button type="button" class="btn btn-outline btn-back" (click)="back()"><i class="bi bi-arrow-left"></i> Back</button>
+    <h1 class="page-title">Lead Details</h1>
+    <p class="page-subtitle" *ngIf="lead">Enquiry #{{ lead.enquiry_number || lead.enquiry_id }}</p>
+  </div>
+  <div *ngIf="loading" class="loading-state">Loading...</div>
+  <div *ngIf="!loading && lead" class="detail-card">
+    <div class="detail-section">
+      <h3>Enquiry / Student</h3>
+      <dl>
+        <dt>Student Name</dt><dd>{{ lead.student_name || '-' }}</dd>
+        <dt>Parent Name</dt><dd>{{ lead.parent_name || '-' }}</dd>
+        <dt>Mobile</dt><dd>{{ lead.mobile || lead.contact_phone || '-' }}</dd>
+        <dt>Email</dt><dd>{{ lead.email || lead.contact_email || '-' }}</dd>
+        <dt>Enquiry Date</dt><dd>{{ lead.enquiry_date || '-' }}</dd>
+        <dt>Enquiry Source</dt><dd>{{ lead.enquiry_source || '-' }}</dd>
+        <dt>Conversion Status</dt><dd>{{ lead.conversion_status || '-' }}</dd>
+      </dl>
+    </div>
+    <div class="detail-section">
+      <h3>Lead / Follow-up</h3>
+      <dl>
+        <dt>Lead Status</dt><dd><span class="badge badge-info">{{ lead.lead_status || 'new' }}</span></dd>
+        <dt>Campus Tour Done</dt><dd>{{ lead.campus_tour_done ? 'Yes' : 'No' }}</dd>
+        <dt>Fee Discussion Done</dt><dd>{{ lead.fee_discussion_done ? 'Yes' : 'No' }}</dd>
+        <dt>Career Notes</dt><dd class="notes">{{ lead.career_notes || '-' }}</dd>
+      </dl>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="back()">Back to List</button>
+      <button type="button" class="btn btn-primary" (click)="goEdit()">Edit Lead</button>
+    </div>
+  </div>
+  <div *ngIf="!loading && !lead" class="empty-state">No lead data.</div>
+</div>

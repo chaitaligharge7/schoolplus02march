@@ -1,0 +1,105 @@
+<div class="marksheet-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Marksheet Management</h1>
+      <p class="page-subtitle">Manage and send marksheets to parents</p>
+    </div>
+    <div class="header-actions">
+      <button 
+        class="btn btn-secondary" 
+        (click)="sendWhatsApp()"
+        [disabled]="selectedMarksheets.length === 0">
+        <i class="bi bi-whatsapp"></i>
+        Send via WhatsApp ({{ selectedMarksheets.length }})
+      </button>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <app-search-select
+        [options]="academicYearOptions"
+        [(ngModel)]="academicYearId"
+        (valueChange)="onAcademicYearChange($event)"
+        placeholder="Search or select academic year">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Class:</label>
+      <app-search-select
+        [options]="classOptions"
+        [(ngModel)]="classId"
+        (valueChange)="onClassChange($event)"
+        placeholder="Search or select class">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="marksheetStatusOptions"
+        [(ngModel)]="status"
+        (valueChange)="onStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+  </div>
+
+  <!-- Selection Info -->
+  <div class="selection-info" *ngIf="marksheets.length > 0">
+    <label class="select-all-label">
+      <input 
+        type="checkbox" 
+        (change)="toggleSelectAll()" 
+        [checked]="selectedMarksheets.length === marksheets.length && marksheets.length > 0" />
+      <span>Select All ({{ selectedMarksheets.length }} of {{ marksheets.length }} selected)</span>
+    </label>
+  </div>
+
+  <app-enhanced-table
+    [data]="marksheets"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'marksheet_id'"
+    [addRoute]="'/app/marksheets/create'"
+    [addLabel]="'Create Marksheet'"
+    [searchPlaceholder]="'Search by student name or admission number...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    [showPrintButton]="true"
+    (printClick)="onPrintMarksheet($event)"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (viewClick)="onView($event)"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Checkbox Selection Panel -->
+  <div class="checkbox-panel" *ngIf="marksheets.length > 0">
+    <div class="panel-header">
+      <strong>Select Marksheets for WhatsApp:</strong>
+    </div>
+    <div class="checkbox-grid">
+      <label class="checkbox-item" *ngFor="let marksheet of marksheets">
+        <input 
+          type="checkbox" 
+          [checked]="isSelected(marksheet.marksheet_id)"
+          (change)="toggleSelection(marksheet.marksheet_id)" />
+        <span>{{ marksheet.first_name }} {{ marksheet.last_name }} ({{ marksheet.admission_number }})</span>
+      </label>
+    </div>
+  </div>
+</div>

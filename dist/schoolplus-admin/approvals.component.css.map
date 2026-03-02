@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/pages/approvals/approvals.component.scss"],
+  "sourcesContent": [".approvals-container { padding: 16px 20px; max-width: 1200px; margin: 0 auto; }\r\n.page-header { margin-bottom: 1.5rem; }\r\n.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.5rem; }\r\n.card { background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; }\r\n.card h3 { margin: 0 0 1rem 0; font-size: 1.1rem; }\r\n.list { list-style: none; padding: 0; margin: 0; }\r\n.list li { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }\r\n.list li .actions { display: flex; gap: 0.5rem; }\r\n.loading, .empty { padding: 1rem; color: var(--text-secondary); }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAuB,WAAA,KAAA;AAAoB,aAAA;AAAmB,UAAA,EAAA;;AAC9D,CAAA;AAAe,iBAAA;;AACf,CAAA;AAAc,WAAA;AAAe,yBAAA,OAAA,SAAA,EAAA,OAAA,KAAA,EAAA;AAA8D,OAAA;;AAC3F,CAAA;AAAQ,cAAA,IAAA;AAAiC,WAAA;AAAiB,iBAAA;;AAC1D,CADA,KACA;AAAW,UAAA,EAAA,EAAA,KAAA;AAAoB,aAAA;;AAC/B,CAAA;AAAQ,cAAA;AAAkB,WAAA;AAAY,UAAA;;AACtC,CADA,KACA;AAAW,WAAA;AAAe,mBAAA;AAAgC,eAAA;AAAqB,WAAA,OAAA;AAAmB,iBAAA,IAAA,MAAA,IAAA;;AAClG,CAFA,KAEA,GAAA,CAAA;AAAoB,WAAA;AAAe,OAAA;;AACnC,CAAA;AAAA,CAAA;AAAmB,WAAA;AAAe,SAAA,IAAA;;",
+  "names": []
+}

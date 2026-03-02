@@ -1,0 +1,123 @@
+<div class="section-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">
+        {{ isEditMode ? "Edit Section" : "Create Section" }}
+      </h1>
+      <p class="page-subtitle">
+        {{
+          isEditMode ? "Update section details" : "Add a new section to a class"
+        }}
+      </p>
+    </div>
+    <button
+      class="btn btn-outline"
+      (click)="router.navigate(['/app/sections'])"
+    >
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="sectionForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Section Name *</label>
+          <input
+            type="text"
+            formControlName="section_name"
+            class="form-control"
+            placeholder="e.g., A, B, Section 1"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Section Code</label>
+          <input
+            type="text"
+            formControlName="section_code"
+            class="form-control"
+            placeholder="e.g., SEC-A"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- <div class="form-group">
+          <label>Class *</label>
+          <app-search-select
+            [options]="classOptions"
+            formControlName="class_id"
+            placeholder="Search or select class">
+          </app-search-select>
+        </div> -->
+        <div class="form-group">
+          <label>Class *</label>
+          <select formControlName="class_id" class="form-control" required>
+            <option [value]="null">Select Class</option>
+            <option *ngFor="let cls of classes" [value]="cls.class_id">
+              {{ cls.class_name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- <div class="form-group">
+          <label>Section Teacher</label>
+          <app-search-select
+            [options]="sectionTeacherOptions"
+            formControlName="class_teacher_id"
+            placeholder="Search or select section teacher">
+          </app-search-select>
+        </div> -->
+        <div class="form-group">
+          <label>Section Teacher</label>
+          <select formControlName="section_teacher_id" class="form-control">
+            <option [value]="null">Select Section Teacher</option>
+            <option
+              *ngFor="let teacher of teachers"
+              [value]="teacher.teacher_id"
+            >
+              {{ teacher.full_name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Section Capacity</label>
+        <input
+          type="number"
+          formControlName="max_students"
+          class="form-control"
+          placeholder="Maximum students in section"
+          min="1"
+        />
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-outline"
+          (click)="router.navigate(['/app/sections'])"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isSaving || sectionForm.invalid"
+        >
+          <span *ngIf="!isSaving"
+            >{{ isEditMode ? "Update" : "Create" }} Section</span
+          >
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

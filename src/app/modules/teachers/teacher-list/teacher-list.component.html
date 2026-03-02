@@ -1,0 +1,53 @@
+<div class="teacher-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Teachers</h1>
+      <p class="page-subtitle">Manage teacher records and information</p>
+    </div>
+    <div class="filter-panel header-dropdowns" [class.expanded]="showFilters">
+      <div class="filter-group">
+        <label>Status:</label>
+        <app-search-select
+          [options]="statusOptions"
+          [(ngModel)]="status"
+          (valueChange)="onStatusChange($event)"
+          placeholder="Search or select status">
+        </app-search-select>
+      </div>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="teachers"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'teacher_id'"
+    [addRoute]="'/app/teachers/add'"
+    [addLabel]="'Add New Teacher'"
+    [searchPlaceholder]="'Search by name, employee ID, email, mobile...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <app-teacher-detail-slider
+    [visible]="sliderVisible"
+    [teacher]="sliderTeacher"
+    (close)="sliderVisible = false">
+  </app-teacher-detail-slider>
+</div>

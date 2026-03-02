@@ -1,0 +1,87 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Admission Tickets</h1>
+    <p class="page-subtitle">Accountant – collect payment for new admissions</p>
+  </div>
+  <div class="filters mb-3">
+    <div class="filter-group">
+      <label>Status</label>
+      <select class="form-control" [(ngModel)]="ticketStatus" (change)="onStatusChange(ticketStatus)">
+        <option value="pending_payment">Pending Payment</option>
+        <option value="paid">Paid</option>
+        <option value="">All</option>
+      </select>
+    </div>
+  </div>
+  <app-enhanced-table
+    [data]="tickets"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [rowIdKey]="rowIdKey"
+    [searchPlaceholder]="'Search student or admission...'"
+    (pageChange)="onPageChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (refresh)="onRefresh()"
+    (editClick)="onEdit($event)"
+    (viewClick)="onView($event)">
+  </app-enhanced-table>
+  <div class="mt-2">
+    <button type="button" class="btn btn-sm btn-outline" (click)="load()">Refresh</button>
+  </div>
+</div>
+
+<div class="modal fade" [class.show]="showPayModal" [style.display]="showPayModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Record Payment</h5>
+        <button type="button" class="btn-close" (click)="closePay()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedTicket">
+        <p><strong>{{ selectedTicket.student_name }}</strong> – {{ selectedTicket.admission_number }}</p>
+        <p class="text-muted small">Parent: {{ selectedTicket.parent_name }} | {{ selectedTicket.parent_mobile }}</p>
+        <div class="mb-2">
+          <label class="form-label">Amount (Rs.) *</label>
+          <input type="number" class="form-control" [(ngModel)]="payForm.paid_amount" min="0.01" step="0.01" />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Payment Mode</label>
+          <select class="form-select" [(ngModel)]="payForm.payment_mode">
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+            <option value="Card">Card</option>
+            <option value="Cheque">Cheque</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Payment Date</label>
+          <input type="date" class="form-control" [(ngModel)]="payForm.payment_date" />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Transaction ID</label>
+          <input type="text" class="form-control" [(ngModel)]="payForm.transaction_id" placeholder="Optional" />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Remarks</label>
+          <input type="text" class="form-control" [(ngModel)]="payForm.remarks" />
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="checkbox" class="form-check-input" [(ngModel)]="payForm.send_whatsapp" id="send_wa" />
+          <label class="form-check-label" for="send_wa">Send WhatsApp</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="checkbox" class="form-check-input" [(ngModel)]="payForm.send_email" id="send_em" />
+          <label class="form-check-label" for="send_em">Send Email</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="closePay()">Cancel</button>
+        <button type="button" class="btn btn-primary" [disabled]="saving" (click)="submitPayment()">
+          {{ saving ? 'Saving...' : 'Record Payment' }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade" [class.show]="showPayModal" (click)="closePay()"></div>
+</div>

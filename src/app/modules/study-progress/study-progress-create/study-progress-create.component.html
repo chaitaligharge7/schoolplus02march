@@ -1,0 +1,188 @@
+<div class="study-progress-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Study Progress' : 'Record Study Progress' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update progress details' : 'Record student study progress' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="progressForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Progress Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student <span class="required">*</span></label>
+            <select
+              formControlName="student_id"
+              class="form-control"
+              [class.is-invalid]="progressForm.get('student_id')?.invalid && progressForm.get('student_id')?.touched"
+            >
+              <option [value]="null">Select Student</option>
+              <option *ngFor="let student of students" [value]="student.student_id">
+                {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="progressForm.get('student_id')?.invalid && progressForm.get('student_id')?.touched">
+              Student selection is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Teacher <span class="required">*</span></label>
+            <select formControlName="teacher_id" class="form-control">
+              <option [value]="null">Select Teacher</option>
+              <option *ngFor="let teacher of teachers" [value]="teacher.teacher_id">
+                {{ teacher.first_name }} {{ teacher.last_name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Class <span class="required">*</span></label>
+            <select
+              formControlName="class_id"
+              class="form-control"
+              [class.is-invalid]="progressForm.get('class_id')?.invalid && progressForm.get('class_id')?.touched"
+            >
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="progressForm.get('class_id')?.invalid && progressForm.get('class_id')?.touched">
+              Class is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Section <span class="required">*</span></label>
+            <select
+              formControlName="section_id"
+              class="form-control"
+              [class.is-invalid]="progressForm.get('section_id')?.invalid && progressForm.get('section_id')?.touched"
+              [disabled]="!progressForm.get('class_id')?.value"
+            >
+              <option [ngValue]="null">Select Section</option>
+              <option *ngFor="let sec of sections" [ngValue]="sec.section_id">
+                {{ sec.section_name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="progressForm.get('section_id')?.invalid && progressForm.get('section_id')?.touched">
+              Section is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Subject <span class="required">*</span></label>
+            <select
+              formControlName="subject_id"
+              class="form-control"
+              [class.is-invalid]="progressForm.get('subject_id')?.invalid && progressForm.get('subject_id')?.touched"
+            >
+              <option [value]="null">Select Subject</option>
+              <option *ngFor="let subject of subjects" [value]="subject.subject_id">
+                {{ subject.subject_name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="progressForm.get('subject_id')?.invalid && progressForm.get('subject_id')?.touched">
+              Subject is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Progress Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="progress_date"
+              class="form-control"
+              [class.is-invalid]="progressForm.get('progress_date')?.invalid && progressForm.get('progress_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="progressForm.get('progress_date')?.invalid && progressForm.get('progress_date')?.touched">
+              Progress date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Chapters Completed</label>
+            <input
+              type="number"
+              formControlName="chapters_completed"
+              class="form-control"
+              min="0"
+              (blur)="calculateProgress()"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Total Chapters</label>
+            <input
+              type="number"
+              formControlName="chapters_total"
+              class="form-control"
+              min="1"
+              (blur)="calculateProgress()"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Progress Percentage <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="completion_percentage"
+              class="form-control"
+              [class.is-invalid]="progressForm.get('completion_percentage')?.invalid && progressForm.get('completion_percentage')?.touched"
+              min="0"
+              max="100"
+            />
+            <small class="form-text text-muted">Auto-calculated if chapters are provided</small>
+            <div class="invalid-feedback" *ngIf="progressForm.get('completion_percentage')?.invalid && progressForm.get('completion_percentage')?.touched">
+              Progress percentage must be between 0 and 100
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="behind">Behind Schedule</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Test Score</label>
+            <input
+              formControlName="test_scores"
+              class="form-control"
+              rows="3"
+              placeholder="Enter test scores"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional remarks"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || progressForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Record' }} Progress</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

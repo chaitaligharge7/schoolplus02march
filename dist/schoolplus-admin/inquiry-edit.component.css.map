@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/security-guard/inquiry-edit/inquiry-edit.component.scss"],
+  "sourcesContent": [".page-container { width: 100%; padding: 1rem; }\r\n.form-card { width: 100%; }\r\n.form-row { display: flex; gap: 1rem; flex-wrap: wrap; }\r\n.form-group { flex: 1; min-width: 180px; }\r\n.form-group.flex-grow { flex: 2; }\r\n.form-actions { margin-top: 1.5rem; display: flex; gap: 0.5rem; }\r\n.loading-state { padding: 2rem; text-align: center; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,SAAA;AAAa,WAAA;;AAC/B,CAAA;AAAa,SAAA;;AACb,CAAA;AAAY,WAAA;AAAe,OAAA;AAAW,aAAA;;AACtC,CAAA;AAAc,QAAA;AAAS,aAAA;;AACvB,CADA,UACA,CAAA;AAAwB,QAAA;;AACxB,CAAA;AAAgB,cAAA;AAAoB,WAAA;AAAe,OAAA;;AACnD,CAAA;AAAiB,WAAA;AAAe,cAAA;;",
+  "names": []
+}

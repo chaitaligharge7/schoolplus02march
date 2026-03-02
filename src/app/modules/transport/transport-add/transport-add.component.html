@@ -1,0 +1,104 @@
+<div class="transport-add-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Transport Route' : 'Add Transport Route' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update route details' : 'Add a new transport route' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/transport'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="routeForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Route Name *</label>
+          <input
+            type="text"
+            formControlName="route_name"
+            class="form-control"
+            placeholder="Enter route name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Route Number *</label>
+          <input
+            type="text"
+            formControlName="route_code"
+            class="form-control"
+            placeholder="Enter route number"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Location *</label>
+          <input
+            type="text"
+            formControlName="start_location"
+            class="form-control"
+            placeholder="Enter start location"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>End Location *</label>
+          <input
+            type="text"
+            formControlName="end_location"
+            class="form-control"
+            placeholder="Enter end location"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Distance (km)</label>
+          <input
+            type="number"
+            formControlName="route_distance"
+            class="form-control"
+            placeholder="Enter distance in km"
+            min="0"
+            step="0.1"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Fare (₹)</label>
+          <input
+            type="number"
+            formControlName="route_fee"
+            class="form-control"
+            placeholder="Enter fare amount"
+            min="0"
+            step="0.01"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/transport'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || routeForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Add' }} Route</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

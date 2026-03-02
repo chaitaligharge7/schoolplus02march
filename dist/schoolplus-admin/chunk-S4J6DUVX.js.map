@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/counselor/counselor.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const COUNSELOR_ROUTES: Routes = [\r\n  { path: '', redirectTo: 'leads', pathMatch: 'full' },\r\n  { path: 'leads', loadComponent: () => import('./lead-list/lead-list.component').then(m => m.LeadListComponent) },\r\n  { path: 'leads/view/:id', loadComponent: () => import('./lead-view/lead-view.component').then(m => m.LeadViewComponent) },\r\n  { path: 'leads/edit/:id', loadComponent: () => import('./lead-edit/lead-edit.component').then(m => m.LeadEditComponent) }\r\n];\r\n"],
+  "mappings": ";;;AAEO,IAAM,mBAA2B;EACtC,EAAE,MAAM,IAAI,YAAY,SAAS,WAAW,OAAM;EAClD,EAAE,MAAM,SAAS,eAAe,MAAM,OAAO,qBAAiC,EAAE,KAAK,OAAK,EAAE,iBAAiB,EAAC;EAC9G,EAAE,MAAM,kBAAkB,eAAe,MAAM,OAAO,qBAAiC,EAAE,KAAK,OAAK,EAAE,iBAAiB,EAAC;EACvH,EAAE,MAAM,kBAAkB,eAAe,MAAM,OAAO,qBAAiC,EAAE,KAAK,OAAK,EAAE,iBAAiB,EAAC;;",
+  "names": []
+}

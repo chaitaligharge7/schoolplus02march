@@ -1,0 +1,25 @@
+@import '../../../../styles.scss';
+
+.designation-create-container {
+  width: 100%;
+  padding: 0;
+}
+
+.form-card {
+  margin-top: var(--spacing-lg);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+

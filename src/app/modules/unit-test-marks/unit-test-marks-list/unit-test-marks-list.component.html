@@ -1,0 +1,68 @@
+<div class="unit-test-marks-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Unit Test Marks</h1>
+      <p class="page-subtitle">Manage unit test marks and assessments</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <select class="form-control" [(ngModel)]="academicYearId" (change)="onAcademicYearChange(academicYearId)">
+        <option [value]="undefined">All Academic Years</option>
+        <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+          {{ year.academic_year_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Class:</label>
+      <select class="form-control" [(ngModel)]="classId" (change)="onClassChange(classId)">
+        <option [value]="undefined">All Classes</option>
+        <option *ngFor="let cls of classes" [value]="cls.class_id">
+          {{ cls.class_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Subject:</label>
+      <select class="form-control" [(ngModel)]="subjectId" (change)="onSubjectChange(subjectId)">
+        <option [value]="undefined">All Subjects</option>
+        <option *ngFor="let subject of subjects" [value]="subject.subject_id">
+          {{ subject.subject_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Unit Number:</label>
+      <input type="number" class="form-control" [(ngModel)]="unitNumber" (input)="onUnitNumberChange(unitNumber)" placeholder="Filter by unit">
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="marks"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'test_id'"
+    [addRoute]="'/app/unit-test-marks/create'"
+    [addLabel]="'Add Marks'"
+    [searchPlaceholder]="'Search unit test marks...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

@@ -1,0 +1,18 @@
+.page-container { padding: 1rem; max-width: 900px; }
+.profile-card, .schedule-card { background: #fff; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.section-title { margin: 0 0 1rem 0; font-size: 1.1rem; color: #333; }
+.profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+.profile-item { display: flex; flex-direction: column; gap: 0.25rem; }
+.profile-item .label { font-size: 0.8rem; color: #666; }
+.profile-item .value { font-weight: 500; }
+.timetable-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+.day-block { border: 1px solid #eee; border-radius: 6px; padding: 0.75rem; }
+.day-title { margin: 0 0 0.5rem 0; font-size: 0.95rem; color: #333; }
+.period-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.period-item { font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.15rem; padding: 0.4rem 0; border-bottom: 1px solid #f0f0f0; }
+.period-item:last-child { border-bottom: none; }
+.period-time { color: #666; font-size: 0.75rem; }
+.period-subject { font-weight: 500; }
+.period-class { color: #555; font-size: 0.8rem; }
+.no-period { margin: 0; font-size: 0.85rem; color: #999; }
+.empty-state { padding: 2rem; text-align: center; color: #666; }

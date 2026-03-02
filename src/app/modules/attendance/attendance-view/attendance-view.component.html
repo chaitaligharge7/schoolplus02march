@@ -1,0 +1,154 @@
+<div class="attendance-view-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">View Attendance</h1>
+      <p class="page-subtitle">View and analyze attendance reports</p>
+    </div>
+  </div>
+
+  <div class="filters-card">
+    <form [formGroup]="filterForm" (ngSubmit)="loadAttendance()" class="filters-form">
+      <div class="filters-grid">
+        <div class="form-group">
+          <label>Class</label>
+          <select formControlName="class_id" class="form-control">
+            <option [value]="null">All Classes</option>
+            <option *ngFor="let cls of classes" [value]="cls.class_id">
+              {{ cls.class_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Section</label>
+          <select formControlName="section_id" class="form-control" [disabled]="!filterForm.get('class_id')?.value">
+            <option [value]="null">All Sections</option>
+            <option *ngFor="let section of sections" [value]="section.section_id">
+              {{ section.section_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Start Date</label>
+          <input
+            type="date"
+            formControlName="start_date"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>End Date</label>
+          <input
+            type="date"
+            formControlName="end_date"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-search"></i>
+            Load Attendance
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="summary-cards" *ngIf="attendanceSummary.total > 0">
+    <div class="summary-card">
+      <div class="summary-icon" style="background: #e3f2fd;">
+        <i class="bi bi-people" style="color: #2196f3;"></i>
+      </div>
+      <div class="summary-content">
+        <h3>{{ attendanceSummary.total }}</h3>
+        <p>Total Records</p>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon" style="background: #e8f5e9;">
+        <i class="bi bi-check-circle" style="color: #4caf50;"></i>
+      </div>
+      <div class="summary-content">
+        <h3>{{ attendanceSummary.present }}</h3>
+        <p>Present</p>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon" style="background: #ffebee;">
+        <i class="bi bi-x-circle" style="color: #f44336;"></i>
+      </div>
+      <div class="summary-content">
+        <h3>{{ attendanceSummary.absent }}</h3>
+        <p>Absent</p>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon" style="background: #fff3e0;">
+        <i class="bi bi-clock" style="color: #ff9800;"></i>
+      </div>
+      <div class="summary-content">
+        <h3>{{ attendanceSummary.late }}</h3>
+        <p>Late</p>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon" style="background: #f3e5f5;">
+        <i class="bi bi-percent" style="color: #9c27b0;"></i>
+      </div>
+      <div class="summary-content">
+        <h3>{{ attendanceSummary.percentage }}%</h3>
+        <p>Attendance %</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-card" *ngIf="!isLoading && attendanceData.length > 0">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Student</th>
+          <th>Class</th>
+          <th>Section</th>
+          <th>Status</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of attendanceData">
+          <td>{{ record.attendance_date | dateFormat }}</td>
+          <td><strong>{{ record.student_name || record.full_name }}</strong></td>
+          <td>{{ record.class_name }}</td>
+          <td>{{ record.section_name }}</td>
+          <td>
+            <!-- <span [class]="'badge ' + getStatusClass(record.attendance_status)">
+              {{ record.attendance_status }}
+            </span> -->
+            <span [class]="'badge ' + getStatusClass(record.attendance_type_name)">
+              {{ record.attendance_type_name  }}
+            </span>
+          </td>
+          <td>{{ record.remarks || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && attendanceData.length === 0 && filterForm.get('class_id')?.value">
+    <i class="bi bi-calendar-x"></i>
+    <p>No attendance records found for the selected criteria</p>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading attendance data...</p>
+  </div>
+</div>
+

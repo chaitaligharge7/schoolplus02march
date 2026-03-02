@@ -1,0 +1,35 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Receptionist Dashboard</h1>
+    <p class="page-subtitle">Today's inquiries and assignments overview</p>
+  </div>
+  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="!loading && stats" class="dashboard-cards">
+    <a routerLink="/app/receptionist/inquiries" class="card">
+      <span class="card-value">{{ stats.today_inquiries ?? 0 }}</span>
+      <span class="card-label">Today's Inquiries</span>
+    </a>
+    <a routerLink="/app/receptionist/inquiries" [queryParams]="{status: 'forwarded'}" class="card">
+      <span class="card-value">{{ stats.pending_assignments ?? 0 }}</span>
+      <span class="card-label">Pending Assignments</span>
+    </a>
+    <a routerLink="/app/receptionist/inquiries" [queryParams]="{status: 'resolved'}" class="card">
+      <span class="card-value">{{ stats.completed_assignments ?? 0 }}</span>
+      <span class="card-label">Completed Assignments</span>
+    </a>
+    <a routerLink="/app/enquiries/list" class="card">
+      <span class="card-value">{{ stats.total_enquiries ?? 0 }}</span>
+      <span class="card-label">Total Enquiries</span>
+    </a>
+  </div>
+  <div class="quick-links">
+    <h3>Quick Links</h3>
+    <div class="links">
+      <a routerLink="/app/receptionist/inquiries" class="btn btn-outline">Inquiry Management</a>
+      <a routerLink="/app/enquiries/list" class="btn btn-outline">Enquiries (Lead Conversion)</a>
+      <a routerLink="/app/counselor/leads" class="btn btn-outline">Counselor Assignment</a>
+      <a routerLink="/app/visitors/list" class="btn btn-outline">Visitor Management</a>
+      <a routerLink="/app/documents/list" class="btn btn-outline">Documentation</a>
+    </div>
+  </div>
+</div>

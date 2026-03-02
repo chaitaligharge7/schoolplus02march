@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/events/events-view/events-view.component.scss"],
+  "sourcesContent": [".events-view-container {\r\n  .view-card {\r\n    background: var(--card-bg, #fff);\r\n    border-radius: 8px;\r\n    padding: 1.5rem;\r\n    box-shadow: 0 1px 3px rgba(0,0,0,0.1);\r\n  }\r\n  .detail-grid {\r\n    display: grid;\r\n    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));\r\n    gap: 1rem;\r\n  }\r\n  .detail-item {\r\n    label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 0.25rem; }\r\n    span { font-weight: 500; }\r\n    &.full-width { grid-column: 1 / -1; }\r\n    .description { margin: 0.25rem 0 0; white-space: pre-wrap; }\r\n  }\r\n  .loading-state, .empty-state { padding: 2rem; text-align: center; color: #666; }\r\n}\r\n"],
+  "mappings": ";AACE,CAAA,sBAAA,CAAA;AACE,cAAA,IAAA,SAAA,EAAA;AACA,iBAAA;AACA,WAAA;AACA,cAAA,EAAA,IAAA,IAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;;AAEF,CANA,sBAMA,CAAA;AACE,WAAA;AACA,yBAAA,OAAA,SAAA,EAAA,OAAA,KAAA,EAAA;AACA,OAAA;;AAGA,CAZF,sBAYE,CAAA,YAAA;AAAQ,WAAA;AAAgB,aAAA;AAAoB,SAAA;AAAa,iBAAA;;AACzD,CAbF,sBAaE,CADA,YACA;AAAO,eAAA;;AACP,CAdF,sBAcE,CAFA,WAEA,CAAA;AAAe,eAAA,CAAA,CAAA;;AACf,CAfF,sBAeE,CAHA,YAGA,CAAA;AAAe,UAAA,QAAA,EAAA;AAAqB,eAAA;;AAEtC,CAjBA,sBAiBA,CAAA;AAAA,CAjBA,sBAiBA,CAAA;AAA+B,WAAA;AAAe,cAAA;AAAoB,SAAA;;",
+  "names": []
+}

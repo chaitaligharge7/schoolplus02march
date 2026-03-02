@@ -1,0 +1,63 @@
+<div class="bus-document-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Bus Documents</h1>
+      <p class="page-subtitle">Manage bus-related documents</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Document Type:</label>
+      <select class="form-control" [(ngModel)]="documentType" (change)="onDocumentTypeChange(documentType)">
+        <option [value]="undefined">All Types</option>
+        <option value="insurance">Insurance</option>
+        <option value="permit">Permit</option>
+        <option value="fitness">Fitness Certificate</option>
+        <option value="license">License</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Bus ID:</label>
+      <input type="text" class="form-control" [(ngModel)]="busId" (input)="onBusIdChange(busId)" placeholder="Filter by Bus ID">
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="documents"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'document_id'"
+    [addRoute]="'/app/bus-documents/create'"
+    [addLabel]="'Upload Document'"
+    [searchPlaceholder]="'Search bus documents...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Download Action -->
+  <div class="download-action" *ngIf="selectedRowId && getSelectedDocument() && getSelectedDocument()?.document_file">
+    <a 
+      [href]="getSelectedDocument().document_file" 
+      target="_blank" 
+      class="btn btn-secondary"
+      title="Download Document">
+      <i class="bi bi-download"></i>
+      Download Document
+    </a>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/unit-test-marks/unit-test-marks.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const UNIT_TEST_MARKS_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./unit-test-marks-list/unit-test-marks-list.component').then(m => m.UnitTestMarksListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./unit-test-marks-list/unit-test-marks-list.component').then(m => m.UnitTestMarksListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./unit-test-marks-create/unit-test-marks-create.component').then(m => m.UnitTestMarksCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./unit-test-marks-create/unit-test-marks-create.component').then(m => m.UnitTestMarksCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,yBAAiC;EAC5C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE7H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE7H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2D,EAAE,KAAK,OAAK,EAAE,4BAA4B;;EAEnI;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2D,EAAE,KAAK,OAAK,EAAE,4BAA4B;;;",
+  "names": []
+}

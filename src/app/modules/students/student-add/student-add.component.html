@@ -1,0 +1,196 @@
+<div class="student-add-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Student' : 'Add New Student' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update student information' : 'Create a new student record' }}</p>
+    </div>
+    <button type="button" class="btn btn-outline" (click)="cancel()">
+      <i class="bi bi-x-circle"></i>
+      Cancel
+    </button>
+  </div>
+
+  <div class="split-form-content" *ngIf="!isLoading">
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+      <div class="split-form-tabs">
+        <button type="button" *ngFor="let s of studentSections" class="split-form-tab" [class.active]="activeSection === s.id" (click)="selectSection(s.id)">
+          <i class="bi" [class]="s.icon"></i>
+          <span>{{ s.label }}</span>
+        </button>
+      </div>
+      <div class="split-form-panel">
+        <div class="split-form-panel-header">
+          <h2 class="split-form-panel-title">{{ getActiveSectionLabel() }}</h2>
+          <button type="submit" class="btn btn-primary btn-save" [disabled]="isSaving">
+            <span *ngIf="!isSaving">{{ isEditMode ? 'Save Changes' : 'Create Student' }}</span>
+            <span *ngIf="isSaving"><span class="spinner-small"></span> Saving...</span>
+          </button>
+        </div>
+        <div class="split-form-panel-content">
+          <!-- Personal Information -->
+          <div class="split-form-section" [class.active]="activeSection === 'personal'">
+            <div class="split-form-section-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Admission Number <span class="required">*</span></label>
+                  <input type="text" formControlName="admission_number" class="form-control" placeholder="Enter admission number" [class.is-invalid]="studentForm.get('admission_number')?.invalid && studentForm.get('admission_number')?.touched" />
+                  <div class="invalid-feedback" *ngIf="studentForm.get('admission_number')?.invalid && studentForm.get('admission_number')?.touched">Admission number is required</div>
+                </div>
+                <div class="form-group">
+                  <label>First Name <span class="required">*</span></label>
+                  <input type="text" formControlName="first_name" class="form-control" placeholder="Enter first name" [class.is-invalid]="studentForm.get('first_name')?.invalid && studentForm.get('first_name')?.touched" />
+                  <div class="invalid-feedback" *ngIf="studentForm.get('first_name')?.invalid && studentForm.get('first_name')?.touched">First name is required</div>
+                </div>
+                <div class="form-group">
+                  <label>Middle Name</label>
+                  <input type="text" formControlName="middle_name" class="form-control" placeholder="Enter middle name" />
+                </div>
+                <div class="form-group">
+                  <label>Last Name <span class="required">*</span></label>
+                  <input type="text" formControlName="last_name" class="form-control" placeholder="Enter last name" [class.is-invalid]="studentForm.get('last_name')?.invalid && studentForm.get('last_name')?.touched" />
+                  <div class="invalid-feedback" *ngIf="studentForm.get('last_name')?.invalid && studentForm.get('last_name')?.touched">Last name is required</div>
+                </div>
+                <div class="form-group">
+                  <label>Gender <span class="required">*</span></label>
+                  <app-search-select
+                    [options]="genderOptions"
+                    formControlName="gender"
+                    placeholder="Search or select gender"
+                    [class.is-invalid]="studentForm.get('gender')?.invalid && studentForm.get('gender')?.touched">
+                  </app-search-select>
+                  <div class="invalid-feedback" *ngIf="studentForm.get('gender')?.invalid && studentForm.get('gender')?.touched">Gender is required</div>
+                </div>
+                <div class="form-group">
+                  <label>Date of Birth <span class="required">*</span></label>
+                  <input type="date" formControlName="date_of_birth" class="form-control" [class.is-invalid]="studentForm.get('date_of_birth')?.invalid && studentForm.get('date_of_birth')?.touched" />
+                  <div class="invalid-feedback" *ngIf="studentForm.get('date_of_birth')?.invalid && studentForm.get('date_of_birth')?.touched">Date of birth is required</div>
+                </div>
+                <div class="form-group">
+                  <label>Blood Group</label>
+                  <app-search-select
+                    [options]="bloodGroupOptions"
+                    formControlName="blood_group"
+                    placeholder="Search or select blood group">
+                  </app-search-select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Academic Information -->
+          <div class="split-form-section" [class.active]="activeSection === 'academic'">
+            <div class="split-form-section-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Class <span class="required">*</span></label>
+                  <app-search-select
+                    [options]="classOptions"
+                    formControlName="class_id"
+                    placeholder="Search or select class"
+                    [class.is-invalid]="studentForm.get('class_id')?.invalid && studentForm.get('class_id')?.touched">
+                  </app-search-select>
+                  <div class="invalid-feedback" *ngIf="studentForm.get('class_id')?.invalid && studentForm.get('class_id')?.touched">Class is required</div>
+                </div>
+                <div class="form-group">
+                  <label>Section <span class="required">*</span></label>
+                  <app-search-select
+                    [options]="sectionOptions"
+                    formControlName="section_id"
+                    placeholder="Search or select section"
+                    [disabled]="!studentForm.get('class_id')?.value"
+                    [class.is-invalid]="studentForm.get('section_id')?.invalid && studentForm.get('section_id')?.touched">
+                  </app-search-select>
+                  <div class="invalid-feedback" *ngIf="studentForm.get('section_id')?.invalid && studentForm.get('section_id')?.touched">Section is required</div>
+                </div>
+                <div class="form-group">
+                  <label>Roll Number</label>
+                  <input type="text" formControlName="roll_number" class="form-control" placeholder="Enter roll number" />
+                </div>
+                <div class="form-group">
+                  <label>Admission Date <span class="required">*</span></label>
+                  <input type="date" formControlName="admission_date" class="form-control" [class.is-invalid]="studentForm.get('admission_date')?.invalid && studentForm.get('admission_date')?.touched" />
+                  <div class="invalid-feedback" *ngIf="studentForm.get('admission_date')?.invalid && studentForm.get('admission_date')?.touched">Admission date is required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact & Address -->
+          <div class="split-form-section" [class.active]="activeSection === 'contact'">
+            <div class="split-form-section-body">
+              <h4 class="subsection-title">Contact details</h4>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Mobile</label>
+                  <input type="tel" formControlName="mobile" class="form-control" placeholder="Enter mobile number" />
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" formControlName="email" class="form-control" placeholder="Enter email address" [class.is-invalid]="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" />
+                  <div class="invalid-feedback" *ngIf="studentForm.get('email')?.invalid && studentForm.get('email')?.touched">Please enter a valid email address</div>
+                </div>
+              </div>
+              <h4 class="subsection-title">Address</h4>
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <label>Street / Area</label>
+                  <textarea formControlName="address" class="form-control" rows="2" placeholder="Enter address"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>City</label>
+                  <input type="text" formControlName="city" class="form-control" placeholder="City" />
+                </div>
+                <div class="form-group">
+                  <label>State</label>
+                  <input type="text" formControlName="state" class="form-control" placeholder="State" />
+                </div>
+                <div class="form-group">
+                  <label>Country</label>
+                  <input type="text" formControlName="country" class="form-control" placeholder="Country" />
+                </div>
+                <div class="form-group">
+                  <label>Pin Code</label>
+                  <input type="text" formControlName="pincode" class="form-control" placeholder="Pincode" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parent / Guardian -->
+          <div class="split-form-section" [class.active]="activeSection === 'parent'">
+            <div class="split-form-section-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Parent Name</label>
+                  <input type="text" formControlName="parent_name" class="form-control" placeholder="Enter parent/guardian name" />
+                </div>
+                <div class="form-group">
+                  <label>Relation</label>
+                  <app-search-select
+                    [options]="parentRelationOptions"
+                    formControlName="parent_relation"
+                    placeholder="Search or select relation">
+                  </app-search-select>
+                </div>
+                <div class="form-group">
+                  <label>Parent Mobile</label>
+                  <input type="tel" formControlName="parent_mobile" class="form-control" placeholder="Enter parent mobile number" />
+                </div>
+                <div class="form-group">
+                  <label>Parent Email</label>
+                  <input type="email" formControlName="parent_email" class="form-control" placeholder="Enter parent email address" [class.is-invalid]="studentForm.get('parent_email')?.invalid && studentForm.get('parent_email')?.touched" />
+                  <div class="invalid-feedback" *ngIf="studentForm.get('parent_email')?.invalid && studentForm.get('parent_email')?.touched">Please enter a valid email address</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading student data...</p>
+  </div>
+</div>

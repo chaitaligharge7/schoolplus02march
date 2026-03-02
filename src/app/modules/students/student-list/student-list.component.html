@@ -1,0 +1,81 @@
+<div class="student-list-container">
+  <!-- Beautiful Header Card -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="bi bi-people"></i>
+      </div>
+      <div class="header-text">
+        <h1 class="page-title">Students</h1>
+        <p class="page-subtitle">Manage student records and information</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible Filters -->
+  <div class="filters-panel" [class.expanded]="showFilters" *ngIf="classes.length > 0">
+    <div class="filters-row">
+      <div class="filter-item">
+        <label>Class:</label>
+        <app-search-select
+          [options]="classOptions"
+          [(ngModel)]="classId"
+          (valueChange)="onClassChange($event)"
+          placeholder="All Classes">
+        </app-search-select>
+      </div>
+      <div class="filter-item" *ngIf="sections.length > 0">
+        <label>Section:</label>
+        <app-search-select
+          [options]="sectionOptions"
+          [(ngModel)]="sectionId"
+          (valueChange)="onSectionChange($event)"
+          placeholder="All Sections">
+        </app-search-select>
+      </div>
+      <div class="filter-item">
+        <label>Status:</label>
+        <app-search-select
+          [options]="statusOptions"
+          [(ngModel)]="status"
+          (valueChange)="onStatusChange($event)"
+          placeholder="All">
+        </app-search-select>
+      </div>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="students"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'student_id'"
+    [addRoute]="'/app/students/add'"
+    [addLabel]="'Add New Student'"
+    [searchPlaceholder]="'Search by name, admission number, mobile...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <app-student-detail-slider
+    [visible]="sliderVisible"
+    [student]="sliderStudent"
+    (close)="sliderVisible = false">
+  </app-student-detail-slider>
+</div>

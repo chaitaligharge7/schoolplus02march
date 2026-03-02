@@ -1,0 +1,110 @@
+<div class="enquiry-view-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Enquiry Details</h1>
+      <p class="page-subtitle">View enquiry information</p>
+    </div>
+    <div class="header-actions">
+      <button 
+        class="btn btn-success" 
+        (click)="convertToAdmission()"
+        *ngIf="enquiry && enquiry.conversion_status === 'pending'">
+        <i class="bi bi-check-circle"></i>
+        Convert to Admission
+      </button>
+      <a [routerLink]="['/app/enquiries/edit', enquiry?.enquiry_id]" class="btn btn-primary" *ngIf="enquiry">
+        <i class="bi bi-pencil"></i>
+        Edit
+      </a>
+      <button class="btn btn-secondary" (click)="router.navigate(['/app/enquiries'])">
+        <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+    </div>
+  </div>
+
+  <div class="details-card" *ngIf="!isLoading && enquiry">
+    <div class="details-section">
+      <h3>Student Information</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Student Name</label>
+          <p><strong>{{ enquiry.student_name }}</strong></p>
+        </div>
+        <div class="detail-item">
+          <label>Parent Name</label>
+          <p>{{ enquiry.parent_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Mobile</label>
+          <p>{{ enquiry.mobile }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Email</label>
+          <p>{{ enquiry.email || '-' }}</p>
+        </div>
+        <div class="detail-item full-width">
+          <label>Address</label>
+          <p>{{ enquiry.address || '-' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <h3>Enquiry Details</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Enquiry Number</label>
+          <p><strong>{{ enquiry.enquiry_number }}</strong></p>
+        </div>
+        <div class="detail-item">
+          <label>Enquiry Date</label>
+          <p>{{ enquiry.enquiry_date | dateFormat }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Enquiry Source</label>
+          <p>
+            <span class="badge badge-info">{{ enquiry.enquiry_source }}</span>
+          </p>
+        </div>
+        <div class="detail-item">
+          <label>Interested Class</label>
+          <p>{{ enquiry.interested_class_name || '-' }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Conversion Status</label>
+          <p>
+            <span class="badge" 
+                  [class.badge-success]="enquiry.conversion_status === 'converted'"
+                  [class.badge-warning]="enquiry.conversion_status === 'pending'"
+                  [class.badge-danger]="enquiry.conversion_status === 'lost'">
+              {{ enquiry.conversion_status }}
+            </span>
+          </p>
+        </div>
+        <div class="detail-item" *ngIf="enquiry.follow_up_date">
+          <label>Follow-up Date</label>
+          <p>{{ enquiry.follow_up_date | dateFormat }}</p>
+        </div>
+        <div class="detail-item full-width" *ngIf="enquiry.follow_up_notes">
+          <label>Follow-up Notes</label>
+          <p>{{ enquiry.follow_up_notes }}</p>
+        </div>
+        <div class="detail-item full-width" *ngIf="enquiry.remarks">
+          <label>Remarks</label>
+          <p>{{ enquiry.remarks }}</p>
+        </div>
+        <div class="detail-item" *ngIf="enquiry.admission_number">
+          <label>Admission Number</label>
+          <p><strong>{{ enquiry.admission_number }}</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading enquiry...</p>
+  </div>
+</div>
+

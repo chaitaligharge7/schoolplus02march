@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/inward-requests/inward-requests.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const INWARD_REQUESTS_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./inward-request-list/inward-request-list.component').then(m => m.InwardRequestListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./inward-request-list/inward-request-list.component').then(m => m.InwardRequestListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./inward-request-create/inward-request-create.component').then(m => m.InwardRequestCreateComponent)\r\n  },\r\n  {\r\n    path: 'view/:id',\r\n    loadComponent: () => import('./inward-request-view/inward-request-view.component').then(m => m.InwardRequestViewComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./inward-request-create/inward-request-create.component').then(m => m.InwardRequestCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,yBAAiC;EAC5C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE3H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE3H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyD,EAAE,KAAK,OAAK,EAAE,4BAA4B;;EAEjI;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE3H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyD,EAAE,KAAK,OAAK,EAAE,4BAA4B;;;",
+  "names": []
+}

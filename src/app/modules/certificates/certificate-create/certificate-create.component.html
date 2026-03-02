@@ -1,0 +1,85 @@
+<div class="certificate-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Certificate' : 'Create Certificate' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update certificate details' : 'Issue a new certificate to student' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/certificates'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="certificateForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Student *</label>
+          <select formControlName="student_id" class="form-control" required>
+            <option [value]="null">Select Student</option>
+            <option *ngFor="let student of students" [value]="student.student_id">
+              {{ student.full_name }} - {{ student.admission_number }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Certificate Type *</label>
+          <select formControlName="certificate_type" class="form-control" required>
+            <option value="Transfer Certificate">Transfer Certificate</option>
+            <option value="Character Certificate">Character Certificate</option>
+            <option value="Bonafide Certificate">Bonafide Certificate</option>
+            <option value="Migration Certificate">Migration Certificate</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Certificate Number</label>
+          <input
+            type="text"
+            formControlName="certificate_number"
+            class="form-control"
+            placeholder="Auto-generated if left empty"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Issue Date *</label>
+          <input
+            type="date"
+            formControlName="issue_date"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Certificate Content</label>
+        <textarea
+          formControlName="certificate_content"
+          class="form-control"
+          rows="6"
+          placeholder="Enter certificate content/details..."
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/certificates'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || certificateForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Certificate</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

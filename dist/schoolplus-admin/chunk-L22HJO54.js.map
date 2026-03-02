@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/doubt-handling/doubt-handling.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const DOUBT_HANDLING_ROUTES: Routes = [\r\n  { path: '', redirectTo: 'list', pathMatch: 'full' },\r\n  { path: 'list', loadComponent: () => import('./doubt-list/doubt-list.component').then(m => m.DoubtListComponent) },\r\n  { path: 'create', loadComponent: () => import('./doubt-create/doubt-create.component').then(m => m.DoubtCreateComponent) },\r\n  { path: 'respond/:id', loadComponent: () => import('./doubt-create/doubt-create.component').then(m => m.DoubtCreateComponent) }\r\n];\r\n"],
+  "mappings": ";;;AAEO,IAAM,wBAAgC;EAC3C,EAAE,MAAM,IAAI,YAAY,QAAQ,WAAW,OAAM;EACjD,EAAE,MAAM,QAAQ,eAAe,MAAM,OAAO,qBAAmC,EAAE,KAAK,OAAK,EAAE,kBAAkB,EAAC;EAChH,EAAE,MAAM,UAAU,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB,EAAC;EACxH,EAAE,MAAM,eAAe,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB,EAAC;;",
+  "names": []
+}

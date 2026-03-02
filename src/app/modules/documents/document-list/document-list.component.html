@@ -1,0 +1,82 @@
+<div class="document-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Document Management</h1>
+      <p class="page-subtitle">Manage student documents and certificates</p>
+    </div>
+    <div class="header-actions">
+      <a routerLink="/app/documents/half-day-permissions" class="btn btn-secondary">
+        <i class="bi bi-calendar-check"></i>
+        Half Day Permissions
+      </a>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Student:</label>
+      <app-search-select
+        [options]="studentOptions"
+        [(ngModel)]="studentId"
+        (valueChange)="onStudentChange($event)"
+        placeholder="Search or select student">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Document Type:</label>
+      <app-search-select
+        [options]="documentTypeOptions"
+        [(ngModel)]="documentType"
+        (valueChange)="onDocumentTypeChange($event)"
+        placeholder="Search or select type">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="documentStatusOptions"
+        [(ngModel)]="status"
+        (valueChange)="onStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="documents"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'document_id'"
+    [addRoute]="'/app/documents/create'"
+    [addLabel]="'Add Document'"
+    [searchPlaceholder]="'Search documents...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Download Document Button for Selected Row -->
+  <div class="download-action" *ngIf="selectedRowId && getSelectedDocument()?.document_file">
+    <button 
+      class="btn btn-primary"
+      (click)="downloadDocument(getSelectedDocument()?.document_file)"
+      title="Download Document">
+      <i class="bi bi-download"></i>
+      Download Document
+    </button>
+  </div>
+</div>

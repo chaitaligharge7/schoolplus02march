@@ -1,0 +1,46 @@
+<div class="page-container">
+  <div class="page-header inquiry-list-header">
+    <div>
+      <h1 class="page-title">Inquiry Registration</h1>
+      <p class="page-subtitle">Security guard – register and track visitor inquiries</p>
+    </div>
+    <div class="header-filters">
+      <label class="header-filter-label">Status</label>
+      <select class="form-control header-filter-select" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All</option>
+        <option value="registered">Registered</option>
+        <option value="forwarded">Forwarded</option>
+        <option value="picked">Picked</option>
+        <option value="resolved">Resolved</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+  </div>
+  <div class="alert alert-warning alert-dismissible mb-3" *ngIf="alertCount > 0" role="alert">
+    <strong>Alert:</strong> {{ alertCount }} inquiry(ies) forwarded but not picked at reception in 10+ minutes.
+    <button type="button" class="btn-close" (click)="alertCount = 0" aria-label="Close"></button>
+  </div>
+  <app-enhanced-table
+    [data]="inquiries"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [rowIdKey]="rowIdKey"
+    [addRoute]="'/app/security-guard/inquiry/create'"
+    [addLabel]="'Register Inquiry'"
+    [searchPlaceholder]="'Search visitor or purpose...'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    [showFilterButton]="false"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/water-tds/water-tds.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const WATER_TDS_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./water-tds-list/water-tds-list.component').then(m => m.WaterTdsListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./water-tds-list/water-tds-list.component').then(m => m.WaterTdsListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./water-tds-create/water-tds-create.component').then(m => m.WaterTdsCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./water-tds-create/water-tds-create.component').then(m => m.WaterTdsCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,mBAA2B;EACtC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE5G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE5G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,uBAAuB;;EAElH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,uBAAuB;;;",
+  "names": []
+}

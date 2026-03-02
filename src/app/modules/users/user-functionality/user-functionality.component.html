@@ -1,0 +1,99 @@
+<div class="user-functionality-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">User Functionality</h1>
+      <p class="page-subtitle" *ngIf="user">
+        Assign menu permissions for {{ user.full_name || user.first_name + ' ' + user.last_name }}
+      </p>
+    </div>
+    <button class="btn btn-secondary" (click)="router.navigate(['/app/users'])">
+      <i class="bi bi-arrow-left"></i>
+      Back to Users
+    </button>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading && user">
+    <form [formGroup]="functionalityForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>User Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>User Name</label>
+            <input type="text" [value]="user.full_name || user.first_name + ' ' + user.last_name" class="form-control" readonly />
+          </div>
+          <div class="form-group">
+            <label>User Type</label>
+            <input type="text" [value]="user.user_type" class="form-control" readonly />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Menu Permissions</h3>
+        <p class="section-description">
+          Select menus and assign permissions (View, Add, Update, Delete, Report) for this user.
+        </p>
+
+        <div class="permissions-table">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th width="30">
+                  <input type="checkbox" (change)="toggleSelectAll($event)" />
+                </th>
+                <th>Menu Name</th>
+                <th>View</th>
+                <th>Add</th>
+                <th>Update</th>
+                <th>Delete</th>
+                <th>Report</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="functionalities">
+              <tr *ngFor="let control of functionalitiesFormArray.controls; let i = index" [formGroupName]="i">
+                <td>
+                  <input type="checkbox" formControlName="selected" (change)="toggleMenuSelection(i)" />
+                </td>
+                <td>
+                  <strong>{{ control.get('menu_name')?.value }}</strong>
+                </td>
+                <td>
+                  <input type="checkbox" formControlName="canView" [disabled]="!control.get('selected')?.value" />
+                </td>
+                <td>
+                  <input type="checkbox" formControlName="canAdd" [disabled]="!control.get('selected')?.value" />
+                </td>
+                <td>
+                  <input type="checkbox" formControlName="canUpdate" [disabled]="!control.get('selected')?.value" />
+                </td>
+                <td>
+                  <input type="checkbox" formControlName="canDelete" [disabled]="!control.get('selected')?.value" />
+                </td>
+                <td>
+                  <input type="checkbox" formControlName="canReport" [disabled]="!control.get('selected')?.value" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="router.navigate(['/app/users'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+          <i class="bi bi-save" *ngIf="!isSaving"></i>
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">Save Functionality</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading user functionality...</p>
+  </div>
+</div>
+

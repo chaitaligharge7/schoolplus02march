@@ -1,0 +1,711 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1 class="settings-title">Settings</h1>
+    <p class="settings-subtitle">Manage your school configuration and preferences</p>
+  </div>
+
+  <div class="settings-content">
+    <div class="settings-tabs">
+      <button
+        *ngFor="let tab of tabs"
+        [class.active]="activeTab === tab.id"
+        class="tab-button"
+        (click)="selectTab(tab.id)"
+      >
+        <i [class]="tab.icon"></i>
+        <span>{{ tab.label }}</span>
+      </button>
+    </div>
+
+    <div class="settings-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">{{ getActiveTabLabel() }} Settings</h2>
+        <button
+          class="btn btn-primary btn-save"
+          (click)="activeTab === 'modules' ? saveModules() : saveSettings()"
+          [disabled]="isSaving"
+        >
+          <span *ngIf="!isSaving">Save Changes</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+
+      <div class="panel-content" *ngIf="!isLoading">
+        <div class="save-message success" *ngIf="saveMessage && saveMessage.includes('success')">
+          <i class="bi bi-check-circle"></i>
+          {{ saveMessage }}
+        </div>
+        <div class="save-message error" *ngIf="saveMessage && !saveMessage.includes('success')">
+          <i class="bi bi-exclamation-circle"></i>
+          {{ saveMessage }}
+        </div>
+
+        <!-- General Settings -->
+        <form [formGroup]="generalForm" *ngIf="activeTab === 'general'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">School Information</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>School Name</label>
+                <input type="text" formControlName="school_name" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" formControlName="school_email" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" formControlName="school_phone" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Website</label>
+                <input type="url" formControlName="school_website" class="form-control" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <textarea formControlName="school_address" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Tagline</label>
+                <input type="text" formControlName="school_tagline" class="form-control" placeholder="e.g. Excellence in Education" />
+              </div>
+              <div class="form-group">
+                <label>Logo URL</label>
+                <input type="url" formControlName="school_logo_url" class="form-control" placeholder="https://..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Regional Settings</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Timezone</label>
+                <select formControlName="timezone" class="form-control">
+                  <option value="Asia/Calcutta">Asia/Calcutta (IST)</option>
+                  <option value="UTC">UTC</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Language</label>
+                <select formControlName="language" class="form-control">
+                  <option value="en">English</option>
+                  <option value="hi">Hindi</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Currency</label>
+                <select formControlName="currency" class="form-control">
+                  <option value="INR">INR (₹)</option>
+                  <option value="USD">USD ($)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Date Format</label>
+                <select formControlName="date_format" class="form-control">
+                  <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                  <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                  <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Fiscal Year Start (Month)</label>
+                <select formControlName="fiscal_year_start" class="form-control">
+                  <option [value]="1">January</option>
+                  <option [value]="4">April</option>
+                  <option [value]="7">July</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Academic Settings -->
+        <form [formGroup]="academicForm" *ngIf="activeTab === 'academic'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Academic Year</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" formControlName="academic_year_start" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>End Date</label>
+                <input type="date" formControlName="academic_year_end" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">School Timings</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Start Time</label>
+                <input type="time" formControlName="school_start_time" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>End Time</label>
+                <input type="time" formControlName="school_end_time" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Period Duration (minutes)</label>
+                <input type="number" formControlName="class_period_duration" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Break Duration (minutes)</label>
+                <input type="number" formControlName="break_duration_minutes" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Grading</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Grading Scale</label>
+                <select formControlName="grading_scale" class="form-control">
+                  <option value="percentage">Percentage</option>
+                  <option value="grade">Grade (A-F)</option>
+                  <option value="points">Points</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Pass Percentage</label>
+                <input type="number" formControlName="pass_percentage" class="form-control" min="0" max="100" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Working Days</h3>
+            <div class="form-grid" formGroupName="working_days">
+              <div class="form-group checkbox-group" *ngFor="let day of ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']">
+                <label class="checkbox-label">
+                  <input type="checkbox" [formControlName]="day" />
+                  <span>{{ day | titlecase }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Fee Settings -->
+        <form [formGroup]="feeForm" *ngIf="activeTab === 'fee'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Fee Configuration</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Fee Due Date (Day of Month)</label>
+                <input type="number" formControlName="fee_due_date" class="form-control" min="1" max="31" />
+              </div>
+              <div class="form-group">
+                <label>Late Fee Percentage</label>
+                <input type="number" formControlName="late_fee_percentage" class="form-control" min="0" max="100" step="0.1" />
+              </div>
+              <div class="form-group">
+                <label>Late Fee Grace Period (Days)</label>
+                <input type="number" formControlName="late_fee_grace_period" class="form-control" min="0" />
+              </div>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="enable_online_payment" />
+                <span>Enable Online Payment</span>
+              </label>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="enable_partial_payment" />
+                <span>Enable Partial Payment</span>
+              </label>
+            </div>
+          </div>
+        </form>
+
+        <!-- Communication Settings -->
+        <form [formGroup]="communicationForm" *ngIf="activeTab === 'communication'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">WhatsApp Integration</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="whatsapp_enabled" />
+                <span>Enable WhatsApp Notifications</span>
+              </label>
+            </div>
+            <div class="form-grid" *ngIf="communicationForm.get('whatsapp_enabled')?.value">
+              <div class="form-group">
+                <label>WhatsApp API URL</label>
+                <input type="url" formControlName="whatsapp_api_url" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>WhatsApp API Key</label>
+                <input type="text" formControlName="whatsapp_api_key" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Email Settings</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="email_enabled" />
+                <span>Enable Email Notifications</span>
+              </label>
+            </div>
+            <div class="form-group" *ngIf="communicationForm.get('email_enabled')?.value">
+              <label>From Email Address</label>
+              <input type="email" formControlName="email_from_address" class="form-control" />
+            </div>
+          </div>
+          <div class="form-section">
+            <h3 class="section-title">SMS</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="sms_enabled" />
+                <span>Enable SMS Notifications</span>
+              </label>
+            </div>
+            <div class="form-group" *ngIf="communicationForm.get('sms_enabled')?.value">
+              <label>SMS Provider</label>
+              <select formControlName="sms_provider" class="form-control">
+                <option value="">Select provider</option>
+                <option value="twilio">Twilio</option>
+                <option value="msg91">MSG91</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <!-- Payment Gateway Settings -->
+        <form [formGroup]="paymentForm" *ngIf="activeTab === 'payment'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Payment Gateway</h3>
+            <div class="form-group">
+              <label>Payment Gateway Provider</label>
+              <select formControlName="payment_gateway" class="form-control">
+                <option value="razorpay">Razorpay</option>
+                <option value="paytm">Paytm</option>
+                <option value="stripe">Stripe</option>
+              </select>
+            </div>
+            <div class="form-grid" *ngIf="paymentForm.get('payment_gateway')?.value === 'razorpay'">
+              <div class="form-group">
+                <label>Razorpay Key ID</label>
+                <input type="text" formControlName="razorpay_key_id" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Razorpay Key Secret</label>
+                <input type="password" formControlName="razorpay_key_secret" class="form-control" />
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Appearance Settings -->
+        <form [formGroup]="appearanceForm" *ngIf="activeTab === 'appearance'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Theme & Layout</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Theme</label>
+                <select formControlName="theme" class="form-control">
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                  <option value="system">System</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Primary Color</label>
+                <input type="color" formControlName="primary_color" class="form-control form-control-color" style="height: 38px;" />
+              </div>
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="sidebar_collapsed_default" />
+                  <span>Sidebar collapsed by default</span>
+                </label>
+              </div>
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="show_breadcrumbs" />
+                  <span>Show breadcrumbs</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Notifications Settings -->
+        <form [formGroup]="notificationsForm" *ngIf="activeTab === 'notifications'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Parent Notifications</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="notify_parent_attendance" />
+                <span>Notify on attendance</span>
+              </label>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="notify_parent_fees" />
+                <span>Notify on fee dues</span>
+              </label>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="notify_parent_marks" />
+                <span>Notify on marks/results</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-section">
+            <h3 class="section-title">Staff Notifications</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="notify_teacher_leave" />
+                <span>Notify teachers on leave requests</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-section">
+            <h3 class="section-title">Daily Digest</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="daily_digest_enabled" />
+                <span>Enable daily digest email</span>
+              </label>
+            </div>
+            <div class="form-group" *ngIf="notificationsForm.get('daily_digest_enabled')?.value">
+              <label>Digest Time</label>
+              <input type="time" formControlName="digest_time" class="form-control" />
+            </div>
+          </div>
+        </form>
+
+        <!-- Admission Settings -->
+        <form [formGroup]="admissionForm" *ngIf="activeTab === 'admission'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Admission Process</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="admission_open" />
+                <span>Admissions open</span>
+              </label>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Application Fee (₹)</label>
+                <input type="number" formControlName="application_fee_amount" class="form-control" min="0" />
+              </div>
+              <div class="form-group checkbox-group" style="align-self: center;">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="application_fee_required" />
+                  <span>Application fee required</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Required Documents (comma-separated)</label>
+              <input type="text" formControlName="required_documents" class="form-control" placeholder="e.g. Birth certificate, Photo" />
+            </div>
+          </div>
+          <div class="form-section">
+            <h3 class="section-title">Age & Roll</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Minimum Age (years)</label>
+                <input type="number" formControlName="min_age_years" class="form-control" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Maximum Age (years)</label>
+                <input type="number" formControlName="max_age_years" class="form-control" min="0" />
+              </div>
+              <div class="form-group checkbox-group" style="align-self: center;">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="auto_assign_roll" />
+                  <span>Auto-assign roll number</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Attendance Settings -->
+        <form [formGroup]="attendanceForm" *ngIf="activeTab === 'attendance'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Attendance Rules</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Default Attendance Type</label>
+                <select formControlName="default_attendance_type" class="form-control">
+                  <option value="present_absent">Present / Absent</option>
+                  <option value="present_absent_late">Present / Absent / Late</option>
+                  <option value="mark_by_period">Mark by period</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Grace Period (minutes)</label>
+                <input type="number" formControlName="grace_period_minutes" class="form-control" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Alert After Consecutive Absent (days)</label>
+                <input type="number" formControlName="alert_absent_threshold" class="form-control" min="1" />
+              </div>
+              <div class="form-group">
+                <label>Half-day Threshold (minutes)</label>
+                <input type="number" formControlName="half_day_threshold_minutes" class="form-control" min="0" />
+              </div>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="enable_biometric" />
+                <span>Enable biometric attendance</span>
+              </label>
+            </div>
+          </div>
+        </form>
+
+        <!-- Transport Settings -->
+        <form [formGroup]="transportForm" *ngIf="activeTab === 'transport'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Transport Module</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="transport_enabled" />
+                <span>Transport module enabled</span>
+              </label>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Default Bus Fee (₹/month)</label>
+                <input type="number" formControlName="default_bus_fee" class="form-control" min="0" />
+              </div>
+              <div class="form-group checkbox-group" style="align-self: center;">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="require_route_approval" />
+                  <span>Require route approval</span>
+                </label>
+              </div>
+              <div class="form-group checkbox-group" style="align-self: center;">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="track_live_location" />
+                  <span>Track live bus location</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Hostel Settings -->
+        <form [formGroup]="hostelForm" *ngIf="activeTab === 'hostel'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Hostel Module</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="hostel_enabled" />
+                <span>Hostel module enabled</span>
+              </label>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Default Room Fee (₹/month)</label>
+                <input type="number" formControlName="default_room_fee" class="form-control" min="0" />
+              </div>
+              <div class="form-group checkbox-group" style="align-self: center;">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="meal_included_default" />
+                  <span>Meal included by default</span>
+                </label>
+              </div>
+              <div class="form-group checkbox-group" style="align-self: center;">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="visitor_allowed" />
+                  <span>Visitor entry allowed</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Reports Settings -->
+        <form [formGroup]="reportsForm" *ngIf="activeTab === 'reports'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Report Defaults</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Default Report Format</label>
+                <select formControlName="default_report_format" class="form-control">
+                  <option value="pdf">PDF</option>
+                  <option value="excel">Excel</option>
+                  <option value="csv">CSV</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Report Retention (days)</label>
+                <input type="number" formControlName="report_retention_days" class="form-control" min="30" />
+              </div>
+              <div class="form-group checkbox-group" style="align-self: center;">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="include_charts" />
+                  <span>Include charts in reports</span>
+                </label>
+              </div>
+              <div class="form-group checkbox-group" style="align-self: center;">
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="report_logo_visible" />
+                  <span>Show school logo on reports</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Backup & Data Settings -->
+        <form [formGroup]="backupForm" *ngIf="activeTab === 'backup'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Automated Backup</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="auto_backup_enabled" />
+                <span>Enable automatic backup</span>
+              </label>
+            </div>
+            <div class="form-grid" *ngIf="backupForm.get('auto_backup_enabled')?.value">
+              <div class="form-group">
+                <label>Backup Frequency</label>
+                <select formControlName="backup_frequency" class="form-control">
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Retention (days)</label>
+                <input type="number" formControlName="backup_retention_days" class="form-control" min="7" />
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <h3 class="section-title">Data & Privacy</h3>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="export_allowed" />
+                <span>Allow data export</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label>Anonymize data after (years, for GDPR)</label>
+              <input type="number" formControlName="gdpr_anonymize_after_years" class="form-control" min="1" max="15" />
+            </div>
+          </div>
+        </form>
+
+        <!-- Modules Settings -->
+        <div *ngIf="activeTab === 'modules'" class="modules-settings">
+          <div class="form-section">
+            <h3 class="section-title">Sidebar menu sync</h3>
+            <p class="section-description">If new modules (Inquiry to Admission, Admission Tickets, Security Guard, Receptionist, Counselor) do not appear in the sidebar, add them to the database and refresh.</p>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              (click)="syncNewMenus()"
+              [disabled]="syncingMenus"
+            >
+              <span *ngIf="!syncingMenus">Sync new menus to sidebar</span>
+              <span *ngIf="syncingMenus"><span class="spinner-small"></span> Syncing...</span>
+            </button>
+            <p *ngIf="menuSyncMessage" class="save-message" [class.success]="menuSyncMessage.includes('success') || menuSyncMessage.includes('added')" [class.error]="menuSyncMessage.includes('Failed')">
+              {{ menuSyncMessage }}
+            </p>
+          </div>
+          <div class="form-section">
+            <h3 class="section-title">Enable/Disable Modules</h3>
+            <p class="section-description">Control which modules are available in your school management system.</p>
+            <div class="modules-grid">
+              <div
+                *ngFor="let module of modules"
+                class="module-card"
+                [class.enabled]="module.enabled"
+                (click)="toggleModule(module.key)"
+              >
+                <div class="module-toggle">
+                  <input
+                    type="checkbox"
+                    [checked]="module.enabled"
+                    (change)="toggleModule(module.key)"
+                    (click)="$event.stopPropagation()"
+                  />
+                </div>
+                <div class="module-content">
+                  <h4 class="module-name">{{ module.label }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Settings -->
+        <form [formGroup]="securityForm" *ngIf="activeTab === 'security'" class="settings-form">
+          <div class="form-section">
+            <h3 class="section-title">Password Policy</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Minimum Password Length</label>
+                <input type="number" formControlName="password_min_length" class="form-control" min="6" max="32" />
+              </div>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="password_require_uppercase" />
+                <span>Require Uppercase Letters</span>
+              </label>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="password_require_lowercase" />
+                <span>Require Lowercase Letters</span>
+              </label>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="password_require_numbers" />
+                <span>Require Numbers</span>
+              </label>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="password_require_symbols" />
+                <span>Require Special Characters</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Session Settings</h3>
+            <div class="form-group">
+              <label>Session Timeout (seconds)</label>
+              <input type="number" formControlName="session_timeout" class="form-control" min="300" />
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="enable_two_factor" />
+                <span>Enable Two-Factor Authentication</span>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="loading-container" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Loading settings...</p>
+      </div>
+    </div>
+  </div>
+</div>
+

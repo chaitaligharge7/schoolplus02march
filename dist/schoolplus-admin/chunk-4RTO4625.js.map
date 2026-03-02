@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/rte-students/rte-students.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const RTE_STUDENTS_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./rte-student-list/rte-student-list.component').then(m => m.RteStudentListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./rte-student-list/rte-student-list.component').then(m => m.RteStudentListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./rte-student-create/rte-student-create.component').then(m => m.RteStudentCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./rte-student-create/rte-student-create.component').then(m => m.RteStudentCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,sBAA8B;EACzC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,uBAAuB;;EAElH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,uBAAuB;;EAElH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,yBAAyB;;EAExH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,yBAAyB;;;",
+  "names": []
+}

@@ -1,0 +1,56 @@
+<div class="user-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">User Management</h1>
+      <p class="page-subtitle">Manage system users and their permissions</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>User Type:</label>
+      <app-search-select
+        [options]="userTypeOptions"
+        [(ngModel)]="userType"
+        (valueChange)="onUserTypeChange($event)"
+        placeholder="Search or select user type">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="userStatusOptions"
+        [(ngModel)]="isActive"
+        (valueChange)="onActiveStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="users"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'user_id'"
+    [addRoute]="'/app/users/add'"
+    [addLabel]="'Add New User'"
+    [searchPlaceholder]="'Search by username, name, email...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

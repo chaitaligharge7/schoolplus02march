@@ -1,0 +1,48 @@
+<div class="food-calendar-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Food Calendar</h1>
+      <p class="page-subtitle">Manage food calendar and meal schedules</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Meal Type:</label>
+      <select class="form-control" [(ngModel)]="mealType" (change)="onMealTypeChange(mealType)">
+        <option [value]="undefined">All Types</option>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="snacks">Snacks</option>
+        <option value="dinner">Dinner</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="calendar"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'calendar_id'"
+    [addRoute]="'/app/food-calendar/create'"
+    [addLabel]="'Add Entry'"
+    [searchPlaceholder]="'Search food calendar...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

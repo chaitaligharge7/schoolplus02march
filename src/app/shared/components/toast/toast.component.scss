@@ -1,0 +1,118 @@
+@import '../../../../styles.scss';
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-width: 400px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  border-left: 4px solid;
+  animation: slideIn 0.3s ease-out;
+  min-width: 300px;
+
+  &.toast-success {
+    border-left-color: var(--success-color);
+    background: linear-gradient(to right, #d1fae5 0%, var(--bg-primary) 5%);
+  }
+
+  &.toast-error {
+    border-left-color: var(--error-color);
+    background: linear-gradient(to right, #fee2e2 0%, var(--bg-primary) 5%);
+  }
+
+  &.toast-warning {
+    border-left-color: var(--warning-color);
+    background: linear-gradient(to right, #fef3c7 0%, var(--bg-primary) 5%);
+  }
+
+  &.toast-info {
+    border-left-color: var(--info-color);
+    background: linear-gradient(to right, #dbeafe 0%, var(--bg-primary) 5%);
+  }
+}
+
+.toast-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+
+  .toast-success & {
+    color: var(--success-color);
+  }
+
+  .toast-error & {
+    color: var(--error-color);
+  }
+
+  .toast-warning & {
+    color: var(--warning-color);
+  }
+
+  .toast-info & {
+    color: var(--info-color);
+  }
+}
+
+.toast-message {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  i {
+    font-size: 1.25rem;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .toast-container {
+    left: 20px;
+    right: 20px;
+    max-width: none;
+  }
+
+  .toast {
+    min-width: auto;
+  }
+}
+

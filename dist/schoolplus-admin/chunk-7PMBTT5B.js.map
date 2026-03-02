@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/uniform-distribution/uniform-distribution.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const UNIFORM_DISTRIBUTION_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./uniform-distribution-list/uniform-distribution-list.component').then(m => m.UniformDistributionListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./uniform-distribution-list/uniform-distribution-list.component').then(m => m.UniformDistributionListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./uniform-distribution-create/uniform-distribution-create.component').then(m => m.UniformDistributionCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./uniform-distribution-create/uniform-distribution-create.component').then(m => m.UniformDistributionCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,8BAAsC;EACjD;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiE,EAAE,KAAK,OAAK,EAAE,gCAAgC;;EAE7I;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiE,EAAE,KAAK,OAAK,EAAE,gCAAgC;;EAE7I;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqE,EAAE,KAAK,OAAK,EAAE,kCAAkC;;EAEnJ;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqE,EAAE,KAAK,OAAK,EAAE,kCAAkC;;;",
+  "names": []
+}

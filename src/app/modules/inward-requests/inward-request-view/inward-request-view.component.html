@@ -1,0 +1,23 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Inward Request Details</h1>
+    <p class="page-subtitle" *ngIf="request">{{ request.request_number }}</p>
+  </div>
+  <div *ngIf="loading" class="loading-state">Loading...</div>
+  <div *ngIf="!loading && request" class="detail-card">
+    <dl class="detail-list">
+      <dt>Request Number</dt><dd>{{ request.request_number || '-' }}</dd>
+      <dt>Type</dt><dd>{{ request.request_type || '-' }}</dd>
+      <dt>Title</dt><dd>{{ request.request_title || '-' }}</dd>
+      <dt>Description</dt><dd class="notes">{{ request.request_description || '-' }}</dd>
+      <dt>Requested By</dt><dd>{{ request.requested_by_name || '-' }}</dd>
+      <dt>Assigned To</dt><dd>{{ request.assigned_to_name || '-' }}</dd>
+      <dt>Status</dt><dd><span class="badge badge-info">{{ request.status || '-' }}</span></dd>
+      <dt>Created</dt><dd>{{ request.created_at || '-' }}</dd>
+    </dl>
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="back()">Back</button>
+    </div>
+  </div>
+  <div *ngIf="!loading && !request" class="empty-state">Request not found.</div>
+</div>

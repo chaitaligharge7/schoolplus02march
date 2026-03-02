@@ -1,0 +1,45 @@
+<div class="sms-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">SMS Management</h1>
+      <p class="page-subtitle">View and manage SMS messages</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="smsStatusOptions"
+        [(ngModel)]="status"
+        (valueChange)="onStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="smsList"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'sms_id'"
+    [addRoute]="'/app/sms/send'"
+    [addLabel]="'Send SMS'"
+    [searchPlaceholder]="'Search messages...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

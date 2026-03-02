@@ -1,0 +1,76 @@
+<div class="period-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Period' : 'Create Period' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update period details' : 'Add a new period' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/periods'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="periodForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Period Name *</label>
+          <input
+            type="text"
+            formControlName="period_name"
+            class="form-control"
+            placeholder="e.g., Period 1, First Period"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Period Order</label>
+          <input
+            type="number"
+            formControlName="period_order"
+            class="form-control"
+            placeholder="e.g., 1, 2, 3"
+            min="1"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Time *</label>
+          <input
+            type="time"
+            formControlName="start_time"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>End Time *</label>
+          <input
+            type="time"
+            formControlName="end_time"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/periods'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || periodForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Period</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

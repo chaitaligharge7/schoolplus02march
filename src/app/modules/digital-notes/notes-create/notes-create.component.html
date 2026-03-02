@@ -1,0 +1,150 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Digital Resource' : 'Add Digital Resource' }}</h1>
+  </div>
+
+
+  <form (ngSubmit)="save()" class="form-card">
+
+    <!-- Title -->
+    <div class="form-group">
+      <label for="title">Title *</label>
+      <input
+        id="title"
+        type="text"
+        class="form-control"
+        [(ngModel)]="model.title"
+        name="title"
+        required
+        placeholder="Enter Title"
+      />
+    </div>
+
+    <!-- Row: Class, Subject, Type -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="class_id">Class *</label>
+        <select
+          id="class_id"
+          class="form-control"
+          [(ngModel)]="model.class_id"
+          (change)="onClassChange()"
+          name="class_id"
+        >
+          <option [ngValue]="null">Select Class</option>
+          <option *ngFor="let c of classes" [ngValue]="c.class_id">{{ c.class_name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="subject_id">Subject *</label>
+        <select
+          id="subject_id"
+          class="form-control"
+          [(ngModel)]="model.subject_id"
+          (change)="onSubjectChange()"
+          name="subject_id"
+        >
+          <option [ngValue]="null">Select Subject</option>
+          <option *ngFor="let s of subjects" [ngValue]="s.subject_id">{{ s.subject_name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="resource_type">Type</label>
+        <select
+          id="resource_type"
+          class="form-control"
+          [(ngModel)]="model.resource_type"
+          name="resource_type"
+        >
+          <option value="notes">Notes</option>
+          <option value="pdf">PDF</option>
+          <option value="video">Video</option>
+          <option value="link">Link</option>
+        </select>
+      </div>
+      
+      <div class="form-group col-md-4">
+        <label for="difficulty_type">Difficulty</label>
+        <select
+          id="difficulty_type"
+          class="form-control"
+          [(ngModel)]="model.difficulty_type"
+          name="difficulty_type"
+        >
+          <option [ngValue]="null">Select Difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+          <option value="expert">Expert</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Row: Chapter Name + Topic Name -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="chapter_name">Chapter *</label>
+        <select
+          id="chapter_id"
+          class="form-control"
+          [(ngModel)]="model.chapter_name"
+          name="chapter_name"
+        >
+          <option [ngValue]="null">Select Chapter</option>
+          <option *ngFor="let ch of chapters" [ngValue]="ch.chapter_name">{{ ch.chapter_name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="topic_name">Topic Name</label>
+        <input
+          id="topic_name"
+          type="text"
+          class="form-control"
+          [(ngModel)]="model.topic_name"
+          name="topic_name"
+          placeholder="Enter Topic Name"
+        />
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        class="form-control"
+        [(ngModel)]="model.description"
+        name="description"
+        rows="3"
+        placeholder="Enter Description"
+      ></textarea>
+    </div>
+    <div class="form-section">
+      <h3>File Upload</h3>
+      <div class="form-group">
+        <label>Notes File (PDF/Document)</label>
+        <input
+          type="file"
+          id="file_path"
+          class="form-control"
+          accept=".pdf,.doc,.docx"
+        />
+        <small class="form-text">
+          Upload notes PDF or document file
+        </small>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        {{ loading ? (isEditMode ? 'Updating...' : 'Saving...') : (isEditMode ? 'Update' : 'Save') }}
+      </button>
+    </div>
+
+  </form>
+</div>

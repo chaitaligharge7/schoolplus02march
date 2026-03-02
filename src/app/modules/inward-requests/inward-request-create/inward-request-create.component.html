@@ -1,0 +1,114 @@
+<div class="inward-request-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Inward Request' : 'Create Inward Request' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update request details' : 'Create a new inward request' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Request Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Request Type <span class="required">*</span></label>
+            <select
+              formControlName="request_type"
+              class="form-control"
+              [class.is-invalid]="requestForm.get('request_type')?.invalid && requestForm.get('request_type')?.touched"
+            >
+              <option value="maintenance">Maintenance</option>
+              <option value="supply">Supply</option>
+              <option value="repair">Repair</option>
+              <option value="other">Other</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="requestForm.get('request_type')?.invalid && requestForm.get('request_type')?.touched">
+              Request type is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Priority <span class="required">*</span></label>
+            <select
+              formControlName="priority"
+              class="form-control"
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Assigned To</label>
+            <select
+              formControlName="assigned_to_id"
+              class="form-control"
+            >
+              <option [value]="null">Select Staff Member</option>
+              <option *ngFor="let staff of staffMembers" [value]="staff.teacher_id">
+                {{ staff.first_name }} {{ staff.last_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Request Title <span class="required">*</span></label>
+          <input
+            type="text"
+            formControlName="request_title"
+            class="form-control"
+            [class.is-invalid]="requestForm.get('request_title')?.invalid && requestForm.get('request_title')?.touched"
+            placeholder="Enter request title"
+          />
+          <div class="invalid-feedback" *ngIf="requestForm.get('request_title')?.invalid && requestForm.get('request_title')?.touched">
+            Request title is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description <span class="required">*</span></label>
+          <textarea
+            formControlName="request_description"
+            class="form-control"
+            rows="6"
+            [class.is-invalid]="requestForm.get('request_description')?.invalid && requestForm.get('request_description')?.touched"
+            placeholder="Enter detailed description of the request"
+          ></textarea>
+          <div class="invalid-feedback" *ngIf="requestForm.get('request_description')?.invalid && requestForm.get('request_description')?.touched">
+            Description is required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || requestForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Request</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

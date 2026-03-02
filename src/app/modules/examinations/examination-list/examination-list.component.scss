@@ -1,0 +1,21 @@
+@import '../../../../styles.scss';
+@import '../../students/student-list/student-list.component.scss';
+
+.examination-list-container {
+  width: 100%;
+  padding: 0;
+}
+
+.exam-info {
+  .exam-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .exam-year {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+  }
+}
+

@@ -1,0 +1,28 @@
+@import '../../../../styles.scss';
+@import '../../students/student-list/student-list.component.scss';
+
+.calendar-container {
+  padding: 0;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.view-mode-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-right: var(--spacing-md);
+
+  .btn {
+    &.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+  }
+}
+
+.event-title {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+

@@ -1,0 +1,62 @@
+<div class="library-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Library Management</h1>
+      <p class="page-subtitle">Manage library books and book issues</p>
+    </div>
+    <div class="header-actions">
+      <a routerLink="/app/library/issues" class="btn btn-secondary">
+        <i class="bi bi-book-half"></i>
+        Book Issues
+      </a>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Author:</label>
+      <input type="text" class="form-control" [(ngModel)]="author" (input)="onAuthorChange(author)" placeholder="Search by author">
+    </div>
+    <div class="filter-group">
+      <label>Category:</label>
+      <input type="text" class="form-control" [(ngModel)]="category" (input)="onCategoryChange(category)" placeholder="Search by category">
+    </div>
+    <div class="filter-group">
+      <label>Availability:</label>
+      <select class="form-control" [(ngModel)]="availability" (change)="onAvailabilityChange(availability)">
+        <option [value]="null">All</option>
+        <option value="available">Available</option>
+        <option value="issued">Issued</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="books"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'book_id'"
+    [addRoute]="'/app/library/add'"
+    [addLabel]="'Add Book'"
+    [searchPlaceholder]="'Search by title, ISBN...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

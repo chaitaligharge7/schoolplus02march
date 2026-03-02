@@ -1,0 +1,45 @@
+<div class="page-container">
+    <div class="page-header">
+        <h1 class="page-title">Complaint Details</h1>
+        <p class="page-subtitle" *ngIf="complaint">{{ complaint.title || '-' }}</p>
+    </div>
+
+    <div *ngIf="loading" class="loading-state">Loading...</div>
+
+    <div *ngIf="!loading && complaint" class="detail-card">
+        <dl class="detail-list">
+            <dt>ID</dt>
+            <dd>{{ complaint.complaint_id ? complaint.complaint_id : '-' }}</dd>
+            <dt>Subject</dt>
+            <dd>{{ complaint.title ? complaint.title : '-' }}</dd>
+            <dt>Description</dt>
+            <dd class="notes">{{ complaint.description ? complaint.description : '-' }}</dd>
+            <dt>Category</dt>
+            <dd>{{ complaint.category_name ? complaint.category_name : '-' }}</dd>
+            <dt>Status</dt>
+            <dd>
+                <span class="badge badge-info">
+                    {{ complaint.status ? (complaint.status | titlecase) : '-' }}
+                </span>
+            </dd>
+            <dt>Priority</dt>
+            <dd>{{ complaint.priority ? (complaint.priority | titlecase) : '-' }}</dd>
+            <dt>Assigned To</dt>
+            <dd>{{ complaint.assigned_to_name ? complaint.assigned_to_name : 'Unassigned' }}</dd>
+            <dt>Created At</dt>
+            <dd>{{ complaint.created_at ? complaint.created_at : '-' }}</dd>
+            <dt>Due Date</dt>
+            <dd>{{ complaint.due_date ? complaint.due_date : '-' }}</dd>
+        </dl>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-outline" (click)="back()">Back</button>
+            <button type="button" class="btn btn-success"
+                *ngIf="complaint.status !== 'resolved' && complaint.status !== 'closed'" (click)="resolveComplaint()">
+                Resolve Complaint
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && !complaint" class="empty-state">Complaint not found.</div>
+</div>

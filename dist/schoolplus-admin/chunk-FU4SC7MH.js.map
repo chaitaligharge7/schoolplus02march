@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/pipes/currency-format.pipe.ts"],
+  "sourcesContent": ["import { Pipe, PipeTransform } from '@angular/core';\r\n\r\n@Pipe({\r\n  name: 'currencyFormat',\r\n  standalone: true\r\n})\r\nexport class CurrencyFormatPipe implements PipeTransform {\r\n  transform(value: number | string | null | undefined, currency: string = '₹', decimals: number = 2): string {\r\n    if (value === null || value === undefined || value === '') {\r\n      return currency + '0.00';\r\n    }\r\n    \r\n    const numValue = typeof value === 'string' ? parseFloat(value) : value;\r\n    \r\n    if (isNaN(numValue)) {\r\n      return currency + '0.00';\r\n    }\r\n    \r\n    return currency + numValue.toFixed(decimals).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\r\n  }\r\n}\r\n"],
+  "mappings": ";;;;;AAMM,IAAO,qBAAP,MAAO,oBAAkB;EAC7B,UAAU,OAA2C,WAAmB,UAAK,WAAmB,GAAC;AAC/F,QAAI,UAAU,QAAQ,UAAU,UAAa,UAAU,IAAI;AACzD,aAAO,WAAW;IACpB;AAEA,UAAM,WAAW,OAAO,UAAU,WAAW,WAAW,KAAK,IAAI;AAEjE,QAAI,MAAM,QAAQ,GAAG;AACnB,aAAO,WAAW;IACpB;AAEA,WAAO,WAAW,SAAS,QAAQ,QAAQ,EAAE,QAAQ,yBAAyB,GAAG;EACnF;;qCAbW,qBAAkB;EAAA;6FAAlB,qBAAkB,MAAA,MAAA,YAAA,KAAA,CAAA;;",
+  "names": []
+}

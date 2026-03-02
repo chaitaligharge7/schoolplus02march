@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/marksheets/marksheets.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const MARKSHEET_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./marksheet-list/marksheet-list.component').then(m => m.MarksheetListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./marksheet-list/marksheet-list.component').then(m => m.MarksheetListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./marksheet-create/marksheet-create.component').then(m => m.MarksheetCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./marksheet-create/marksheet-create.component').then(m => m.MarksheetCreateComponent)\r\n  },\r\n  {\r\n    path: 'view/:id',\r\n    loadComponent: () => import('./marksheet-view/marksheet-view.component').then(m => m.MarksheetViewComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,mBAA2B;EACtC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,sBAAsB;;EAE7G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,sBAAsB;;EAE7G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAEnH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAEnH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,sBAAsB;;;",
+  "names": []
+}

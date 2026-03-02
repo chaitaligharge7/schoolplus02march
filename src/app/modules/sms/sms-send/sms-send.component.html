@@ -1,0 +1,133 @@
+<div class="sms-send-container">
+  <div class="page-header">
+    <h1 class="page-title">Send SMS</h1>
+    <p class="page-subtitle">Send SMS messages to students, teachers, or classes</p>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="smsForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Recipient Selection</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Recipient Type <span class="required">*</span></label>
+            <select
+              formControlName="recipient_type"
+              class="form-control"
+              (change)="onRecipientTypeChange()"
+            >
+              <option value="individual">Individual</option>
+              <option value="class">By Class</option>
+              <option value="all">All Students</option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="recipientType === 'class'">
+            <label>Select Class</label>
+            <select class="form-control" (change)="onClassSelect($any($event.target).value)">
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="recipient-selection" *ngIf="recipientType === 'individual'">
+          <div class="selection-header">
+            <h4>Select Recipients</h4>
+            <div class="selection-actions">
+              <button type="button" class="btn btn-sm btn-secondary" (click)="selectAllStudents()" *ngIf="students.length > 0">
+                Select All Students
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" (click)="selectAllTeachers()" *ngIf="teachers.length > 0">
+                Select All Teachers
+              </button>
+              <button type="button" class="btn btn-sm btn-danger" (click)="clearSelection()" *ngIf="selectedRecipients.length > 0">
+                Clear Selection
+              </button>
+            </div>
+          </div>
+          
+          <div class="recipients-grid">
+            <div class="recipient-item" *ngFor="let student of students">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  [checked]="isStudentSelected(student)"
+                  (change)="toggleRecipient(student)"
+                />
+                <div class="recipient-info">
+                  <strong>{{ student.first_name }} {{ student.last_name }}</strong>
+                  <small>{{ student.admission_number }} - {{ student.mobile_number }}</small>
+                </div>
+              </label>
+            </div>
+            <div class="recipient-item" *ngFor="let teacher of teachers">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  [checked]="isTeacherSelected(teacher)"
+                  (change)="toggleRecipient(teacher)"
+                />
+                <div class="recipient-info">
+                  <strong>{{ teacher.first_name }} {{ teacher.last_name }}</strong>
+                  <small>{{ teacher.mobile_number }}</small>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="selected-count" *ngIf="selectedRecipients.length > 0">
+            {{ selectedRecipients.length }} recipient(s) selected
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Message</h3>
+        <div class="form-group">
+          <label>Message <span class="required">*</span></label>
+          <textarea
+            formControlName="message"
+            class="form-control"
+            rows="6"
+            [class.is-invalid]="smsForm.get('message')?.invalid && smsForm.get('message')?.touched"
+            placeholder="Enter your message (max 160 characters)"
+          ></textarea>
+          <div class="message-info">
+            <span class="char-count" [class.warning]="getMessageLength() > 140">
+              {{ getMessageLength() }} / 160 characters
+            </span>
+          </div>
+          <div class="invalid-feedback" *ngIf="smsForm.get('message')?.invalid && smsForm.get('message')?.touched">
+            Message is required and must be 160 characters or less
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" formControlName="scheduled_date" />
+            Schedule SMS
+          </label>
+          <input
+            type="datetime-local"
+            formControlName="scheduled_date"
+            class="form-control"
+            *ngIf="smsForm.get('scheduled_date')?.value"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSending">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSending || smsForm.invalid || selectedRecipients.length === 0">
+          <span *ngIf="isSending">Sending...</span>
+          <span *ngIf="!isSending">Send SMS</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

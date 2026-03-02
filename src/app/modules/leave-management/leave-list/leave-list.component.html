@@ -1,0 +1,39 @@
+<div class="leave-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Leave Management</h1>
+      <p class="page-subtitle">Teacher & staff leave requests</p>
+    </div>
+  </div>
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Status:</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+  </div>
+  <app-enhanced-table
+    [data]="leaves"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [addRoute]="'/app/leave-management/create'"
+    [addLabel]="'Apply Leave'"
+    [searchPlaceholder]="'Search...'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

@@ -1,0 +1,68 @@
+<div class="receipt-wrapper" *ngIf="fee">
+  <div class="receipt-actions no-print">
+    <button type="button" class="btn btn-primary" (click)="print()">
+      <i class="bi bi-printer"></i> Print Receipt
+    </button>
+    <a routerLink="/app/fees/list" class="btn btn-outline">Back to Fees</a>
+  </div>
+
+  <div class="receipt-card print-document" id="receipt-print">
+    <div class="receipt-brand print-header">
+      <h1 class="receipt-school-name print-title">SchoolPlus</h1>
+      <p class="receipt-school-tagline print-subtitle">Fee Payment Receipt</p>
+    </div>
+
+    <div class="receipt-main">
+      <div class="receipt-badge">FEE RECEIPT</div>
+      <div class="receipt-meta">
+        <span class="receipt-number">Receipt No: <strong>{{ fee.receipt_number || 'N/A' }}</strong></span>
+        <span class="receipt-date">Date: {{ fee.payment_date || (today | date:'dd/MM/yyyy') }}</span>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="receipt-grid">
+        <div class="receipt-row">
+          <span class="label">Student Name</span>
+          <span class="value">{{ fee.student_name }}</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Admission No</span>
+          <span class="value">{{ fee.admission_number }}</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Class / Section</span>
+          <span class="value">{{ fee.class_name }}{{ fee.section_name ? ' / ' + fee.section_name : '' }}</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Fee Type</span>
+          <span class="value">{{ fee.fee_type_name }}</span>
+        </div>
+        <div class="receipt-row receipt-row-highlight">
+          <span class="label">Total Amount</span>
+          <span class="value">₹{{ fee.fee_amount | number:'1.2-2' }}</span>
+        </div>
+        <div class="receipt-row receipt-row-highlight">
+          <span class="label">Paid Amount</span>
+          <span class="value amount-paid">₹{{ fee.paid_amount | number:'1.2-2' }}</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Due Date</span>
+          <span class="value">{{ fee.due_date }}</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Payment Status</span>
+          <span class="value"><strong>{{ fee.payment_status }}</strong></span>
+        </div>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="receipt-footer print-footer">
+        <p>This is a computer-generated receipt and does not require a signature.</p>
+        <p>Generated on {{ today | date:'dd MMM yyyy, hh:mm a' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading" class="loading">Loading receipt...</div>

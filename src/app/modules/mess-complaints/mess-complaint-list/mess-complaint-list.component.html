@@ -1,0 +1,59 @@
+<div class="mess-complaint-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mess Complaints</h1>
+      <p class="page-subtitle">Manage mess-related complaints</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Status:</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All Status</option>
+        <option value="open">Open</option>
+        <option value="in_progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="complaints"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'complaint_id'"
+    [addRoute]="'/app/mess-complaints/create'"
+    [addLabel]="'New Complaint'"
+    [searchPlaceholder]="'Search complaints...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (deleteClick)="onDeleteComplaint($event)"
+    (editClick)="onEditComplaint($event)"
+
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+ 
+  <div class="resolve-action" *ngIf="selectedRowId && getSelectedComplaint() && getSelectedComplaint()?.status !== 'resolved'">
+    <button 
+      class="btn btn-success"
+      (click)="resolveComplaint(selectedRowId)"
+      title="Resolve Complaint">
+      <i class="bi bi-check-circle"></i>
+      Resolve Complaint
+    </button>
+  </div>
+</div>

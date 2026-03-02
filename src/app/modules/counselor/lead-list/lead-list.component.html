@@ -1,0 +1,42 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Lead Management</h1>
+    <p class="page-subtitle">Manage admission leads and follow-ups</p>
+  </div>
+  <div class="filters">
+    <div class="filter-group">
+      <label>Lead Status</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="campus_tour">Campus Tour</option>
+        <option value="fee_discussion">Fee Discussion</option>
+        <option value="admitted">Admitted</option>
+        <option value="dropped">Dropped</option>
+        <option value="transferred">Transferred</option>
+      </select>
+    </div>
+  </div>
+  <app-enhanced-table
+    [data]="leads"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [rowIdKey]="rowIdKey"
+    [showViewButton]="showViewButton"
+    [searchPlaceholder]="'Search student or parent...'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (viewClick)="onView($event)"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

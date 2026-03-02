@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/counselor/lead-view/lead-view.component.scss"],
+  "sourcesContent": [".page-container { padding: 1rem; }\r\n.btn-back { margin-bottom: 0.5rem; }\r\n.detail-card { max-width: 700px; margin-top: 1rem; }\r\n.detail-section { margin-bottom: 1.5rem; }\r\n.detail-section h3 { margin-bottom: 0.5rem; font-size: 1rem; }\r\n.detail-section dl { display: grid; grid-template-columns: 140px 1fr; gap: 0.25rem 1rem; }\r\n.detail-section dt { color: #666; }\r\n.detail-section dd.notes { white-space: pre-wrap; }\r\n.form-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }\r\n.loading-state, .empty-state { padding: 2rem; text-align: center; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,WAAA;;AAClB,CAAA;AAAY,iBAAA;;AACZ,CAAA;AAAe,aAAA;AAAkB,cAAA;;AACjC,CAAA;AAAkB,iBAAA;;AAClB,CADA,eACA;AAAqB,iBAAA;AAAuB,aAAA;;AAC5C,CAFA,eAEA;AAAqB,WAAA;AAAe,yBAAA,MAAA;AAAkC,OAAA,QAAA;;AACtE,CAHA,eAGA;AAAqB,SAAA;;AACrB,CAJA,eAIA,EAAA,CAAA;AAA2B,eAAA;;AAC3B,CAAA;AAAgB,WAAA;AAAe,OAAA;AAAa,cAAA;;AAC5C,CAAA;AAAA,CAAA;AAA+B,WAAA;AAAe,cAAA;;",
+  "names": []
+}

@@ -1,0 +1,42 @@
+<div class="water-tds-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Water TDS Management</h1>
+      <p class="page-subtitle">Monitor water TDS readings</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Location:</label>
+      <input type="text" class="form-control" [(ngModel)]="location" (input)="onLocationChange(location)" placeholder="Filter by location">
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="readings"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'reading_id'"
+    [addRoute]="'/app/water-tds/create'"
+    [addLabel]="'Add Reading'"
+    [searchPlaceholder]="'Search water TDS readings...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (deleteClick)="onDelete($event)"
+    (editClick)="onEdit($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

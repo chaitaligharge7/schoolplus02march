@@ -1,0 +1,112 @@
+<div class="book-distribution-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Book Distribution' : 'Distribute Book' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update distribution details' : 'Issue book to student' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="distributionForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Distribution Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student <span class="required">*</span></label>
+            <select
+              formControlName="student_id"
+              class="form-control"
+              [class.is-invalid]="distributionForm.get('student_id')?.invalid && distributionForm.get('student_id')?.touched"
+            >
+              <option [value]="null">Select Student</option>
+              <option *ngFor="let student of students" [value]="student.student_id">
+                {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="distributionForm.get('student_id')?.invalid && distributionForm.get('student_id')?.touched">
+              Student selection is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Book <span class="required">*</span></label>
+            <select
+              formControlName="book_id"
+              class="form-control"
+              [class.is-invalid]="distributionForm.get('book_id')?.invalid && distributionForm.get('book_id')?.touched"
+            >
+              <option [value]="null">Select Book</option>
+              <option *ngFor="let book of books" [value]="book.book_id">
+                {{ book.book_title }} - {{ book.author }} ({{ book.isbn }})
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="distributionForm.get('book_id')?.invalid && distributionForm.get('book_id')?.touched">
+              Book selection is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Distribution Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="distribution_date"
+              class="form-control"
+              [class.is-invalid]="distributionForm.get('distribution_date')?.invalid && distributionForm.get('distribution_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="distributionForm.get('distribution_date')?.invalid && distributionForm.get('distribution_date')?.touched">
+              Distribution date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Due Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="return_date"
+              class="form-control"
+              [class.is-invalid]="distributionForm.get('return_date')?.invalid && distributionForm.get('return_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="distributionForm.get('return_date')?.invalid && distributionForm.get('return_date')?.touched">
+              Due date is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="return_status"
+              class="form-control"
+            >
+              <option value="issued">Issued</option>
+              <option value="returned">Returned</option>
+              <option value="overdue">Overdue</option>
+              <option value="not_returned"> not Returned</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional remarks"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || distributionForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Issue' }} Book</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/whatsapp/whatsapp.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const WHATSAPP_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./whatsapp-list/whatsapp-list.component').then(m => m.WhatsAppListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./whatsapp-list/whatsapp-list.component').then(m => m.WhatsAppListComponent)\r\n  },\r\n  {\r\n    path: 'send',\r\n    loadComponent: () => import('./whatsapp-send/whatsapp-send.component').then(m => m.WhatsAppSendComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,kBAA0B;EACrC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE1G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE1G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB;;;",
+  "names": []
+}

@@ -1,0 +1,80 @@
+<div class="committee-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Committees Management</h1>
+      <p class="page-subtitle">Manage school committees and members</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Committee Type:</label>
+      <select class="form-control" [(ngModel)]="committeeType" (change)="onCommitteeTypeChange(committeeType)">
+        <option [value]="undefined">All Types</option>
+        <option value="academic">Academic</option>
+        <option value="sports">Sports</option>
+        <option value="cultural">Cultural</option>
+        <option value="discipline">Discipline</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table [data]="committees" [columns]="columns" [pagination]="pagination" [loading]="loading"
+    [selectedRowId]="selectedRowId" [rowIdKey]="'committee_id'" [addRoute]="'/app/committees/create'"
+    [addLabel]="'Create Committee'" [searchPlaceholder]="'Search by committee name...'" [enableExport]="true"
+    [enableDateFilter]="true" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)" (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)" (rowSelect)="onRowSelect($event)" (refresh)="onRefresh()"
+    (addClick)="onAdd()" (editClick)="onEdit($event)" (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Expandable Members List -->
+  <div class="committee-details" *ngIf="committees.length > 0">
+    <div class="committee-item" *ngFor="let committee of committees">
+      <div class="committee-header" (click)="toggleMembers(committee.committee_id)">
+        <div>
+          <h4>{{ committee.committee_name }}</h4>
+          <p class="committee-info">
+            <span class="badge badge-info">{{ committee.committee_type }}</span>
+            <span class="badge badge-success">{{ committee.member_count || 0 }} members</span>
+            <span class="badge" [ngClass]="{
+              'badge-success': committee.status === 'active',
+              'badge-secondary': committee.status === 'inactive'
+            }">
+              {{ committee.status }}
+            </span>
+          </p>
+          <p class="committee-description" *ngIf="committee.committee_description">
+            {{ committee.committee_description }}
+          </p>
+        </div>
+        <i class="bi"
+          [ngClass]="expandedCommitteeId === committee.committee_id ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+      </div>
+
+      <div class="members-list"
+        *ngIf="expandedCommitteeId === committee.committee_id && committeeMembers[committee.committee_id]">
+      <div class="member-item" *ngFor="let member of committeeMembers[committee.committee_id]">
+        <span>
+          {{ member.first_name }} {{ member.last_name }}
+          <span *ngIf="member.role">({{ member.role }})</span>
+        </span>
+      </div>
+        <div *ngIf="committeeMembers[committee.committee_id]?.length === 0" class="no-members">
+          No members in this committee
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

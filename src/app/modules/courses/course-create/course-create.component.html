@@ -1,0 +1,205 @@
+<div class="course-create-container">
+  <div class="page-header">
+    <h1 class="page-title">
+      {{ isEditMode ? "Edit Course" : "Create Course" }}
+    </h1>
+    <p class="page-subtitle">
+      {{ isEditMode ? "Update course details" : "Create a new course" }}
+    </p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Course Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Course Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="course_name"
+              class="form-control"
+              [class.is-invalid]="
+                courseForm.get('course_name')?.invalid &&
+                courseForm.get('course_name')?.touched
+              "
+              placeholder="Enter course name"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                courseForm.get('course_name')?.invalid &&
+                courseForm.get('course_name')?.touched
+              "
+            >
+              Course name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Course Code</label>
+            <input
+              type="text"
+              formControlName="course_code"
+              class="form-control"
+              placeholder="Enter course code"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Course Type <span class="required">*</span></label>
+            <select formControlName="course_type" class="form-control">
+              <option value="Regular">Regular</option>
+              <option value="Curricular">Curricular</option>
+              <option value="Remedial">Remedial</option>
+              <option value="Special">Special</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Class <span class="required">*</span></label>
+            <select
+              formControlName="class_id"
+              class="form-control"
+              [class.is-invalid]="
+                courseForm.get('class_id')?.invalid &&
+                courseForm.get('class_id')?.touched
+              "
+            >
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Teacher<span class="required">*</span></label>
+
+            <select
+              formControlName="teacher_id"
+              class="form-control"
+              [class.is-invalid]="
+                courseForm.get('teacher_id')?.invalid &&
+                courseForm.get('teacher_id')?.touched
+              "
+            >
+              <option [value]="null">Select Teacher</option>
+              <option *ngFor="let t1 of teachers" [value]="t1.teacher_id">
+                {{ t1.first_name }} {{ t1.last_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Start Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="start_date"
+              class="form-control"
+              [class.is-invalid]="
+                courseForm.get('start_date')?.invalid &&
+                courseForm.get('start_date')?.touched
+              "
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                courseForm.get('start_date')?.invalid &&
+                courseForm.get('start_date')?.touched
+              "
+            >
+              Start date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>End Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="end_date"
+              class="form-control"
+              [class.is-invalid]="
+                courseForm.get('end_date')?.invalid &&
+                courseForm.get('end_date')?.touched
+              "
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                courseForm.get('end_date')?.invalid &&
+                courseForm.get('end_date')?.touched
+              "
+            >
+              End date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Max Students</label>
+            <input
+              type="number"
+              formControlName="max_students"
+              class="form-control"
+              min="1"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Fee Amount</label>
+            <input
+              type="number"
+              formControlName="fee_amount"
+              class="form-control"
+              min="0"
+              step="0.01"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select formControlName="status" class="form-control">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="course_description"
+            class="form-control"
+            rows="4"
+            placeholder="Enter course description"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="cancel()"
+          [disabled]="isSaving"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isSaving || courseForm.invalid"
+        >
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving"
+            >{{ isEditMode ? "Update" : "Create" }} Course</span
+          >
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>

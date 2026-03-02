@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/committees/committees.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const COMMITTEES_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./committee-list/committee-list.component').then(m => m.CommitteeListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./committee-list/committee-list.component').then(m => m.CommitteeListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./committee-create/committee-create.component').then(m => m.CommitteeCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./committee-create/committee-create.component').then(m => m.CommitteeCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,oBAA4B;EACvC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,sBAAsB;;EAE7G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,sBAAsB;;EAE7G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAEnH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,wBAAwB;;;",
+  "names": []
+}

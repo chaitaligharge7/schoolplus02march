@@ -1,0 +1,26 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Sports & Events</h1>
+    <p class="page-subtitle">Manage sports events and tournaments</p>
+  </div>
+  <app-enhanced-table
+    [data]="events"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [addRoute]="'/app/sports/create'"
+    [addLabel]="'Add Event'"
+    [searchPlaceholder]="'Search events...'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

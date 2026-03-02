@@ -1,0 +1,62 @@
+<div class="rte-student-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">RTE Students</h1>
+      <p class="page-subtitle">Manage Right to Education (RTE) students</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <select class="form-control" [(ngModel)]="academicYearId" (change)="onAcademicYearChange(academicYearId)">
+        <option [value]="undefined">All Academic Years</option>
+        <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+          {{ year.academic_year_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Class:</label>
+      <select class="form-control" [(ngModel)]="classId" (change)="onClassChange(classId)">
+        <option [value]="undefined">All Classes</option>
+        <option *ngFor="let cls of classes" [value]="cls.class_id">
+          {{ cls.class_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="rteStudents"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'rte_student_id'"
+    [addRoute]="'/app/rte-students/create'"
+    [addLabel]="'Add RTE Student'"
+    [searchPlaceholder]="'Search RTE students...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

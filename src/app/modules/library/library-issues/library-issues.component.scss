@@ -1,0 +1,36 @@
+@import '../../../../styles.scss';
+@import '../../students/student-list/student-list.component.scss';
+
+.library-issues-container {
+  padding: var(--spacing-xl);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.student-info {
+  .student-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .student-details {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+  }
+}
+
+tr.overdue {
+  background: #fee2e2;
+}
+
+.text-danger {
+  color: var(--error-color);
+  font-weight: 600;
+}
+
+.text-muted {
+  color: var(--text-tertiary);
+  font-size: var(--font-size-sm);
+}
+

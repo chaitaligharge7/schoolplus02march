@@ -1,0 +1,45 @@
+<div class="attendance-type-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Attendance Types</h1>
+      <p class="page-subtitle">Manage attendance types for marking attendance</p>
+    </div>
+    <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+      <div class="filter-group">
+        <label>Status:</label>
+        <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+          <option [ngValue]="undefined">All Status</option>
+          <option value="one">Present</option>
+          <option value="zero">Absent</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="attendanceTypes"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'attendance_type_id'"
+    [addRoute]="'/app/attendance-types/create'"
+    [addLabel]="'Add Attendance Type'"
+    [searchPlaceholder]="'Search attendance types...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)"
+  >
+  </app-enhanced-table>
+</div>

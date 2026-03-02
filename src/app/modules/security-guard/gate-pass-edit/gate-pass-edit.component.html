@@ -1,0 +1,40 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Edit Gate Pass</h1>
+    <p class="page-subtitle">Update gate pass details</p>
+  </div>
+  <div *ngIf="loadingData" class="loading-state">Loading...</div>
+  <form *ngIf="!loadingData && model.gate_pass_id" (ngSubmit)="save()" class="form-card">
+    <div class="form-group">
+      <label>Visitor Name *</label>
+      <input type="text" class="form-control" [(ngModel)]="model.visitor_name" name="visitor_name" required />
+    </div>
+    <div class="form-group">
+      <label>Purpose</label>
+      <input type="text" class="form-control" [(ngModel)]="model.purpose" name="purpose" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Valid From</label>
+        <input type="datetime-local" class="form-control" [(ngModel)]="model.valid_from" name="valid_from" />
+      </div>
+      <div class="form-group">
+        <label>Valid Until</label>
+        <input type="datetime-local" class="form-control" [(ngModel)]="model.valid_until" name="valid_until" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select class="form-control" [(ngModel)]="model.status" name="status">
+        <option value="active">Active</option>
+        <option value="used">Used</option>
+        <option value="expired">Expired</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="loading">{{ loading ? 'Saving...' : 'Update' }}</button>
+    </div>
+  </form>
+</div>

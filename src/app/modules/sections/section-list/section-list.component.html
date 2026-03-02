@@ -1,0 +1,54 @@
+<div class="section-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Sections</h1>
+      <p class="page-subtitle">Manage sections for classes</p>
+    </div>
+    <div
+      class="filter-panel header-dropdowns"
+      [class.expanded]="showFilters"
+      *ngIf="classes.length > 0"
+    >
+      <div class="filter-group">
+        <label>Class:</label>
+        <select
+          class="form-control"
+          [(ngModel)]="classId"
+          (change)="onClassChange(classId)"
+        >
+          <option [value]="undefined">All Classes</option>
+          <option *ngFor="let cls of classes" [value]="cls.class_id">
+            {{ cls.class_name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="sections"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'section_id'"
+    [addRoute]="'/app/sections/create'"
+    [addLabel]="'Add Section'"
+    [searchPlaceholder]="'Search sections...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)"
+  >
+  </app-enhanced-table>
+</div>

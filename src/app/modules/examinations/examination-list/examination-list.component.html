@@ -1,0 +1,56 @@
+<div class="examination-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Examinations</h1>
+      <p class="page-subtitle">Manage examinations and exam schedules</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters" *ngIf="examTypes.length > 0">
+    <div class="filter-group">
+      <label>Exam Type:</label>
+      <app-search-select
+        [options]="examTypeOptions"
+        [(ngModel)]="examTypeId"
+        (valueChange)="onExamTypeChange($event)"
+        placeholder="Search or select exam type">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="examinationStatusOptions"
+        [(ngModel)]="status"
+        (valueChange)="onStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="examinations"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'examination_id'"
+    [addRoute]="'/app/examinations/add'"
+    [addLabel]="'Create Examination'"
+    [searchPlaceholder]="'Search by name, code...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/counselor/lead-edit/lead-edit.component.scss"],
+  "sourcesContent": [".page-container { padding: 1rem; }\r\n.form-card { max-width: 600px; margin-top: 1rem; }\r\n.form-group { margin-bottom: 1rem; }\r\n.checkbox-group label { display: flex; align-items: center; gap: 0.5rem; }\r\n.form-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }\r\n.loading-state { padding: 2rem; text-align: center; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,WAAA;;AAClB,CAAA;AAAa,aAAA;AAAkB,cAAA;;AAC/B,CAAA;AAAc,iBAAA;;AACd,CAAA,eAAA;AAAwB,WAAA;AAAe,eAAA;AAAqB,OAAA;;AAC5D,CAAA;AAAgB,WAAA;AAAe,OAAA;AAAa,cAAA;;AAC5C,CAAA;AAAiB,WAAA;AAAe,cAAA;;",
+  "names": []
+}

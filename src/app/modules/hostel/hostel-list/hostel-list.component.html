@@ -1,0 +1,233 @@
+<div class="hostel-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Hostel Management</h1>
+      <p class="page-subtitle">Manage hostels and room allocations</p>
+    </div>
+    <a routerLink="/app/hostel/create" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i>
+      Add Hostel
+    </a>
+  </div>
+
+  <!-- Hostel Selection -->
+  <div class="hostel-selector-card" *ngIf="hostels.length > 0">
+    <h3>Select Hostel</h3>
+    <div class="hostel-cards">
+      <div
+        class="hostel-card"
+        *ngFor="let hostel of hostels"
+        [class.active]="selectedHostel?.hostel_id === hostel.hostel_id"
+        (click)="onHostelSelect(hostel)"
+      >
+        <div class="hostel-icon">
+          <i class="bi bi-building"></i>
+        </div>
+        <div class="hostel-info">
+          <h4>{{ hostel.hostel_name }}</h4>
+          <p>{{ hostel.hostel_type }} - {{ hostel.gender }}</p>
+          <small
+            >{{ hostel.total_rooms }} Rooms |
+            {{ hostel.total_capacity }} Capacity</small
+          >
+        </div>
+        <div class="actions-column">
+          <div class="action-buttons form-actions">
+            <a
+              [routerLink]="['/app/hostel/hostel-edit', hostel.hostel_id]"
+              class="btn-icon btn-edit"
+              title="Edit"
+            >
+              <i class="bi bi-pencil"></i>
+            </a>
+            <button
+              (click)="deleteHostel(hostel.hostel_id)"
+              class="btn-icon btn-delete"
+              title="Delete"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rooms Section -->
+  <div class="rooms-section" *ngIf="selectedHostel">
+    <div class="section-header">
+      <h2>Rooms - {{ selectedHostel.hostel_name }}</h2>
+      <a
+        [routerLink]="['/app/hostel/room-create', selectedHostel.hostel_id]"
+        class="btn btn-primary btn-sm"
+      >
+        <i class="bi bi-plus-circle"></i>
+        Add Room
+      </a>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="filters-card">
+      <form
+        [formGroup]="searchForm"
+        (ngSubmit)="onSearch()"
+        class="filters-form"
+      >
+        <div class="filters-grid">
+          <div class="form-group">
+            <label>Search</label>
+            <input
+              type="text"
+              formControlName="search"
+              class="form-control"
+              placeholder="Search by room number..."
+              (keyup.enter)="onSearch()"
+            />
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-search">
+              <i class="bi bi-search"></i>
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Rooms Table -->
+    <div class="table-card">
+      <div class="table-responsive" *ngIf="!isLoading">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Room Number</th>
+              <th>Room Type</th>
+              <th>Capacity</th>
+              <th>Occupied</th>
+              <th>Available</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let room of rooms">
+              <td>{{ room.room_number }}</td>
+              <td>{{ room.room_type || "-" }}</td>
+              <td>{{ room.room_capacity || 0 }}</td>
+              <td>{{ room.occupied || 0 }}</td>
+              <td>{{ (room.room_capacity || 0) - (room.occupied || 0) }}</td>
+              <td>
+                <span
+                  class="badge"
+                  [class.badge-success]="
+                    (room.room_capacity || 0) > (room.occupied || 0)
+                  "
+                  [class.badge-warning]="
+                    (room.room_capacity || 0) === (room.occupied || 0)
+                  "
+                >
+                  {{
+                    (room.room_capacity || 0) > (room.occupied || 0)
+                      ? "Available"
+                      : "Full"
+                  }}
+                </span>
+              </td>
+              <td class="actions-column">
+                <div class="action-buttons">
+                  <!-- <a [routerLink]="['/app/hostel/room-view', room.room_id]" class="btn-icon btn-view" title="View">
+                    <i class="bi bi-eye"></i>
+                  </a> -->
+
+                  <button
+                    type="button"
+                    class="btn-icon btn-view"
+                    title="View"
+                    (click)="openRoomSlider(room)"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+
+                  <a
+                    [routerLink]="['/app/hostel/room-edit', room.room_id]"
+                    class="btn-icon btn-edit"
+                    title="Edit"
+                  >
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  <button
+                    (click)="deleteRoom(room.room_id)"
+                    class="btn-icon btn-delete"
+                    title="Delete"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="rooms.length === 0">
+              <td colspan="7" class="text-center">
+                <div class="empty-state">
+                  <i class="bi bi-inbox"></i>
+                  <p>No rooms found</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="loading-container" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Loading rooms...</p>
+      </div>
+
+      <!-- Pagination -->
+      <div
+        class="pagination-container"
+        *ngIf="!isLoading && pagination.pages > 1"
+      >
+        <div class="pagination-info">
+          Showing {{ (pagination.page - 1) * pagination.limit + 1 }} to
+          {{ Math.min(pagination.page * pagination.limit, pagination.total) }}
+          of {{ pagination.total }} rooms
+        </div>
+        <div class="pagination-buttons">
+          <button
+            class="btn btn-outline"
+            [disabled]="pagination.page === 1"
+            (click)="onPageChange(pagination.page - 1)"
+          >
+            Previous
+          </button>
+          <span class="page-numbers">
+            Page {{ pagination.page }} of {{ pagination.pages }}
+          </span>
+          <button
+            class="btn btn-outline"
+            [disabled]="pagination.page === pagination.pages"
+            (click)="onPageChange(pagination.page + 1)"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state-card" *ngIf="!isLoading && hostels.length === 0">
+    <i class="bi bi-building"></i>
+    <p>No hostels found. Create a hostel to get started.</p>
+    <a routerLink="/app/hostel/create" class="btn btn-primary mt-3">
+      Create Hostel
+    </a>
+  </div>
+</div>
+
+<app-hostel-slider-detail
+  [visible]="sliderVisible"
+  [HostelRoom]="selectedRoom"
+  (close)="sliderVisible = false"
+>
+</app-hostel-slider-detail>

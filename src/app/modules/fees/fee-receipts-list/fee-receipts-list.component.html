@@ -1,0 +1,33 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Receipt Generation</h1>
+    <p class="page-subtitle">View and print fee receipts</p>
+  </div>
+  <div class="filters">
+    <div class="filter-group">
+      <label>From Date</label>
+      <input type="date" class="form-control" [(ngModel)]="startDate" (change)="load()" />
+    </div>
+    <div class="filter-group">
+      <label>To Date</label>
+      <input type="date" class="form-control" [(ngModel)]="endDate" (change)="load()" />
+    </div>
+  </div>
+  <app-enhanced-table
+    [data]="receipts"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [searchPlaceholder]="'Search receipt, student...'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+   [showViewButton]="true"   
+    (viewClick)="viewReceipt($event)"      
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

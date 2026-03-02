@@ -1,0 +1,6 @@
+.page-container { padding: 16px 20px; max-width: 700px; margin: 0 auto; }
+.form-card { background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; }
+.form-group { margin-bottom: 1rem; label { display: block; margin-bottom: 0.25rem; font-weight: 500; } .form-control { width: 100%; padding: 0.5rem; border-radius: 6px; } }
+.form-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.form-actions { margin-top: 1.5rem; display: flex; gap: 0.5rem; }
+.doubt-text { padding: 0.5rem; background: var(--bg-primary); border-radius: 6px; }

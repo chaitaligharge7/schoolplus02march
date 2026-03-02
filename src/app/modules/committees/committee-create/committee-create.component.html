@@ -1,0 +1,136 @@
+<div class="committee-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Committee' : 'Create Committee' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update committee details' : 'Create a new committee' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="committeeForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Committee Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Committee Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="committee_name"
+              class="form-control"
+              [class.is-invalid]="committeeForm.get('committee_name')?.invalid && committeeForm.get('committee_name')?.touched"
+              placeholder="Enter committee name"
+            />
+            <div class="invalid-feedback" *ngIf="committeeForm.get('committee_name')?.invalid && committeeForm.get('committee_name')?.touched">
+              Committee name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Committee Type <span class="required">*</span></label>
+            <select
+              formControlName="committee_type"
+              class="form-control"
+            >
+              <option value="academic">Academic</option>
+              <option value="discipline">Discipline</option>
+              <option value="sports">Sports</option>
+              <option value="cultural">Cultural</option>
+              <option value="parent_teacher">Parent-Teacher</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            class="form-control"
+            rows="4"
+            placeholder="Enter committee description"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h3>Committee Members</h3>
+          <button type="button" class="btn btn-sm btn-secondary" (click)="addMember()">
+            <i class="bi bi-plus-circle"></i> Add Member
+          </button>
+        </div>
+
+        <div class="members-list" *ngIf="membersArray.length > 0">
+          <div class="member-item" *ngFor="let member of membersArray.controls; let i = index" [formGroup]="$any(member)">
+            <div class="member-header">
+              <h4>Member {{ i + 1 }}</h4>
+              <button type="button" class="btn btn-sm btn-danger" (click)="removeMember(i)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Member Type <span class="required">*</span></label>
+                <select formControlName="member_type" class="form-control">
+                  <option value="staff">Staff</option>
+                  <option value="student">Student</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Member <span class="required">*</span></label>
+                <select formControlName="member_id" class="form-control">
+                  <option [value]="null">Select Member</option>
+                  <ng-container *ngIf="member.get('member_type')?.value === 'staff'">
+                    <option *ngFor="let teacher of teachers" [ngValue]="teacher.teacher_id">
+                      {{ teacher.first_name }} {{ teacher.last_name }}
+                    </option>
+                  </ng-container>
+                  <ng-container *ngIf="member.get('member_type')?.value === 'student'">
+                    <option *ngFor="let student of students" [ngValue]="student.student_id">
+                      {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Role <span class="required">*</span></label>
+                <select formControlName="role" class="form-control">
+                  <option value="chairperson">Chairperson</option>
+                  <option value="secretary">Secretary</option>
+                  <option value="member">Member</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="membersArray.length === 0" class="empty-members">
+          <p>No members added. Click "Add Member" to add members to this committee.</p>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || committeeForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Committee</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/bus-documents/bus-documents.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const BUS_DOCUMENTS_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./bus-document-list/bus-document-list.component').then(m => m.BusDocumentListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./bus-document-list/bus-document-list.component').then(m => m.BusDocumentListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./bus-document-create/bus-document-create.component').then(m => m.BusDocumentCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./bus-document-create/bus-document-create.component').then(m => m.BusDocumentCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,uBAA+B;EAC1C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAErH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAErH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE3H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;;",
+  "names": []
+}

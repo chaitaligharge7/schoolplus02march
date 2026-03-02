@@ -1,0 +1,80 @@
+<div class="birthday-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Birthday Management</h1>
+      <p class="page-subtitle">Manage birthday reminders and send greetings</p>
+    </div>
+    <div class="header-actions">
+      <button 
+        class="btn btn-primary" 
+        (click)="sendBirthdayReminders()"
+        [disabled]="selectedReminders.length === 0">
+        <i class="bi bi-send"></i>
+        Send Reminders ({{ selectedReminders.length }})
+      </button>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Date Filter:</label>
+      <select class="form-control" [(ngModel)]="dateFilter" (change)="onDateFilterChangeSelect(dateFilter)">
+        <option value="today">Today</option>
+        <option value="this_week">This Week</option>
+        <option value="this_month">This Month</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Selection Info -->
+  <div class="selection-info" *ngIf="birthdays.length > 0">
+    <label class="select-all-label">
+      <input 
+        type="checkbox" 
+        (change)="toggleSelectAll()" 
+        [checked]="selectedReminders.length === birthdays.length && birthdays.length > 0" />
+      <span>Select All ({{ selectedReminders.length }} of {{ birthdays.length }} selected)</span>
+    </label>
+  </div>
+
+  <app-enhanced-table
+    [data]="birthdays"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'reminder_id'"
+    [searchPlaceholder]="'Search birthdays...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Checkbox Selection Panel -->
+  <div class="checkbox-panel" *ngIf="birthdays.length > 0">
+    <div class="panel-header">
+      <strong>Select Birthdays for Reminders:</strong>
+    </div>
+    <div class="checkbox-grid">
+      <label class="checkbox-item" *ngFor="let birthday of birthdays">
+        <input 
+          type="checkbox" 
+          [checked]="isSelected(birthday.reminder_id)"
+          (change)="toggleSelection(birthday.reminder_id)" />
+        <span>
+          {{ birthday.student_first_name ? (birthday.student_first_name + ' ' + birthday.student_last_name) : (birthday.staff_first_name + ' ' + birthday.staff_last_name) }}
+          ({{ birthday.admission_number || birthday.employee_id }})
+        </span>
+      </label>
+    </div>
+  </div>
+</div>

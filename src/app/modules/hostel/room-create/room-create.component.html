@@ -1,0 +1,75 @@
+<div class="room-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Room' : 'Create Room' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update room details' : 'Add a new room to hostel' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/hostel'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Room Number *</label>
+          <input
+            type="text"
+            formControlName="room_number"
+            class="form-control"
+            placeholder="Enter room number"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Room Type *</label>
+          <select formControlName="room_type" class="form-control" required>
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="Triple">Triple</option>
+            <option value="Quad">Quad</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Room Capacity *</label>
+        <input
+          type="number"
+          formControlName="room_capacity"
+          class="form-control"
+          placeholder="Enter room capacity"
+          min="1"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Room Facilities</label>
+        <textarea
+          formControlName="room_facilities"
+          class="form-control"
+          rows="3"
+          placeholder="Enter room facilities (e.g., AC, WiFi, Attached Bathroom)..."
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/hostel'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || roomForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Room</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

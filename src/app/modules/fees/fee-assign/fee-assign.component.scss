@@ -1,0 +1,109 @@
+@import '../../../../styles.scss';
+@import '../../students/student-add/student-add.component.scss';
+
+.fee-assign-container {
+  padding: var(--spacing-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.student-selection {
+  margin-top: var(--spacing-lg);
+}
+
+.selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+
+  h4 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+}
+
+.selection-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.btn-sm {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.students-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-md);
+  max-height: 500px;
+  overflow-y: auto;
+  padding: var(--spacing-sm);
+}
+
+.student-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--bg-primary);
+
+  &:hover {
+    border-color: var(--primary-color);
+    background: var(--primary-lighter);
+  }
+
+  &.selected {
+    border-color: var(--primary-color);
+    background: var(--primary-lighter);
+  }
+
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+}
+
+.student-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.student-details {
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--text-tertiary);
+
+  i {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--font-size-base);
+  }
+}
+

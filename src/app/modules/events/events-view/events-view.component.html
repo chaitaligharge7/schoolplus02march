@@ -1,0 +1,61 @@
+<div class="events-view-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Event Details</h1>
+      <p class="page-subtitle" *ngIf="event">{{ event.event_title }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" (click)="router.navigate(['/app/events/list'])">
+        <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+      <button class="btn btn-primary" (click)="onEdit()" *ngIf="event">
+        <i class="bi bi-pencil"></i>
+        Edit
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <span class="spinner"></span> Loading...
+  </div>
+
+  <div *ngIf="!loading && event" class="view-card">
+    <div class="detail-grid">
+      <div class="detail-item">
+        <label>Title</label>
+        <span>{{ event.event_title }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Type</label>
+        <span>{{ event.event_type || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Date</label>
+        <span>{{ (event.event_date || event.start_date) | date:'mediumDate' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>End Date</label>
+        <span>{{ event.end_date ? (event.end_date | date:'mediumDate') : '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Time</label>
+        <span>{{ event.event_time || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Location</label>
+        <span>{{ event.location || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Status</label>
+        <span>{{ event.status || '-' }}</span>
+      </div>
+    </div>
+    <div class="detail-item full-width" *ngIf="event.description">
+      <label>Description</label>
+      <p class="description">{{ event.description }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !event" class="empty-state">Event not found.</div>
+</div>

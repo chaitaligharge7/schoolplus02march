@@ -1,0 +1,47 @@
+<div class="fee-type-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Fee Types</h1>
+      <p class="page-subtitle">Manage fee types for your school</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters" *ngIf="feeGroups.length > 0">
+    <div class="filter-group">
+      <label>Fee Group:</label>
+      <app-search-select
+        [options]="feeGroupOptions"
+        [(ngModel)]="feeGroupId"
+        (valueChange)="onFeeGroupChange($event)"
+        placeholder="Search or select fee group">
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="feeTypes"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'fee_type_id'"
+    [addRoute]="'/app/fee-types/create'"
+    [addLabel]="'Add Fee Type'"
+    [searchPlaceholder]="'Search fee types...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

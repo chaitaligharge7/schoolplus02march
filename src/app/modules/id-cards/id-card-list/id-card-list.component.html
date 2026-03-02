@@ -1,0 +1,74 @@
+<div class="id-card-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">ID Cards</h1>
+      <p class="page-subtitle">Manage ID cards for students and staff</p>
+    </div>
+    <div class="header-actions">
+      <button 
+        class="btn btn-secondary" 
+        (click)="generateIdCards()"
+        [disabled]="!selectedRowId">
+        <i class="bi bi-printer"></i>
+        Generate ID Card
+      </button>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Card Type:</label>
+      <select class="form-control" [(ngModel)]="cardType" (change)="onCardTypeChange(cardType)">
+        <option [value]="undefined">All Types</option>
+        <option value="student">Student</option>
+        <option value="staff">Staff</option>
+        <option value="visitor">Visitor</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Person Type:</label>
+      <select class="form-control" [(ngModel)]="personType" (change)="onPersonTypeChange(personType)">
+        <option [value]="undefined">All Types</option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="staff">Staff</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="expired">Expired</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="idCards"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'card_id'"
+    [addRoute]="'/app/id-cards/create'"
+    [addLabel]="'Add ID Card'"
+    [searchPlaceholder]="'Search ID cards...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

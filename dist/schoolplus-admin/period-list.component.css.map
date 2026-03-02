@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/periods/period-list/period-list.component.scss"],
+  "sourcesContent": [".period-list-container {\r\n  width: 100%;\r\n  padding: 0;\r\n  \r\n  @media (max-width: 768px) {\r\n    padding: 12px 16px;\r\n  }\r\n  \r\n  @media (max-width: 480px) {\r\n    padding: 8px 12px;\r\n  }\r\n  \r\n  .page-header {\r\n    margin-top: 0;\r\n    flex-direction: column;\r\n    align-items: flex-start;\r\n    gap: var(--spacing-md);\r\n    \r\n    .page-title {\r\n      font-size: var(--font-size-xl);\r\n    }\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,SAAA;AACA,WAAA;;AAEA,OAAA,CAAA,SAAA,EAAA;AAJF,GAAA;AAKI,aAAA,KAAA;;;AAGF,OAAA,CAAA,SAAA,EAAA;AARF,GAAA;AASI,aAAA,IAAA;;;AAGF,CAZF,sBAYE,CAAA;AACE,cAAA;AACA,kBAAA;AACA,eAAA;AACA,OAAA,IAAA;;AAEA,CAlBJ,sBAkBI,CANF,YAME,CAAA;AACE,aAAA,IAAA;;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/doubt-handling/doubt-list/doubt-list.component.scss"],
+  "sourcesContent": [".page-container { padding: 16px 20px; max-width: 1600px; margin: 0 auto; }\r\n.page-header { margin-bottom: 1rem; }\r\n.filters { display: flex; gap: 1rem; margin-bottom: 1rem; }\r\n.filter-group label { display: block; font-size: 0.875rem; margin-bottom: 0.25rem; }\r\n.form-control { padding: 0.5rem; border-radius: 6px; min-width: 150px; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,WAAA,KAAA;AAAoB,aAAA;AAAmB,UAAA,EAAA;;AACzD,CAAA;AAAe,iBAAA;;AACf,CAAA;AAAW,WAAA;AAAe,OAAA;AAAW,iBAAA;;AACrC,CAAA,aAAA;AAAsB,WAAA;AAAgB,aAAA;AAAqB,iBAAA;;AAC3D,CAAA;AAAgB,WAAA;AAAiB,iBAAA;AAAoB,aAAA;;",
+  "names": []
+}

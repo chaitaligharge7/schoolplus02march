@@ -1,0 +1,74 @@
+<div class="enquiry-list-container">
+  <div class="page-header enquiry-list-header">
+    <div>
+      <h1 class="page-title">Enquiry Management</h1>
+      <p class="page-subtitle">Manage student enquiries and convert to admissions</p>
+    </div>
+    <button type="button" class="btn btn-outline" (click)="openQrCodeDialog()" title="Generate QR code for visitor enquiry form">
+      <i class="bi bi-qr-code"></i>
+      Generate QR Code
+    </button>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="enquiryConversionStatusOptions"
+        [(ngModel)]="conversionStatus"
+        (valueChange)="onConversionStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Source:</label>
+      <app-search-select
+        [options]="enquirySourceOptions"
+        [(ngModel)]="enquirySource"
+        (valueChange)="onEnquirySourceChange($event)"
+        placeholder="Search or select source">
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="enquiries"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'enquiry_id'"
+    [addRoute]="'/app/enquiries/create'"
+    [addLabel]="'Add Enquiry'"
+    [searchPlaceholder]="'Search by name, mobile, enquiry number...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    [showConvertButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (viewClick)="onView($event)"
+    (convertClick)="convertToAdmission($event)"
+    (editClick)="onEdit($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Convert to Admission Button for Selected Row -->
+  <div class="convert-action" *ngIf="selectedRowId && getSelectedEnquiry() && getSelectedEnquiry()?.conversion_status === 'pending'">
+    <button 
+      class="btn btn-success"
+      (click)="convertToAdmission(getSelectedEnquiry())"
+      title="Convert to Admission">
+      <i class="bi bi-check-circle"></i>
+      Convert to Admission
+    </button>
+  </div>
+</div>

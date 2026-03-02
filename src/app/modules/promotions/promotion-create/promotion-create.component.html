@@ -1,0 +1,134 @@
+<div class="promotion-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Promotion' : 'Promote Students' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update promotion details' : 'Promote students to next class/academic year' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="promotionForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Promotion Details</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>From Academic Year <span class="required">*</span></label>
+            <select
+              formControlName="from_academic_year_id"
+              class="form-control"
+              [class.is-invalid]="promotionForm.get('from_academic_year_id')?.invalid && promotionForm.get('from_academic_year_id')?.touched"
+            >
+              <option [value]="null">Select Academic Year</option>
+              <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+                {{ year.academic_year_name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="promotionForm.get('from_academic_year_id')?.invalid && promotionForm.get('from_academic_year_id')?.touched">
+              From academic year is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>To Academic Year <span class="required">*</span></label>
+            <select
+              formControlName="to_academic_year_id"
+              class="form-control"
+              [class.is-invalid]="promotionForm.get('to_academic_year_id')?.invalid && promotionForm.get('to_academic_year_id')?.touched"
+            >
+              <option [value]="null">Select Academic Year</option>
+              <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+                {{ year.academic_year_name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="promotionForm.get('to_academic_year_id')?.invalid && promotionForm.get('to_academic_year_id')?.touched">
+              To academic year is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>From Class <span class="required">*</span></label>
+            <select
+              formControlName="from_class_id"
+              class="form-control"
+              [class.is-invalid]="promotionForm.get('from_class_id')?.invalid && promotionForm.get('from_class_id')?.touched"
+              (change)="onFromClassChange()"
+            >
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="promotionForm.get('from_class_id')?.invalid && promotionForm.get('from_class_id')?.touched">
+              From class is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>To Class <span class="required">*</span></label>
+            <select
+              formControlName="to_class_id"
+              class="form-control"
+              [class.is-invalid]="promotionForm.get('to_class_id')?.invalid && promotionForm.get('to_class_id')?.touched"
+            >
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="promotionForm.get('to_class_id')?.invalid && promotionForm.get('to_class_id')?.touched">
+              To class is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Promotion Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="promotion_date"
+              class="form-control"
+              [class.is-invalid]="promotionForm.get('promotion_date')?.invalid && promotionForm.get('promotion_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="promotionForm.get('promotion_date')?.invalid && promotionForm.get('promotion_date')?.touched">
+              Promotion date is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section" *ngIf="students.length > 0">
+        <div class="section-header">
+          <h3>Select Students to Promote</h3>
+          <span class="selected-count">{{ getSelectedCount() }} selected</span>
+        </div>
+        <div class="students-grid">
+          <div class="student-checkbox" *ngFor="let student of students; let i = index">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [formControl]="$any(studentsArray.at(i).get('promote'))"
+                (change)="toggleStudent(i)"
+              />
+              <div class="student-info">
+                <strong>{{ student.first_name }} {{ student.last_name }}</strong>
+                <small>{{ student.admission_number }}</small>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || promotionForm.invalid">
+          <span *ngIf="isSaving">Promoting...</span>
+          <span *ngIf="!isSaving">Promote Students</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

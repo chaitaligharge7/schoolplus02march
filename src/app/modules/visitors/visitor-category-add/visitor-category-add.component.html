@@ -1,0 +1,71 @@
+<div class="category-add-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Category' : 'Add Category' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update category details' : 'Create a new category' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-section">
+        <h3>Category Information</h3>
+
+        <!-- Category Name -->
+        <div class="form-group full-width">
+          <label>Category Name <span class="required">*</span></label>
+          <input
+            type="text"
+            formControlName="category_name"
+            class="form-control"
+            [class.is-invalid]="categoryForm.get('category_name')?.invalid && categoryForm.get('category_name')?.touched"
+            placeholder="Enter category name"
+          />
+          <div class="invalid-feedback" *ngIf="categoryForm.get('category_name')?.invalid && categoryForm.get('category_name')?.touched">
+            Category name is required
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group full-width">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            class="form-control"
+            placeholder="Enter category description"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group">
+          <label>Status <span class="required">*</span></label>
+          <select
+            formControlName="category_status"
+            class="form-control"
+          >
+            <option value="1">Active</option>
+            <option value="0">Inactive</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || categoryForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Add' }} Category</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>

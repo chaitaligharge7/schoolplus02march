@@ -1,0 +1,88 @@
+@import '../../../../styles.scss';
+@import '../../students/student-list/student-list.component.scss';
+
+.fee-list-container {
+  width: 100%;
+  padding: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.summary-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  transition: all var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+.summary-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+
+  i {
+    color: white;
+  }
+}
+
+.summary-icon-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+
+.summary-icon-success {
+  background: linear-gradient(135deg, var(--success-color), #059669);
+}
+
+.summary-icon-warning {
+  background: linear-gradient(135deg, var(--warning-color), var(--accent-dark));
+}
+
+.summary-content {
+  flex: 1;
+}
+
+.summary-value {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1.2;
+}
+
+.summary-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 500;
+}
+
+.badge-error {
+  background: #fee2e2;
+  color: var(--error-color);
+}
+

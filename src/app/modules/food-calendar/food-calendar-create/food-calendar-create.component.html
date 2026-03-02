@@ -1,0 +1,109 @@
+<div class="food-calendar-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Food Calendar Entry' : 'Add Food Calendar Entry' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update meal details' : 'Add a new meal to the calendar' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="calendarForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Meal Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Meal Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="meal_date"
+              class="form-control"
+              [class.is-invalid]="calendarForm.get('meal_date')?.invalid && calendarForm.get('meal_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="calendarForm.get('meal_date')?.invalid && calendarForm.get('meal_date')?.touched">
+              Meal date is required
+            </div>
+          </div>
+            <div class="form-group">
+            <label>Meal Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="meal_name"
+              class="form-control"
+              [class.is-invalid]="calendarForm.get('meal_name')?.invalid && calendarForm.get('meal_name')?.touched"
+              placeholder="Enter the name of the meal"
+            />
+            <div class="invalid-feedback" *ngIf="calendarForm.get('meal_name')?.invalid && calendarForm.get('meal_name')?.touched">
+              Meal name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Meal Type <span class="required">*</span></label>
+            <select
+              formControlName="meal_type"
+              class="form-control"
+              [class.is-invalid]="calendarForm.get('meal_type')?.invalid && calendarForm.get('meal_type')?.touched"
+            >
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="snacks">Snacks</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="calendarForm.get('meal_type')?.invalid && calendarForm.get('meal_type')?.touched">
+              Meal type is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Menu Items <span class="required">*</span></label>
+          <textarea
+            formControlName="menu_items"
+            class="form-control"
+            rows="5"
+            [class.is-invalid]="calendarForm.get('menu_items')?.invalid && calendarForm.get('menu_items')?.touched"
+            placeholder="Enter menu items (one per line or comma-separated)"
+          ></textarea>
+          <small class="form-text text-muted">List all menu items for this meal</small>
+          <div class="invalid-feedback" *ngIf="calendarForm.get('menu_items')?.invalid && calendarForm.get('menu_items')?.touched">
+            Menu items are required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea
+            formControlName="notes"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional notes or special instructions"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || calendarForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Entry</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

@@ -1,0 +1,155 @@
+<div class="fee-payment-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Fee Payment</h1>
+      <p class="page-subtitle">Process fee payment for students</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/fees/list'])">
+      <i class="bi bi-arrow-left"></i>
+      Back to Fees
+    </button>
+  </div>
+
+  <div class="payment-card" *ngIf="studentFee && student">
+    <!-- Student Info -->
+    <div class="student-info-card">
+      <h3>Student Information</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Student Name:</label>
+          <span>{{ student.full_name }}</span>
+        </div>
+        <div class="info-item">
+          <label>Admission Number:</label>
+          <span>{{ student.admission_number }}</span>
+        </div>
+        <div class="info-item">
+          <label>Class:</label>
+          <span>{{ student.class_name }} - {{ student.section_name }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fee Details -->
+    <div class="fee-details-card">
+      <h3>Fee Details</h3>
+      <div class="fee-summary">
+        <div class="fee-item">
+          <label>Fee Type:</label>
+          <span>{{ studentFee.fee_type_name }}</span>
+        </div>
+        <div class="fee-item">
+          <label>Total Amount:</label>
+          <span>₹{{ studentFee.fee_amount | number:'1.2-2' }}</span>
+        </div>
+        <div class="fee-item">
+          <label>Paid Amount:</label>
+          <span>₹{{ studentFee.paid_amount | number:'1.2-2' }}</span>
+        </div>
+        <div class="fee-item highlight">
+          <label>Remaining Amount:</label>
+          <span>₹{{ remainingAmount | number:'1.2-2' }}</span>
+        </div>
+        <div class="fee-item">
+          <label>Due Date:</label>
+          <span [class.text-danger]="isOverdue(studentFee.due_date)">
+            {{ studentFee.due_date | date:'shortDate' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Form -->
+    <div class="payment-form-card">
+      <h3>Payment Information</h3>
+      <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Payment Amount *</label>
+            <input
+              type="number"
+              formControlName="paid_amount"
+              class="form-control"
+              [max]="remainingAmount"
+              step="0.01"
+              required
+            />
+            <small class="form-text">Maximum: ₹{{ remainingAmount | number:'1.2-2' }}</small>
+          </div>
+
+          <div class="form-group">
+            <label>Payment Mode *</label>
+            <select formControlName="payment_mode" class="form-control" required>
+              <option *ngFor="let mode of paymentModes" [value]="mode">
+                {{ mode }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Payment Date *</label>
+            <input
+              type="date"
+              formControlName="payment_date"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Transaction ID</label>
+            <input
+              type="text"
+              formControlName="transaction_id"
+              class="form-control"
+              placeholder="For online/card payments"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Receipt Number</label>
+            <input
+              type="text"
+              formControlName="receipt_number"
+              class="form-control"
+              placeholder="Auto-generated if left empty"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="3"
+            placeholder="Additional notes..."
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/fees/list'])">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="isProcessing || paymentForm.invalid">
+            <span *ngIf="!isProcessing">Process Payment</span>
+            <span *ngIf="isProcessing">
+              <span class="spinner-small"></span>
+              Processing...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading fee details...</p>
+  </div>
+</div>
+

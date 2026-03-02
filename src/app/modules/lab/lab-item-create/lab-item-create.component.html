@@ -1,0 +1,103 @@
+<div class="lab-item-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Lab Item' : 'Add Lab Item' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update item details' : 'Add a new lab item' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Item Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Item Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="item_name"
+              class="form-control"
+              [class.is-invalid]="itemForm.get('item_name')?.invalid && itemForm.get('item_name')?.touched"
+              placeholder="Enter item name"
+            />
+            <div class="invalid-feedback" *ngIf="itemForm.get('item_name')?.invalid && itemForm.get('item_name')?.touched">
+              Item name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Category <span class="required">*</span></label>
+            <select
+              formControlName="category"
+              class="form-control"
+            >
+              <option value="equipment">Equipment</option>
+              <option value="chemical">Chemical</option>
+              <option value="glassware">Glassware</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Quantity <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="quantity"
+              class="form-control"
+              [class.is-invalid]="itemForm.get('quantity')?.invalid && itemForm.get('quantity')?.touched"
+              min="1"
+            />
+            <div class="invalid-feedback" *ngIf="itemForm.get('quantity')?.invalid && itemForm.get('quantity')?.touched">
+              Quantity must be at least 1
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Location</label>
+            <input
+              type="text"
+              formControlName="location"
+              class="form-control"
+              placeholder="e.g., Lab A, Storage Room, etc."
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="available">Available</option>
+              <option value="in_use">In Use</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            class="form-control"
+            rows="4"
+            placeholder="Enter item description"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || itemForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Item</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

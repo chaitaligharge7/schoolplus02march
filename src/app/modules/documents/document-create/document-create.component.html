@@ -1,0 +1,128 @@
+<div class="document-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Document' : 'Upload Document' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update document details' : 'Upload a new document for a student' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Document Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student <span class="required">*</span></label>
+            <select
+              formControlName="student_id"
+              class="form-control"
+              [class.is-invalid]="documentForm.get('student_id')?.invalid && documentForm.get('student_id')?.touched"
+            >
+              <option [value]="null">Select Student</option>
+              <option *ngFor="let student of students" [value]="student.student_id">
+                {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="documentForm.get('student_id')?.invalid && documentForm.get('student_id')?.touched">
+              Student selection is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Document Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="document_title"
+              class="form-control"
+              [class.is-invalid]="documentForm.get('document_title')?.invalid && documentForm.get('document_title')?.touched"
+              placeholder="Enter document name"
+            />
+            <div class="invalid-feedback" *ngIf="documentForm.get('document_title')?.invalid && documentForm.get('document_title')?.touched">
+              Document name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Document Type <span class="required">*</span></label>
+     <select
+  formControlName="document_type"
+  class="form-control"
+  aria-label="Select Document Type"
+>
+  <option value="" disabled selected>Select Document Type</option>
+  <option value="bonafide">Bonafide</option>
+  <option value="leaving_certificate">Leaving Certificate</option>
+  <option value="half_day_permission">Half Day Permission</option>
+  <option value="other">Other</option>
+</select>
+
+          </div>
+
+          <div class="form-group">
+            <label>Upload Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="upload_date"
+              class="form-control"
+              [class.is-invalid]="documentForm.get('upload_date')?.invalid && documentForm.get('upload_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="documentForm.get('upload_date')?.invalid && documentForm.get('upload_date')?.touched">
+              Upload date is required
+            </div>
+          </div>
+        </div>
+
+     <div class="form-group">
+  <label>File <span class="required" *ngIf="!isEditMode">*</span></label>
+  <input
+    type="file"
+    class="form-control"
+    (change)="onFileSelect($event)"
+    accept="image/*,application/pdf"
+  />
+  <small class="form-text text-muted">
+    Allowed: Images (JPEG, PNG, GIF) and PDFs. Max size: 5MB
+  </small>
+
+  <!-- Show newly selected file -->
+  <div *ngIf="selectedFile" class="file-info">
+    <i class="bi bi-file-earmark"></i> {{ selectedFile.name }} ({{ (selectedFile.size / 1024).toFixed(2) }} KB)
+  </div>
+
+  <!-- Show existing file in edit mode if no new file selected -->
+  <div *ngIf="!selectedFile && isEditMode && documentForm.value.document_file" class="file-info">
+    <i class="bi bi-file-earmark"></i>
+    Current file: 
+    <a [href]="documentService.getDownloadUrl(documentForm.value.document_file)" target="_blank">
+      {{ documentForm.value.document_file }}
+    </a>
+  </div>
+</div>
+
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            class="form-control"
+            rows="3"
+            placeholder="Enter document description (optional)"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || documentForm.invalid">
+          <span *ngIf="isSaving">Uploading...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Upload' }} Document</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

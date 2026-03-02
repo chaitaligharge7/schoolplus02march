@@ -1,0 +1,33 @@
+<div class="approvals-container">
+  <div class="page-header">
+    <h1 class="page-title">Approvals Dashboard</h1>
+    <p class="page-subtitle">Pending leave and admission approvals</p>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+      <h3>Pending Leave Requests</h3>
+      <div *ngIf="loadingLeaves" class="loading">Loading...</div>
+      <ul *ngIf="!loadingLeaves && pendingLeaves.length" class="list">
+        <li *ngFor="let l of pendingLeaves">
+          <span>{{ l.staff_name || 'Staff' }} - {{ l.leave_type }} ({{ l.start_date }} to {{ l.end_date }})</span>
+          <div class="actions">
+            <button type="button" class="btn btn-sm btn-success" (click)="approveLeave(l.leave_id)">Approve</button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="rejectLeave(l.leave_id)">Reject</button>
+          </div>
+        </li>
+      </ul>
+      <p *ngIf="!loadingLeaves && !pendingLeaves.length" class="empty">No pending leave requests</p>
+    </div>
+    <div class="card">
+      <h3>Pending Admissions</h3>
+      <div *ngIf="loadingAdmissions" class="loading">Loading...</div>
+      <ul *ngIf="!loadingAdmissions && pendingAdmissions.length" class="list">
+        <li *ngFor="let a of pendingAdmissions">
+          <span>{{ a.student_name || ((a.first_name || '') + ' ' + (a.last_name || '')).trim() || 'Admission' }} - {{ a.applied_class_name || 'Class' }}</span>
+          <a [routerLink]="['/app/admissions/view', a.admission_id]" class="btn btn-sm btn-outline">View</a>
+        </li>
+      </ul>
+      <p *ngIf="!loadingAdmissions && !pendingAdmissions.length" class="empty">No pending admissions</p>
+    </div>
+  </div>
+</div>

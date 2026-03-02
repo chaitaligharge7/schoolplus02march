@@ -1,0 +1,89 @@
+<div class="slider-backdrop" *ngIf="visible" (click)="hide()"></div>
+
+<div class="slider-panel p-3" [class.visible]="visible">
+  <div class="slider-header d-flex justify-content-between align-items-center mb-3">
+    <h4>Add Remedial Student</h4>
+    <button type="button" class="btn btn-light btn-sm close-btn" (click)="hide()"><i class="bi bi-x-lg"></i></button>
+  </div>
+
+  <div class="slider-body">
+
+    <div class="row g-2 align-items-end mb-2">
+      <!-- Batch dropdown -->
+      <div class="col-md-4">
+        <label class="form-label">Batch</label>
+        <select
+          class="form-select"
+          [(ngModel)]="selectedBatchId"
+          (change)="onBatchChange()"
+        >
+          <option value="">Select Batch</option>
+          <option *ngFor="let batch of batches" [value]="batch.batch_id">
+            {{ batch.batch_name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Class readonly -->
+      <div class="col-md-4" *ngIf="showClassInput">
+        <label class="form-label">Class</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="selectedBatch?.class_name"
+          readonly
+        />
+      </div>
+
+      <!-- Student input -->
+      <div class="col-md-4" *ngIf="showStudentInput" style="position: relative;">
+        <label class="form-label">Student</label>
+        <input
+          type="text"
+          placeholder="Enter student name"
+          [(ngModel)]="newStudentName"
+          (input)="onStudentInputChange()"
+          class="form-control"
+          autocomplete="off"
+        />
+
+        <!-- Suggestions dropdown -->
+        <ul
+          class="list-group position-absolute w-100"
+          *ngIf="studentSuggestions.length"
+          style="z-index: 1000; max-height: 150px; overflow-y: auto;"
+        >
+          <li
+            class="list-group-item list-group-item-action"
+            *ngFor="let s of studentSuggestions"
+            (click)="selectSuggestion(s)"
+          >
+            {{ s.full_name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Row: Add button on the right -->
+    <div class="row mb-3">
+      <div class="col d-flex justify-content-end" *ngIf="showStudentInput">
+        <button class="btn btn-success" (click)="addStudent()">Add Student</button>
+      </div>
+    </div>
+    <hr>
+    <!-- Students inline list -->
+    <div *ngIf="selectedBatch">
+      <h6>Students in this class:</h6>
+
+      <div *ngIf="studentsToShow?.length; else noStudents">
+        <div *ngFor="let student of studentsToShow; let i = index">
+          {{ i + 1 }}. {{ student.full_name }}
+        </div>
+      </div>
+
+      <ng-template #noStudents>
+        <p class="text-muted mb-0">No students found.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

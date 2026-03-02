@@ -1,0 +1,57 @@
+<div class="uniform-fine-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Uniform Fines</h1>
+      <p class="page-subtitle">Manage uniform fines and violations</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Uniform Type:</label>
+      <select class="form-control" [(ngModel)]="uniformType" (change)="onUniformTypeChange(uniformType)">
+        <option [value]="undefined">All Types</option>
+        <option value="shirt">Shirt</option>
+        <option value="pant">Pant</option>
+        <option value="skirt">Skirt</option>
+        <option value="tie">Tie</option>
+        <option value="blazer">Blazer</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="paid">Paid</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="fines"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'fine_id'"
+    [addRoute]="'/app/uniform-fines/create'"
+    [addLabel]="'Add Fine'"
+    [searchPlaceholder]="'Search by student name...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEditFine($event)"
+    (deleteClick)="onDeleteFine($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

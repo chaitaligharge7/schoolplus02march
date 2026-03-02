@@ -1,0 +1,8 @@
+.leave-create-container {
+  width: 100%;
+  padding: 0;
+  .form-card { background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--radius-md); }
+  .form-group { margin-bottom: var(--spacing-md); label { display: block; margin-bottom: var(--spacing-xs); font-weight: 500; } .form-control { width: 100%; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); } }
+  .form-row { display: flex; gap: var(--spacing-md); flex-wrap: wrap; }
+  .form-actions { display: flex; gap: var(--spacing-md); margin-top: var(--spacing-lg); }
+}

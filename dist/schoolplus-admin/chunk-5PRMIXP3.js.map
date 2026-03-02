@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/digital-notes/digital-notes.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const DIGITAL_NOTES_ROUTES: Routes = [\r\n  { path: '', redirectTo: 'list', pathMatch: 'full' },\r\n  { path: 'list', loadComponent: () => import('./notes-list/notes-list.component').then(m => m.NotesListComponent) },\r\n  { path: 'create', loadComponent: () => import('./notes-create/notes-create.component').then(m => m.NotesCreateComponent) },\r\n  { path: 'edit/:id', loadComponent: () => import('./notes-create/notes-create.component').then(m => m.NotesCreateComponent) }  // ← add this\r\n];\r\n"],
+  "mappings": ";;;AAEO,IAAM,uBAA+B;EAC1C,EAAE,MAAM,IAAI,YAAY,QAAQ,WAAW,OAAM;EACjD,EAAE,MAAM,QAAQ,eAAe,MAAM,OAAO,qBAAmC,EAAE,KAAK,OAAK,EAAE,kBAAkB,EAAC;EAChH,EAAE,MAAM,UAAU,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB,EAAC;EACxH,EAAE,MAAM,YAAY,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB,EAAC;;;",
+  "names": []
+}

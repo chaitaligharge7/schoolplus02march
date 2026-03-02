@@ -1,0 +1,53 @@
+<div class="subject-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Subjects</h1>
+      <p class="page-subtitle">Manage subjects for your school</p>
+    </div>
+    <div class="filter-panel header-dropdowns" [class.expanded]="showFilters" >
+      <div class="filter-group">
+        <label>Class:</label>
+        <app-search-select
+          [options]="classOptions"
+          [(ngModel)]="classId"
+          (valueChange)="onClassChange($event)"
+          placeholder="Search or select class">
+        </app-search-select>
+      </div>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="subjects"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'subject_id'"
+    [addRoute]="'/app/subjects/create'"
+    [addLabel]="'Add Subject'"
+    [searchPlaceholder]="'Search subjects...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <app-subject-detail-slider
+    [visible]="sliderVisible"
+    [subject]="sliderSubject"
+    (close)="sliderVisible = false">
+  </app-subject-detail-slider>
+</div>

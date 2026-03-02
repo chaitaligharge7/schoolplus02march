@@ -1,0 +1,162 @@
+<div class="unit-test-marks-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Unit Test Marks' : 'Create Unit Test' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update test marks' : 'Create a new unit test and enter marks' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="testForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Test Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Test Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="test_name"
+              class="form-control"
+              [class.is-invalid]="testForm.get('test_name')?.invalid && testForm.get('test_name')?.touched"
+              placeholder="e.g., Unit Test 1, Mid Term Test"
+            />
+            <div class="invalid-feedback" *ngIf="testForm.get('test_name')?.invalid && testForm.get('test_name')?.touched">
+              Test name is required
+            </div>
+          </div>
+  <div class="form-group">
+            <label>Teacher <span class="required">*</span></label>
+            <select formControlName="teacher_id" class="form-control">
+              <option [value]="null">Select Teacher</option>
+              <option *ngFor="let teacher of teachers" [value]="teacher.teacher_id">
+                {{ teacher.first_name }} {{ teacher.last_name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Class <span class="required">*</span></label>
+            <select
+              formControlName="class_id"
+              class="form-control"
+              [class.is-invalid]="testForm.get('class_id')?.invalid && testForm.get('class_id')?.touched"
+              (change)="onClassChange()"
+            >
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Subject <span class="required">*</span></label>
+            <select
+              formControlName="subject_id"
+              class="form-control"
+              [class.is-invalid]="testForm.get('subject_id')?.invalid && testForm.get('subject_id')?.touched"
+            >
+              <option [value]="null">Select Subject</option>
+              <option *ngFor="let subject of subjects" [value]="subject.subject_id">
+                {{ subject.subject_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Test Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="test_date"
+              class="form-control"
+              [class.is-invalid]="testForm.get('test_date')?.invalid && testForm.get('test_date')?.touched"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Max Marks <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="max_marks"
+              class="form-control"
+              [class.is-invalid]="testForm.get('max_marks')?.invalid && testForm.get('max_marks')?.touched"
+              min="1"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Passing Marks</label>
+            <input
+              type="number"
+              formControlName="passing_marks"
+              class="form-control"
+              min="0"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section" *ngIf="marksArray.length > 0">
+        <div class="section-header">
+          <h3>Enter Marks for Students</h3>
+          <span class="student-count">{{ students.length }} students</span>
+        </div>
+        <div class="marks-table">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Admission Number</th>
+                <th>Marks Obtained</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mark of marksArray.controls; let i = index" [formGroup]="$any(mark)">
+                <td>
+                  <strong>{{ students[i]?.first_name }} {{ students[i]?.last_name }}</strong>
+                </td>
+                <td>{{ students[i]?.admission_number }}</td>
+                <td>
+                  <input
+                    type="number"
+                    formControlName="marks_obtained"
+                    class="form-control form-control-sm"
+                    [max]="testForm.get('max_marks')?.value"
+                    min="0"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="remarks"
+                    class="form-control form-control-sm"
+                    placeholder="Optional"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div *ngIf="marksArray.length === 0 && selectedClassId" class="empty-marks">
+        <p>No students found for the selected class.</p>
+      </div>
+      <div *ngIf="!selectedClassId" class="empty-marks">
+        <p>Please select a class to load students and enter marks.</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || testForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Test</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

@@ -1,0 +1,77 @@
+<div class="course-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Courses Management</h1>
+      <p class="page-subtitle">Manage courses and student enrollments</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <app-search-select
+        [options]="academicYearOptions"
+        [(ngModel)]="academicYearId"
+        (valueChange)="onAcademicYearChange($event)"
+        placeholder="Search or select academic year"
+      >
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Class:</label>
+      <app-search-select
+        [options]="classOptions"
+        [(ngModel)]="classId"
+        (valueChange)="onClassChange($event)"
+        placeholder="Search or select class"
+      >
+        <div>{{ classOptions | json }}</div>
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="courseStatusOptions"
+        [(ngModel)]="status"
+        (valueChange)="onStatusChange($event)"
+        placeholder="Search or select status"
+      >
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="courses"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'course_id'"
+    [addRoute]="'/app/courses/create'"
+    [addLabel]="'Create Course'"
+    [searchPlaceholder]="'Search by course name...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (viewClick)="onView($event)"
+    (filterToggle)="onFilterToggle($event)"
+  >
+  </app-enhanced-table>
+
+  <app-course-details
+    [visible]="sliderVisible"
+    [courseItem]="sliderCourse"
+    (close)="sliderVisible = false"
+  >
+  </app-course-details>
+</div>

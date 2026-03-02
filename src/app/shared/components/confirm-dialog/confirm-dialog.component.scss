@@ -1,0 +1,67 @@
+@import '../../../../styles.scss';
+
+.confirm-dialog {
+  padding: var(--spacing-xl);
+  min-width: 400px;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.dialog-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+
+  &.icon-warning {
+    background: var(--warning-lighter);
+    color: var(--warning-color);
+  }
+
+  &.icon-danger {
+    background: #fee2e2;
+    color: var(--error-color);
+  }
+
+  &.icon-info {
+    background: var(--primary-lighter);
+    color: var(--primary-color);
+  }
+}
+
+.dialog-title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dialog-content {
+  margin-bottom: var(--spacing-xl);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+}
+
+.btn-danger {
+  background: var(--error-color);
+  color: white;
+
+  &:hover {
+    background: #dc2626;
+  }
+}
+

@@ -1,0 +1,61 @@
+<div class="homework-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Homework & Assignments</h1>
+      <p class="page-subtitle">Manage homework and assignments for students</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Class:</label>
+      <select class="form-control" [(ngModel)]="classId" (change)="onClassChange(classId)">
+        <option [value]="undefined">All Classes</option>
+        <option *ngFor="let cls of classes" [value]="cls.class_id">{{ cls.class_name }}</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Subject:</label>
+      <select class="form-control" [(ngModel)]="subjectId" (change)="onSubjectChange(subjectId)">
+        <option [value]="undefined">All Subjects</option>
+        <option *ngFor="let subject of subjects" [value]="subject.subject_id">{{ subject.subject_name }}</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+        <option value="expired">Expired</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="homeworks"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'homework_id'"
+    [addRoute]="'/app/homework/create'"
+    [addLabel]="'Create Homework'"
+    [searchPlaceholder]="'Search by title, description...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

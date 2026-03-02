@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/important-notes/important-notes.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const IMPORTANT_NOTES_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./notes-list/notes-list.component').then(m => m.NotesListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./notes-list/notes-list.component').then(m => m.NotesListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./notes-create/notes-create.component').then(m => m.NotesCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./notes-create/notes-create.component').then(m => m.NotesCreateComponent)\r\n  },\r\n  {\r\n    path: 'view/:id',\r\n    loadComponent: () => import('./notes-slider/notes-slider.component').then(m => m.NotesSliderComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,yBAAiC;EAC5C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmC,EAAE,KAAK,OAAK,EAAE,kBAAkB;;EAEjG;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmC,EAAE,KAAK,OAAK,EAAE,kBAAkB;;EAEjG;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB;;EAEvG;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB;;EAEvG;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,oBAAoB;;;",
+  "names": []
+}

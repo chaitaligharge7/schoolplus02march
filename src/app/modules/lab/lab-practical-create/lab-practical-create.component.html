@@ -1,0 +1,121 @@
+<div class="lab-practical-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Lab Practical' : 'Schedule Lab Practical' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update practical details' : 'Schedule a new lab practical' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="practicalForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Practical Information</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Practical Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="practical_name"
+              class="form-control"
+              [class.is-invalid]="practicalForm.get('practical_name')?.invalid && practicalForm.get('practical_name')?.touched"
+              placeholder="Enter practical name"
+            />
+            <div class="invalid-feedback" *ngIf="practicalForm.get('practical_name')?.invalid && practicalForm.get('practical_name')?.touched">
+              Practical name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Academic Year <span class="required">*</span></label>
+            <select
+              formControlName="academic_year_id"
+              class="form-control"
+              [class.is-invalid]="practicalForm.get('academic_year_id')?.invalid && practicalForm.get('academic_year_id')?.touched"
+            >
+              <option [value]="null">Select Academic Year</option>
+              <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+                {{ year.academic_year_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Class <span class="required">*</span></label>
+            <select
+              formControlName="class_id"
+              class="form-control"
+              [class.is-invalid]="practicalForm.get('class_id')?.invalid && practicalForm.get('class_id')?.touched"
+            >
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Subject <span class="required">*</span></label>
+            <select
+              formControlName="subject_id"
+              class="form-control"
+              [class.is-invalid]="practicalForm.get('subject_id')?.invalid && practicalForm.get('subject_id')?.touched"
+            >
+              <option [value]="null">Select Subject</option>
+              <option *ngFor="let subject of subjects" [value]="subject.subject_id">
+                {{ subject.subject_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Practical Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="practical_date"
+              class="form-control"
+              [class.is-invalid]="practicalForm.get('practical_date')?.invalid && practicalForm.get('practical_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="practicalForm.get('practical_date')?.invalid && practicalForm.get('practical_date')?.touched">
+              Practical date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="scheduled">Scheduled</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            class="form-control"
+            rows="4"
+            placeholder="Enter practical description"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || practicalForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Schedule' }} Practical</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

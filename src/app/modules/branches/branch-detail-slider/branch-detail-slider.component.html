@@ -1,0 +1,89 @@
+<app-detail-slider
+  [visible]="visible"
+  [title]="'Branch Summary'"
+  [subtitle]="'Branch details and contact'"
+  [profileName]="branch?.branch_name || ''"
+  [profileSubtext]="branch?.branch_code || ''"
+  (close)="onClose()">
+  <div class="slider-body">
+    <aside class="slider-sidebar">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <i class="bi bi-building"></i>
+        </div>
+        <div class="profile-name">{{ branch?.branch_name || '—' }}</div>
+        <div class="profile-meta" *ngIf="branch?.branch_code">Code: {{ branch.branch_code }}</div>
+        <div class="profile-meta" *ngIf="branch?.city">{{ branch.city }}</div>
+      </div>
+      <nav class="slider-nav">
+        <button
+          *ngFor="let tab of tabs"
+          type="button"
+          class="slider-nav-btn"
+          [class.active]="activeTab === tab.id"
+          (click)="setTab(tab.id)">
+          <i class="bi" [ngClass]="tab.icon"></i>
+          <span>{{ tab.label }}</span>
+        </button>
+      </nav>
+    </aside>
+    <main class="slider-content">
+      <header class="content-header">
+        <div class="content-header-text">
+          <h2 class="content-title">Branch Summary</h2>
+          <p class="content-subtitle">Branch details and contact</p>
+        </div>
+      </header>
+
+      <div class="content-area" *ngIf="loading">
+        <div class="content-loading"><span class="spinner"></span> Loading...</div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'profile'">
+        <div class="kpi-grid" *ngIf="profileData">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary"><i class="bi bi-upc-scan"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.branch_code || '—' }}</div>
+              <div class="kpi-label">Branch Code</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-success"><i class="bi bi-geo-alt"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.city || '—' }}</div>
+              <div class="kpi-label">City</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-info"><i class="bi bi-telephone"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.phone || '—' }}</div>
+              <div class="kpi-label">Phone</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-warning"><i class="bi bi-toggle-on"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.is_active == 1 ? 'Active' : 'Inactive' }}</div>
+              <div class="kpi-label">Status</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'contact'">
+        <div class="detail-card" *ngIf="profileData">
+          <div class="detail-row"><span class="label">Branch Name</span><span class="value">{{ profileData.branch_name }}</span></div>
+          <div class="detail-row"><span class="label">Branch Code</span><span class="value">{{ profileData.branch_code || '—' }}</span></div>
+          <div class="detail-row"><span class="label">Address</span><span class="value">{{ profileData.address || '—' }}</span></div>
+          <div class="detail-row"><span class="label">City</span><span class="value">{{ profileData.city || '—' }}</span></div>
+          <div class="detail-row"><span class="label">State / Region</span><span class="value">{{ profileData.state || profileData.region || '—' }}</span></div>
+          <div class="detail-row"><span class="label">Phone</span><span class="value">{{ profileData.phone || '—' }}</span></div>
+          <div class="detail-row"><span class="label">Email</span><span class="value">{{ profileData.email || '—' }}</span></div>
+          <div class="detail-row"><span class="label">Status</span><span class="value"><span class="badge" [class.badge-success]="profileData.is_active == 1" [class.badge-secondary]="profileData.is_active != 1">{{ profileData.is_active == 1 ? 'Active' : 'Inactive' }}</span></span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</app-detail-slider>

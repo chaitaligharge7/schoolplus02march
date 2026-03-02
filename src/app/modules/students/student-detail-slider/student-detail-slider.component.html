@@ -1,0 +1,233 @@
+<app-detail-slider
+  [visible]="visible"
+  [title]="'Student Summary'"
+  [subtitle]="'Complete student performance and analytics'"
+  [profileName]="student?.full_name || ''"
+  [profileSubtext]="student?.admission_number || student?.class_name ? (student?.class_name + (student?.section_name ? ' - ' + student.section_name : '')) : ''"
+  (close)="onClose()">
+  <div class="slider-body">
+    <aside class="slider-sidebar">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <i class="bi bi-person-circle"></i>
+        </div>
+        <div class="profile-name">{{ student?.full_name || '—' }}</div>
+        <div class="profile-meta" *ngIf="student?.admission_number">Adm. {{ student.admission_number }}</div>
+        <div class="profile-meta" *ngIf="student?.class_name">{{ student.class_name }}{{ student?.section_name ? ' - ' + student.section_name : '' }}</div>
+      </div>
+      <nav class="slider-nav">
+        <button
+          *ngFor="let tab of tabs"
+          type="button"
+          class="slider-nav-btn"
+          [class.active]="activeTab === tab.id"
+          (click)="setTab(tab.id)">
+          <i class="bi" [ngClass]="tab.icon"></i>
+          <span>{{ tab.label }}</span>
+        </button>
+      </nav>
+    </aside>
+    <main class="slider-content">
+      <header class="content-header">
+        <div class="content-header-text">
+          <h2 class="content-title">Student Summary</h2>
+          <p class="content-subtitle">Complete student performance and analytics</p>
+        </div>
+        <div class="content-header-actions" *ngIf="activeTab === 'attendance'">
+          <label class="date-label">Date range</label>
+          <input type="date" class="date-input" [(ngModel)]="dateRange.start" (change)="onDateRangeChange()" />
+          <span class="date-sep">to</span>
+          <input type="date" class="date-input" [(ngModel)]="dateRange.end" (change)="onDateRangeChange()" />
+          <button type="button" class="btn-refresh" (click)="loadAttendance()" title="Refresh"><i class="bi bi-arrow-clockwise"></i></button>
+        </div>
+      </header>
+
+      <div class="content-area" *ngIf="loading">
+        <div class="content-loading"><span class="spinner"></span> Loading...</div>
+      </div>
+
+      <!-- Profile -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'profile'">
+        <div class="kpi-grid" *ngIf="profileData">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary"><i class="bi bi-person-vcard"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.admission_number || '—' }}</div>
+              <div class="kpi-label">Admission No.</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-success"><i class="bi bi-telephone"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.parent_phone || profileData.mobile || 'N/A' }}</div>
+              <div class="kpi-label">Parent / Mobile</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-info"><i class="bi bi-envelope"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.parent_email || profileData.email || 'N/A' }}</div>
+              <div class="kpi-label">Email</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-warning"><i class="bi bi-geo-alt"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.address ? (profileData.address | slice:0:30) + (profileData.address.length > 30 ? '...' : '') : 'N/A' }}</div>
+              <div class="kpi-label">Address</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fees -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'fees'">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary"><i class="bi bi-currency-rupee"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">₹{{ feesSummary.total | number:'1.2-2' }}</div>
+              <div class="kpi-label">Total Fees</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-success"><i class="bi bi-check-circle"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">₹{{ feesSummary.paid | number:'1.2-2' }}</div>
+              <div class="kpi-label">Paid</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-warning"><i class="bi bi-hourglass-split"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">₹{{ feesSummary.pending | number:'1.2-2' }}</div>
+              <div class="kpi-label">Pending</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="feesData.length">
+            <thead><tr><th>Fee Type</th><th>Due Date</th><th>Amount</th><th>Paid</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let f of feesData">
+                <td>{{ f.fee_type_name }}</td>
+                <td>{{ f.due_date }}</td>
+                <td>₹{{ f.fee_amount | number:'1.2-2' }}</td>
+                <td>₹{{ f.paid_amount | number:'1.2-2' }}</td>
+                <td><span class="badge" [class.badge-success]="f.payment_status === 'paid'" [class.badge-warning]="f.payment_status !== 'paid'">{{ f.payment_status }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="feesData.length === 0 && !loading">No fee records.</p>
+        </div>
+      </div>
+
+      <!-- Attendance -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'attendance'">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-success"><i class="bi bi-calendar-check"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ attendanceSummary.present }}</div>
+              <div class="kpi-label">Present</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-warning"><i class="bi bi-calendar-x"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ attendanceSummary.absent }}</div>
+              <div class="kpi-label">Absent</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary"><i class="bi bi-calendar3"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ attendanceSummary.total }}</div>
+              <div class="kpi-label">Total Records</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="attendanceData.length">
+            <thead><tr><th>Date</th><th>Type</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let a of attendanceData">
+                <td>{{ a.attendance_date }}</td>
+                <td>{{ a.attendance_type_name || a.attendance_type_code }}</td>
+                <td><span class="badge" [class.badge-success]="a.is_present == 1" [class.badge-danger]="a.is_present != 1">{{ a.is_present == 1 ? 'Present' : 'Absent' }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="attendanceData.length === 0 && !loading">No attendance in selected range.</p>
+        </div>
+      </div>
+
+      <!-- Marksheet -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'marksheet'">
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="marksheetData.length">
+            <thead><tr><th>Examination</th><th>Class</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let m of marksheetData">
+                <td>{{ m.examination_name || m.exam_name || '—' }}</td>
+                <td>{{ m.class_name }}</td>
+                <td><span class="badge badge-info">{{ m.status || '—' }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="marksheetData.length === 0 && !loading">No marksheets.</p>
+        </div>
+      </div>
+
+      <!-- Performance -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'performance'">
+        <div class="kpi-grid" *ngIf="performanceData">
+          <div class="kpi-card" *ngIf="performanceData.overall_performance">
+            <div class="kpi-icon kpi-primary"><i class="bi bi-graph-up"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ performanceData.overall_performance.percentage || '—' }}%</div>
+              <div class="kpi-label">Overall</div>
+            </div>
+          </div>
+        </div>
+        <p class="empty-msg" *ngIf="!performanceData && !loading">No performance data. Select academic year if required.</p>
+      </div>
+
+      <!-- Homework -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'homework'">
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="homeworkData.length">
+            <thead><tr><th>Title</th><th>Subject</th><th>Due Date</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let h of homeworkData">
+                <td>{{ h.homework_title }}</td>
+                <td>{{ h.subject_name }}</td>
+                <td>{{ h.due_date }}</td>
+                <td><span class="badge badge-info">{{ h.status || '—' }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="homeworkData.length === 0 && !loading">No homework for this class.</p>
+        </div>
+      </div>
+
+      <!-- Classwork -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'classwork'">
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="classworkData.length">
+            <thead><tr><th>Title</th><th>Subject</th><th>Assigned</th><th>Due</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let c of classworkData">
+                <td>{{ c.classwork_title }}</td>
+                <td>{{ c.subject_name }}</td>
+                <td>{{ c.assigned_date }}</td>
+                <td>{{ c.due_date }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="classworkData.length === 0 && !loading">No classwork for this class.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</app-detail-slider>

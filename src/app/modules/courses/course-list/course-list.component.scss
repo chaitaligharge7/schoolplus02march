@@ -1,0 +1,109 @@
+.course-list-container {
+  width: 100%;
+  padding: 0;
+
+  @media (max-width: 768px) {
+    padding: 12px 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 12px;
+  }
+
+  .page-header {
+    margin-top: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+
+    .page-title {
+      font-size: var(--font-size-xl);
+    }
+  }
+
+  .additional-filters {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    flex-wrap: wrap;
+    align-items: end;
+
+    // 🔹 Added to prevent dropdown clipping
+    overflow: visible;
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+      min-width: 150px;
+
+      label {
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+
+      .form-control {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        background: var(--bg-primary);
+        font-size: var(--font-size-sm);
+        transition: all var(--transition-base);
+
+        &:focus {
+          outline: none;
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+      }
+    }
+  }
+}
+
+/* 🔹 Add this at the bottom for search-select dropdown */
+.search-select {
+  position: relative; // 🔹 important
+
+  .search-select-dropdown {
+    position: absolute;   // 🔹 absolute over everything
+    top: 100%;            // dropdown below input
+    left: 0;
+    width: 100%;
+    max-height: 250px;    // scrollable if too many items
+    overflow-y: auto;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    z-index: 1000;        // 🔹 high z-index to appear above table
+  }
+
+  .search-select-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    .search-select-option {
+      padding: 8px 12px;
+      cursor: pointer;
+
+      &.selected {
+        background: rgba(37, 99, 235, 0.1);
+      }
+
+      &:hover {
+        background: rgba(37, 99, 235, 0.2);
+      }
+    }
+
+    .search-select-empty {
+      color: var(--text-secondary);
+      font-style: italic;
+      padding: 8px 12px;
+    }
+  }
+}

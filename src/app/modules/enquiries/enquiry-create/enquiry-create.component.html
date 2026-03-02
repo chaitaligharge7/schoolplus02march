@@ -1,0 +1,104 @@
+<div class="enquiry-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit' : 'Create' }} Enquiry</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update enquiry details' : 'Add a new student enquiry' }}</p>
+    </div>
+    <button class="btn btn-secondary" (click)="router.navigate(['/app/enquiries'])">
+      <i class="bi bi-arrow-left"></i>
+      Back to Enquiries
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Student Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Student Name <span class="required">*</span></label>
+            <input type="text" formControlName="student_name" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Parent Name <span class="required">*</span></label>
+            <input type="text" formControlName="parent_name" class="form-control" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Mobile <span class="required">*</span></label>
+            <input type="tel" formControlName="mobile" class="form-control" maxlength="10" />
+            <small class="form-text">10 digit mobile number</small>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" formControlName="email" class="form-control" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label>Address</label>
+            <textarea formControlName="address" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Enquiry Details</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Interested Class</label>
+            <select formControlName="interested_class_id" class="form-control">
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Enquiry Source <span class="required">*</span></label>
+            <select formControlName="enquiry_source" class="form-control">
+              <option value="walk-in">Walk-in</option>
+              <option value="online">Online</option>
+              <option value="referral">Referral</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Enquiry Date <span class="required">*</span></label>
+            <input type="date" formControlName="enquiry_date" class="form-control" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Follow-up Date</label>
+            <input type="date" formControlName="follow_up_date" class="form-control" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label>Follow-up Notes</label>
+            <textarea formControlName="follow_up_notes" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label>Remarks</label>
+            <textarea formControlName="remarks" class="form-control" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="router.navigate(['/app/enquiries'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+          <i class="bi bi-save" *ngIf="!isSaving"></i>
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Enquiry</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

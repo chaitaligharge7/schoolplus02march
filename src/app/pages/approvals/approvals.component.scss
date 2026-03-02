@@ -1,0 +1,9 @@
+.approvals-container { padding: 16px 20px; max-width: 1200px; margin: 0 auto; }
+.page-header { margin-bottom: 1.5rem; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.5rem; }
+.card { background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; }
+.card h3 { margin: 0 0 1rem 0; font-size: 1.1rem; }
+.list { list-style: none; padding: 0; margin: 0; }
+.list li { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
+.list li .actions { display: flex; gap: 0.5rem; }
+.loading, .empty { padding: 1rem; color: var(--text-secondary); }

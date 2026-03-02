@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/digital-notes/notes-list/notes-list.component.scss"],
+  "sourcesContent": [".page-container { padding: 16px 20px; max-width: 1600px; margin: 0 auto; }\r\n.page-header { margin-bottom: 1rem; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,WAAA,KAAA;AAAoB,aAAA;AAAmB,UAAA,EAAA;;AACzD,CAAA;AAAe,iBAAA;;",
+  "names": []
+}

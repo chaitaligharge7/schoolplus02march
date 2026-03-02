@@ -1,0 +1,95 @@
+<div class="admission-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Admission Management</h1>
+      <p class="page-subtitle">Manage student admissions and approvals</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <app-search-select
+        [options]="academicYearOptions"
+        [(ngModel)]="academicYearId"
+        (valueChange)="onAcademicYearChange($event)"
+        placeholder="Search or select academic year">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Applied Class:</label>
+      <app-search-select
+        [options]="appliedClassOptions"
+        [(ngModel)]="appliedClassId"
+        (valueChange)="onAppliedClassChange($event)"
+        placeholder="Search or select class">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Approval Status:</label>
+      <app-search-select
+        [options]="approvalStatusOptions"
+        [(ngModel)]="approvalStatus"
+        (valueChange)="onApprovalStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+    <div class="filter-group">
+      <label>Record Status:</label>
+      <select class="form-select form-select-sm" [(ngModel)]="statusFilter" (ngModelChange)="onStatusFilterChange()">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="admissions"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'admission_id'"
+    [addRoute]="'/app/admissions/create'"
+    [addLabel]="'Add Admission'"
+    [searchPlaceholder]="'Search by name, admission number...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    [showPrintButton]="true"
+    (printClick)="onPrintAdmission($event)"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Approval Actions for Selected Row -->
+  <div class="approval-actions" *ngIf="selectedRowId && getSelectedAdmission() && getSelectedAdmission()?.approval_status === 'pending'">
+    <button 
+      class="btn btn-success"
+      (click)="approveAdmission(getSelectedAdmission(), 'approve')"
+      title="Approve Admission">
+      <i class="bi bi-check-circle"></i>
+      Approve
+    </button>
+    <button 
+      class="btn btn-danger"
+      (click)="approveAdmission(getSelectedAdmission(), 'reject')"
+      title="Reject Admission">
+      <i class="bi bi-x-circle"></i>
+      Reject
+    </button>
+  </div>
+</div>

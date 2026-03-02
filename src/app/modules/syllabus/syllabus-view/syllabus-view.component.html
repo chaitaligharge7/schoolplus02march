@@ -1,0 +1,100 @@
+<div class="syllabus-view-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Syllabus Details</h1>
+      <p class="page-subtitle">View syllabus information and completion status</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="downloadSyllabus()" *ngIf="syllabus?.syllabus_file">
+        <i class="bi bi-download"></i>
+        Download
+      </button>
+      <a [routerLink]="['/app/syllabus/edit', syllabus?.syllabus_id]" class="btn btn-primary" *ngIf="syllabus">
+        <i class="bi bi-pencil"></i>
+        Edit
+      </a>
+      <button class="btn btn-secondary" (click)="router.navigate(['/app/syllabus'])">
+        <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+    </div>
+  </div>
+
+  <div class="details-card" *ngIf="!isLoading && syllabus">
+    <div class="details-section">
+      <h3>Basic Information</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Class</label>
+          <p>{{ syllabus.class_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Subject</label>
+          <p>{{ syllabus.subject_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Academic Year</label>
+          <p>{{ syllabus.academic_year_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Status</label>
+          <p>
+            <span class="badge" [class.badge-success]="syllabus.status === 'active'"
+                  [class.badge-secondary]="syllabus.status !== 'active'">
+              {{ syllabus.status }}
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="detail-item full-width">
+        <label>Syllabus Title</label>
+        <p><strong>{{ syllabus.syllabus_title }}</strong></p>
+      </div>
+      <div class="detail-item full-width" *ngIf="syllabus.syllabus_description">
+        <label>Description</label>
+        <p>{{ syllabus.syllabus_description }}</p>
+      </div>
+    </div>
+
+    <div class="details-section" *ngIf="syllabus.chapters && syllabus.chapters.length > 0">
+      <h3>Chapters ({{ syllabus.chapters.length }})</h3>
+      <div class="chapters-list">
+        <div *ngFor="let chapter of syllabus.chapters" class="chapter-card">
+          <div class="chapter-header">
+            <div class="chapter-number">Chapter {{ chapter.chapter_number }}</div>
+            <span class="badge" 
+                  [class.badge-success]="chapter.completion_status === 'completed'"
+                  [class.badge-warning]="chapter.completion_status === 'in_progress'"
+                  [class.badge-danger]="chapter.completion_status === 'delayed'"
+                  [class.badge-secondary]="chapter.completion_status === 'pending'">
+              {{ chapter.completion_status }}
+            </span>
+          </div>
+          <div class="chapter-name">{{ chapter.chapter_name }}</div>
+          <div class="chapter-dates">
+            <div *ngIf="chapter.estimated_completion_date">
+              <strong>Estimated:</strong> {{ chapter.estimated_completion_date | dateFormat }}
+            </div>
+            <div *ngIf="chapter.actual_completion_date">
+              <strong>Completed:</strong> {{ chapter.actual_completion_date | dateFormat }}
+            </div>
+          </div>
+          <div class="chapter-completion" *ngIf="chapter.completion_data">
+            <div class="completion-percentage">
+              Completion: {{ chapter.completion_data.completion_percentage }}%
+            </div>
+            <div class="completion-remarks" *ngIf="chapter.completion_data.remarks">
+              <strong>Remarks:</strong> {{ chapter.completion_data.remarks }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading syllabus...</p>
+  </div>
+</div>
+

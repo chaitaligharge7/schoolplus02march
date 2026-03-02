@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/complaints/complaint-view/complaint-view.component.scss"],
+  "sourcesContent": [".page-container {\r\n    padding: 1rem;\r\n}\r\n\r\n.detail-card {\r\n    max-width: 600px;\r\n    background: #fff;\r\n    padding: 1.5rem;\r\n    border-radius: 6px;\r\n    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);\r\n    margin: auto;\r\n}\r\n\r\n.detail-list {\r\n    display: grid;\r\n    grid-template-columns: 140px 1fr;\r\n    gap: 0.5rem 1rem;\r\n}\r\n\r\n.detail-list dt {\r\n    font-weight: 600;\r\n    color: #555;\r\n}\r\n\r\n.detail-list dd.notes {\r\n    white-space: pre-wrap;\r\n}\r\n\r\n.form-actions {\r\n    margin-top: 1.5rem;\r\n    display: flex;\r\n    gap: 0.5rem;\r\n}\r\n\r\n.loading-state,\r\n.empty-state {\r\n    padding: 2rem;\r\n    text-align: center;\r\n    font-size: 1.1rem;\r\n    color: #777;\r\n}"],
+  "mappings": ";AAAA,CAAA;AACI,WAAA;;AAGJ,CAAA;AACI,aAAA;AACA,cAAA;AACA,WAAA;AACA,iBAAA;AACA,cAAA,EAAA,EAAA,IAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;AACA,UAAA;;AAGJ,CAAA;AACI,WAAA;AACA,yBAAA,MAAA;AACA,OAAA,OAAA;;AAGJ,CANA,YAMA;AACI,eAAA;AACA,SAAA;;AAGJ,CAXA,YAWA,EAAA,CAAA;AACI,eAAA;;AAGJ,CAAA;AACI,cAAA;AACA,WAAA;AACA,OAAA;;AAGJ,CAAA;AAAA,CAAA;AAEI,WAAA;AACA,cAAA;AACA,aAAA;AACA,SAAA;;",
+  "names": []
+}

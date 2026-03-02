@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/inward-requests/inward-request-view/inward-request-view.component.scss"],
+  "sourcesContent": [".page-container { padding: 1rem; }\r\n.detail-card { max-width: 600px; }\r\n.detail-list { display: grid; grid-template-columns: 140px 1fr; gap: 0.5rem 1rem; }\r\n.detail-list dt { font-weight: 600; color: #555; }\r\n.detail-list dd.notes { white-space: pre-wrap; }\r\n.form-actions { margin-top: 1.5rem; }\r\n.loading-state, .empty-state { padding: 2rem; text-align: center; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,WAAA;;AAClB,CAAA;AAAe,aAAA;;AACf,CAAA;AAAe,WAAA;AAAe,yBAAA,MAAA;AAAkC,OAAA,OAAA;;AAChE,CADA,YACA;AAAkB,eAAA;AAAkB,SAAA;;AACpC,CAFA,YAEA,EAAA,CAAA;AAAwB,eAAA;;AACxB,CAAA;AAAgB,cAAA;;AAChB,CAAA;AAAA,CAAA;AAA+B,WAAA;AAAe,cAAA;;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/students/student-view/student-view.component.scss"],
+  "sourcesContent": [".student-view-container {\r\n  .view-card {\r\n    background: var(--card-bg, #fff);\r\n    border-radius: 8px;\r\n    padding: 1.5rem;\r\n    box-shadow: 0 1px 3px rgba(0,0,0,0.1);\r\n    h3 { margin-bottom: 1rem; }\r\n  }\r\n  .detail-grid {\r\n    display: grid;\r\n    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));\r\n    gap: 1rem;\r\n  }\r\n  .detail-item {\r\n    label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 0.25rem; }\r\n    span { font-weight: 500; }\r\n    .badge { padding: 0.25rem 0.5rem; border-radius: 4px; }\r\n    .badge-success { background: #28a745; color: #fff; }\r\n    .badge-warning { background: #ffc107; color: #333; }\r\n  }\r\n  .loading-state, .empty-state { padding: 2rem; text-align: center; color: #666; }\r\n}\r\n"],
+  "mappings": ";AACE,CAAA,uBAAA,CAAA;AACE,cAAA,IAAA,SAAA,EAAA;AACA,iBAAA;AACA,WAAA;AACA,cAAA,EAAA,IAAA,IAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;;AACA,CALF,uBAKE,CALF,UAKE;AAAK,iBAAA;;AAEP,CAPA,uBAOA,CAAA;AACE,WAAA;AACA,yBAAA,OAAA,SAAA,EAAA,OAAA,KAAA,EAAA;AACA,OAAA;;AAGA,CAbF,uBAaE,CAAA,YAAA;AAAQ,WAAA;AAAgB,aAAA;AAAoB,SAAA;AAAa,iBAAA;;AACzD,CAdF,uBAcE,CADA,YACA;AAAO,eAAA;;AACP,CAfF,uBAeE,CAFA,YAEA,CAAA;AAAS,WAAA,QAAA;AAAyB,iBAAA;;AAClC,CAhBF,uBAgBE,CAHA,YAGA,CAAA;AAAiB,cAAA;AAAqB,SAAA;;AACtC,CAjBF,uBAiBE,CAJA,YAIA,CAAA;AAAiB,cAAA;AAAqB,SAAA;;AAExC,CAnBA,uBAmBA,CAAA;AAAA,CAnBA,uBAmBA,CAAA;AAA+B,WAAA;AAAe,cAAA;AAAoB,SAAA;;",
+  "names": []
+}

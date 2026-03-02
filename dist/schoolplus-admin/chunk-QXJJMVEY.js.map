@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/classwork/classwork.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const CLASSWORK_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./classwork-list/classwork-list.component').then(m => m.ClassworkListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./classwork-list/classwork-list.component').then(m => m.ClassworkListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./classwork-create/classwork-create.component').then(m => m.ClassworkCreateComponent)\r\n  },\r\n      {\r\n        path: 'edit/:id',\r\n        loadComponent: () => import('./classwork-create/classwork-create.component').then(m => m.ClassworkCreateComponent)\r\n      },\r\n      {\r\n        path: 'view/:id',\r\n        loadComponent: () => import('./classwork-view/classwork-view.component').then(m => m.ClassworkViewComponent)\r\n      }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,mBAA2B;EACtC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,sBAAsB;;EAE7G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,sBAAsB;;EAE7G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAE/G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAEnH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,sBAAsB;;;",
+  "names": []
+}

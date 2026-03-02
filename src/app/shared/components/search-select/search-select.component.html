@@ -1,0 +1,47 @@
+<div class="search-select" [class.disabled]="disabled" [class.open]="isOpen">
+  <div class="search-select-trigger" (click)="open()">
+    <input
+      #inputRef
+      type="text"
+      class="search-select-input form-control"
+      [placeholder]="placeholder"
+      [ngModel]="searchText"
+      (ngModelChange)="searchText = $event"
+      (focus)="onInputFocus()"
+      (input)="onInputInput()"
+      [readonly]="!isOpen"
+      [disabled]="disabled"
+      autocomplete="off"
+    />
+    <span class="search-select-chevron" *ngIf="!isOpen">
+      <i class="bi bi-chevron-down"></i>
+    </span>
+    <button
+      type="button"
+      class="search-select-clear"
+      *ngIf="selectedOption && isOpen"
+      (click)="clear(); $event.stopPropagation()"
+      title="Clear"
+    >
+      <i class="bi bi-x"></i>
+    </button>
+  </div>
+  <div #dropdownRef class="search-select-dropdown" *ngIf="isOpen">
+    <ul class="search-select-list">
+      <li
+        *ngFor="let opt of filteredOptions"
+        class="search-select-option"
+        [class.selected]="opt.value === _value"
+        (click)="select(opt)"
+      >
+        {{ opt.label }}
+      </li>
+      <li
+        *ngIf="filteredOptions.length === 0"
+        class="search-select-option search-select-empty"
+      >
+        No matches
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,197 @@
+<app-detail-slider
+  [visible]="visible"
+  [title]="'Class Summary'"
+  [subtitle]="'Class details and related data'"
+  [profileName]="classItem?.class_name || ''"
+  [profileSubtext]="classItem?.class_code || ''"
+  (close)="onClose()"
+>
+  <div class="slider-body">
+    <aside class="slider-sidebar">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <i class="bi bi-journal-text"></i>
+        </div>
+        <div class="profile-name">{{ classItem?.class_name || "—" }}</div>
+        <div class="profile-meta" *ngIf="classItem?.class_code">
+          Code: {{ classItem.class_code }}
+        </div>
+        <div class="profile-meta" *ngIf="classItem?.total_sections != null">
+          Sections: {{ classItem.total_sections }}
+        </div>
+        <div class="profile-meta" *ngIf="classItem?.total_students != null">
+          Students: {{ classItem.total_students }}
+        </div>
+      </div>
+      <nav class="slider-nav">
+        <button
+          *ngFor="let tab of tabs"
+          type="button"
+          class="slider-nav-btn"
+          [class.active]="activeTab === tab.id"
+          (click)="setTab(tab.id)"
+        >
+          <i class="bi" [ngClass]="tab.icon"></i>
+          <span>{{ tab.label }}</span>
+        </button>
+      </nav>
+    </aside>
+    <main class="slider-content">
+      <header class="content-header">
+        <div class="content-header-text">
+          <h2 class="content-title">Class Summary</h2>
+          <p class="content-subtitle">Class details and related data</p>
+        </div>
+      </header>
+
+      <div class="content-area" *ngIf="loading">
+        <div class="content-loading">
+          <span class="spinner"></span> Loading...
+        </div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'profile'">
+        <div class="kpi-grid" *ngIf="profileData">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary">
+              <i class="bi bi-upc-scan"></i>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.class_code || "—" }}</div>
+              <div class="kpi-label">Class Code</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-success">
+              <i class="bi bi-bar-chart"></i>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.class_level ?? "—" }}</div>
+              <div class="kpi-label">Level</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-info">
+              <i class="bi bi-collection"></i>
+            </div>
+            <div class="kpi-body">
+              <!-- <div class="kpi-value">
+                {{
+                  profileData.total_sections ??
+                    profileData.total_sections_count ??
+                    "—"
+                }}
+              </div> -->
+
+              <div class="kpi-value">
+                {{ sectionsData.length || "—" }}
+              </div>
+              <div class="kpi-label">Sections</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-warning"><i class="bi bi-people"></i></div>
+            <div class="kpi-body">
+              <!-- <div class="kpi-value">{{ profileData.total_students?? '—' }}</div> -->
+              <div class="kpi-value">
+                {{ studentsData.length || "—" }}
+              </div>
+              <div class="kpi-label">Students</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'sections'">
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="sectionsData.length">
+            <thead>
+              <tr>
+                <th>Section Name</th>
+                <th>Code</th>
+                <th>Capacity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of sectionsData">
+                <td>{{ s.section_name }}</td>
+                <td>{{ s.section_code || "—" }}</td>
+                <td>{{ s.capacity ?? "—" }}</td>
+                <td>
+                  <span class="badge badge-info">{{ s.status || "—" }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="sectionsData.length === 0 && !loading">
+            No sections.
+          </p>
+        </div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'subjects'">
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="subjectsData.length">
+            <thead>
+              <tr>
+                <th>Subject Name</th>
+                <th>Code</th>
+                <th>Type</th>
+                <th>Max Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of subjectsData">
+                <td>{{ s.subject_name }}</td>
+                <td>{{ s.subject_code || "—" }}</td>
+                <td>{{ s.subject_type || "—" }}</td>
+                <td>{{ s.max_marks ?? "—" }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="subjectsData.length === 0 && !loading">
+            No subjects for this class.
+          </p>
+        </div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'students'">
+        <div class="kpi-card summary-card" *ngIf="studentsData.length">
+          <div class="kpi-value">
+            {{ studentsData.length }} student(s) in this class
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="studentsData.length">
+            <thead>
+              <tr>
+                <th>Admission No.</th>
+                <th>Name</th>
+                <th>Section</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of studentsData">
+                <td>{{ s.admission_number }}</td>
+                <td>{{ s.full_name }}</td>
+                <td>{{ s.section_name || "—" }}</td>
+                <td>
+                  <span
+                    class="badge"
+                    [class.badge-success]="s.student_status === 'Active'"
+                    >{{ s.student_status || "—" }}</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="studentsData.length === 0 && !loading">
+            No students in this class.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+</app-detail-slider>

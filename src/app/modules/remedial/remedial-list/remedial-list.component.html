@@ -1,0 +1,113 @@
+<div class="remedial-list-container">
+   <div class="page-header position-relative">
+    <div>
+      <h1 class="page-title">Remedial Batches</h1>
+      <p class="page-subtitle">Manage remedial batches and student enrollments</p>
+    </div>
+
+    <button type="button" class="btn btn-sm btn-primary position-absolute end-0 top-50 translate-middle-y" 
+            style="height: 40px; font-size: 16px; margin-right: 6px;"
+            (click)="onAddStudent(); $event.stopPropagation()">
+      <i class="bi bi-plus-circle"></i> Add Remedial Student
+    </button>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <select class="form-control" [(ngModel)]="academicYearId" (change)="onAcademicYearChange(academicYearId)">
+        <option [value]="undefined">All Academic Years</option>
+        <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+          {{ year.academic_year_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Class:</label>
+      <select class="form-control" [(ngModel)]="classId" (change)="onClassChange(classId)">
+        <option [value]="undefined">All Classes</option>
+        <option *ngFor="let cls of classes" [value]="cls.class_id">
+          {{ cls.class_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Subject:</label>
+      <select class="form-control" [(ngModel)]="subjectId" (change)="onSubjectChange(subjectId)">
+        <option [value]="undefined">All Subjects</option>
+        <option *ngFor="let subject of subjects" [value]="subject.subject_id">
+          {{ subject.subject_name }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="batches"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'batch_id'"
+    [addRoute]="'/app/remedial/create'"
+    [addLabel]="'Create Batch'"
+    [searchPlaceholder]="'Search by batch name...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+  
+<app-slider
+  *ngIf="sliderVisible"
+  [visible]="sliderVisible"
+  (close)="sliderVisible = false">
+</app-slider>
+
+  <!-- Expandable Student List -->
+  <div class="batch-details" *ngIf="batches.length > 0">
+    <div class="batch-item" *ngFor="let batch of batches">
+      <div class="batch-header" (click)="toggleStudents(batch.batch_id)">
+        <div>
+          <h4>{{ batch.batch_name }}</h4>
+          <p class="batch-info">
+            <span>{{ batch.class_name }} - {{ batch.subject_name }}</span>
+            <span class="badge badge-info">{{ batch.student_count || 0 }} students</span>
+            <span class="badge badge-success">{{ batch.status }}</span>
+          </p>
+          <p class="batch-schedule">
+            <i class="bi bi-clock"></i> {{ batch.schedule_time }}
+            <span *ngIf="batch.schedule_days"> | Days: {{ batch.schedule_days }}</span>
+          </p>
+        </div>
+        <i class="bi" [ngClass]="expandedBatchId === batch.batch_id ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+      </div>
+      
+      <div class="students-list" *ngIf="expandedBatchId === batch.batch_id && batchStudents[batch.batch_id]">
+        <div class="student-item" *ngFor="let student of batchStudents[batch.batch_id]">
+          <span>{{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})</span>
+            <button 
+              class="btn-icon btn-delete ms-3"
+              (click)="onDeleteStudent(student); $event.stopPropagation()"
+              title="Delete">
+              <i class="bi bi-trash"></i>
+            </button>
+        </div>
+        <div *ngIf="batchStudents[batch.batch_id]?.length === 0" class="no-students">
+          No students enrolled in this batch
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

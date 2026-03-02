@@ -1,0 +1,46 @@
+<div class="branch-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Branch Management</h1>
+      <p class="page-subtitle">Manage school branches</p>
+    </div>
+    <div class="status-filter-wrap">
+      <label class="status-label">Status:</label>
+      <select class="form-select form-select-sm status-select" [(ngModel)]="statusFilter" (ngModelChange)="onStatusFilterChange()">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+  </div>
+  <app-enhanced-table
+    [data]="branches"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'branch_id'"
+    [addRoute]="'/app/branches/create'"
+    [addLabel]="'Add Branch'"
+    [searchPlaceholder]="'Search branches...'"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+   (editClick)="onEdit($event)"
+  (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <app-branch-detail-slider
+    [visible]="sliderVisible"
+    [branch]="sliderBranch"
+    (close)="sliderVisible = false">
+  </app-branch-detail-slider>
+</div>

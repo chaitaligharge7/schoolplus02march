@@ -1,0 +1,1147 @@
+<div class="reports-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="bi bi-graph-up-arrow"></i>
+      </div>
+      <div>
+        <h1 class="page-title">Reports & Analytics</h1>
+        <p class="page-subtitle">Generate and export comprehensive reports for your school</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <div class="reports-layout">
+    <!-- Left Sidebar - Vertical Tabs -->
+    <div class="sidebar-tabs">
+      <div class="tab-item" 
+           [class.active]="activeTab === 'weekly'"
+           (click)="setActiveTab('weekly')">
+        <div class="tab-icon">
+          <i class="bi bi-calendar-week"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Weekly Report</div>
+          <div class="tab-subtitle">Weekly summary and statistics</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'monthly'"
+           (click)="setActiveTab('monthly')">
+        <div class="tab-icon">
+          <i class="bi bi-calendar-month"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Monthly Report</div>
+          <div class="tab-subtitle">Monthly performance overview</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'daily'"
+           (click)="setActiveTab('daily')">
+        <div class="tab-icon">
+          <i class="bi bi-calendar-day"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Daily Report</div>
+          <div class="tab-subtitle">Daily activities and events</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'subject-wise'"
+           (click)="setActiveTab('subject-wise')">
+        <div class="tab-icon">
+          <i class="bi bi-book"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Subject-wise Report</div>
+          <div class="tab-subtitle">Performance by subject</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'attendance'"
+           (click)="setActiveTab('attendance')">
+        <div class="tab-icon">
+          <i class="bi bi-person-check"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Attendance Report</div>
+          <div class="tab-subtitle">Student attendance tracking</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'fee'"
+           (click)="setActiveTab('fee')">
+        <div class="tab-icon">
+          <i class="bi bi-cash-stack"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Fee Report</div>
+          <div class="tab-subtitle">Fee collection and pending</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'performance'"
+           (click)="setActiveTab('performance')">
+        <div class="tab-icon">
+          <i class="bi bi-trophy"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Performance Report</div>
+          <div class="tab-subtitle">Student performance analysis</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'classwork'"
+           (click)="setActiveTab('classwork')">
+        <div class="tab-icon">
+          <i class="bi bi-journal-text"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Classwork Report</div>
+          <div class="tab-subtitle">Classwork assignments tracking</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'hw-cw-analysis'"
+           (click)="setActiveTab('hw-cw-analysis')">
+        <div class="tab-icon">
+          <i class="bi bi-bar-chart"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">HW/CW Analysis</div>
+          <div class="tab-subtitle">Homework and classwork analysis</div>
+        </div>
+      </div>
+
+      <div class="tab-item" 
+           [class.active]="activeTab === 'coordinator'"
+           (click)="setActiveTab('coordinator')">
+        <div class="tab-icon">
+          <i class="bi bi-people"></i>
+        </div>
+        <div class="tab-content">
+          <div class="tab-title">Coordinator Report</div>
+          <div class="tab-subtitle">Coordinator tracking report</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Content Area -->
+    <div class="content-area">
+      <!-- Weekly Report -->
+      <div class="report-section" *ngIf="activeTab === 'weekly'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-calendar-week"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Weekly Report</h2>
+            <p class="section-subtitle">Generate comprehensive weekly summary and statistics</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select date range for weekly report generation</p>
+            </div>
+          </div>
+
+          <form [formGroup]="weeklyForm" (ngSubmit)="generateWeeklyReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Week Start Date</label>
+              <input type="date" formControlName="week_start" class="form-input" />
+              <p class="form-info">Select the start date of the week</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Week End Date</label>
+              <input type="date" formControlName="week_end" class="form-input" />
+              <p class="form-info">Select the end date of the week</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card" *ngIf="weeklyReport">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Weekly Summary</h3>
+              <p class="card-subtitle">Overview of weekly activities and statistics</p>
+            </div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-people"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Students</div>
+                <div class="summary-value">{{ weeklyReport.summary?.total_students || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Avg Attendance</div>
+                <div class="summary-value">{{ weeklyReport.summary?.avg_attendance_percentage || 0 }}%</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-journal-text"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Homework</div>
+                <div class="summary-value">{{ weeklyReport.summary?.total_homework || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-calendar-event"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Events</div>
+                <div class="summary-value">{{ weeklyReport.summary?.total_events || 0 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Report -->
+      <div class="report-section" *ngIf="activeTab === 'monthly'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-calendar-month"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Monthly Report</h2>
+            <p class="section-subtitle">Generate comprehensive monthly performance overview</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select month and year for report generation</p>
+            </div>
+          </div>
+
+          <form [formGroup]="monthlyForm" (ngSubmit)="generateMonthlyReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Month</label>
+              <select formControlName="month" class="form-input">
+                <option *ngFor="let m of [1,2,3,4,5,6,7,8,9,10,11,12]" [value]="m">
+                  {{ getMonthName(m) }}
+                </option>
+              </select>
+              <p class="form-info">Select the month for the report</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Year</label>
+              <input type="number" formControlName="year" class="form-input" />
+              <p class="form-info">Enter the year for the report</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card report-print-card print-document" *ngIf="monthlyReport" id="monthly-report-print">
+          <div class="card-header no-print">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Monthly Summary</h3>
+              <p class="card-subtitle">Overview of monthly performance and statistics</p>
+            </div>
+            <span class="card-header-actions">
+              <button type="button" class="btn-primary" (click)="printReport('monthly-report-print', 'Monthly Report')">
+                <i class="bi bi-printer"></i> Print
+              </button>
+            </span>
+          </div>
+          <div class="report-print-header print-only">
+            <h2 class="report-print-title">Monthly Report</h2>
+            <p class="report-print-date">{{ getMonthName(monthlyForm?.value?.month) }} {{ monthlyForm?.value?.year }} · Generated on {{ today | date:'dd MMM yyyy' }}</p>
+          </div>
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-cash-stack"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Fee Collected</div>
+                <div class="summary-value">{{ monthlyReport.summary?.total_fee_collected | currencyFormat }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Avg Attendance</div>
+                <div class="summary-value">{{ monthlyReport.summary?.avg_attendance_percentage || 0 }}%</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-clipboard-check"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Examinations</div>
+                <div class="summary-value">{{ monthlyReport.summary?.total_examinations || 0 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Report -->
+      <div class="report-section" *ngIf="activeTab === 'daily'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-calendar-day"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Daily Report</h2>
+            <p class="section-subtitle">Generate daily activities and events report</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select date and report type</p>
+            </div>
+          </div>
+
+          <form [formGroup]="dailyForm" (ngSubmit)="generateDailyReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Report Date</label>
+              <input type="date" formControlName="report_date" class="form-input" />
+              <p class="form-info">Select the date for daily report</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Report Type</label>
+              <select formControlName="report_type" class="form-input">
+                <option value="summary">Daily Summary</option>
+                <option value="attendance">Attendance</option>
+                <option value="activities">Activities</option>
+              </select>
+              <p class="form-info">Choose the type of daily report</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card" *ngIf="dailyReport">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Daily Summary - {{ dailyForm.value.report_date | dateFormat }}</h3>
+              <p class="card-subtitle">Overview of daily activities</p>
+            </div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-activity"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Activities</div>
+                <div class="summary-value">{{ dailyReport.summary?.total_activities || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Attendance %</div>
+                <div class="summary-value">{{ dailyReport.summary?.attendance_percentage || 0 }}%</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-calendar-event"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Events</div>
+                <div class="summary-value">{{ dailyReport.summary?.total_events || 0 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subject-wise Report -->
+      <div class="report-section" *ngIf="activeTab === 'subject-wise'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-book"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Subject-wise Report</h2>
+            <p class="section-subtitle">Generate performance report by subject</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select academic year and class for subject-wise analysis</p>
+            </div>
+          </div>
+
+          <form [formGroup]="subjectWiseForm" (ngSubmit)="generateSubjectWiseReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Academic Year</label>
+              <select formControlName="academic_year_id" class="form-input">
+                <option [value]="null">Select Academic Year</option>
+                <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+                  {{ year.academic_year_name }}
+                </option>
+              </select>
+              <p class="form-info">Select the academic year for the report</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select formControlName="class_id" class="form-input">
+                <option [value]="null">All Classes</option>
+                <option *ngFor="let cls of classes" [value]="cls.class_id">
+                  {{ cls.class_name }}
+                </option>
+              </select>
+              <p class="form-info">Select class or leave as 'All Classes'</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card" *ngIf="subjectWiseReport">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-table"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Subject-wise Performance</h3>
+              <p class="card-subtitle">Detailed performance analysis by subject</p>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Total Students</th>
+                  <th>Avg Marks</th>
+                  <th>Avg Percentage</th>
+                  <th>Pass %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let subject of subjectWiseReport.subject_wise_performance">
+                  <td>{{ subject.subject_name }}</td>
+                  <td>{{ subject.total_students }}</td>
+                  <td>{{ subject.avg_obtained_marks | number:'1.2-2' }}</td>
+                  <td>{{ subject.avg_percentage | number:'1.2-2' }}%</td>
+                  <td>{{ subject.pass_percentage }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attendance Report -->
+      <div class="report-section" *ngIf="activeTab === 'attendance'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-person-check"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Attendance Report</h2>
+            <p class="section-subtitle">Generate comprehensive attendance tracking report</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select date range and filters for attendance report</p>
+            </div>
+          </div>
+
+          <form [formGroup]="attendanceForm" (ngSubmit)="generateAttendanceReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Start Date</label>
+              <input type="date" formControlName="start_date" class="form-input" />
+              <p class="form-info">Select the start date for attendance tracking</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">End Date</label>
+              <input type="date" formControlName="end_date" class="form-input" />
+              <p class="form-info">Select the end date for attendance tracking</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select formControlName="class_id" class="form-input">
+                <option [value]="null">All Classes</option>
+                <option *ngFor="let cls of classes" [value]="cls.class_id">
+                  {{ cls.class_name }}
+                </option>
+              </select>
+              <p class="form-info">Select class or leave as 'All Classes'</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card report-print-card print-document" *ngIf="attendanceReport" id="attendance-report-print">
+          <div class="card-header no-print">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Attendance Summary</h3>
+              <p class="card-subtitle">Overview of attendance statistics</p>
+            </div>
+            <span class="card-header-actions">
+              <button type="button" class="btn-primary" (click)="printReport('attendance-report-print', 'Attendance Report')">
+                <i class="bi bi-printer"></i> Print
+              </button>
+            </span>
+          </div>
+          <div class="report-print-header print-only">
+            <h2 class="report-print-title">Attendance Report</h2>
+            <p class="report-print-date">Generated on {{ today | date:'dd MMM yyyy' }}</p>
+          </div>
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-people"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Students</div>
+                <div class="summary-value">{{ attendanceReport.summary?.total_students || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-percent"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Attendance %</div>
+                <div class="summary-value">{{ attendanceReport.summary?.attendance_percentage || 0 }}%</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-check-circle-fill"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Present</div>
+                <div class="summary-value">{{ attendanceReport.summary?.total_present || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-x-circle-fill"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Absent</div>
+                <div class="summary-value">{{ attendanceReport.summary?.total_absent || 0 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fee Report -->
+      <div class="report-section" *ngIf="activeTab === 'fee'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-cash-stack"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Fee Report</h2>
+            <p class="section-subtitle">Generate fee collection and pending reports</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select date range and filters for fee report</p>
+            </div>
+          </div>
+
+          <form [formGroup]="feeForm" (ngSubmit)="generateFeeReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Start Date</label>
+              <input type="date" formControlName="start_date" class="form-input" />
+              <p class="form-info">Select the start date for fee collection period</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">End Date</label>
+              <input type="date" formControlName="end_date" class="form-input" />
+              <p class="form-info">Select the end date for fee collection period</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select formControlName="class_id" class="form-input">
+                <option [value]="null">All Classes</option>
+                <option *ngFor="let cls of classes" [value]="cls.class_id">
+                  {{ cls.class_name }}
+                </option>
+              </select>
+              <p class="form-info">Select class or leave as 'All Classes'</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card report-print-card print-document" *ngIf="feeReport" id="fee-report-print">
+          <div class="card-header no-print">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Fee Collection Summary</h3>
+              <p class="card-subtitle">Overview of fee collection statistics</p>
+            </div>
+            <span class="card-header-actions">
+              <button type="button" class="btn-primary" (click)="printReport('fee-report-print', 'Fee Report')">
+                <i class="bi bi-printer"></i> Print
+              </button>
+            </span>
+          </div>
+          <div class="report-print-header print-only">
+            <h2 class="report-print-title">Fee Report</h2>
+            <p class="report-print-date">Generated on {{ today | date:'dd MMM yyyy' }}</p>
+          </div>
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-cash-coin"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Collected</div>
+                <div class="summary-value">{{ feeReport.summary?.total_collected | currencyFormat }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-receipt"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Payments</div>
+                <div class="summary-value">{{ feeReport.summary?.total_payments || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-hourglass-split"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Pending Amount</div>
+                <div class="summary-value">{{ feeReport.pending_fees?.total_pending_amount | currencyFormat }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Report -->
+      <div class="report-section" *ngIf="activeTab === 'performance'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-trophy"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Performance Report</h2>
+            <p class="section-subtitle">Generate student performance analysis report</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select filters for performance analysis</p>
+            </div>
+          </div>
+
+          <form [formGroup]="studentPerformanceForm" (ngSubmit)="generateStudentPerformanceReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Academic Year</label>
+              <select formControlName="academic_year_id" class="form-input">
+                <option [value]="null">Select Academic Year</option>
+                <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+                  {{ year.academic_year_name }}
+                </option>
+              </select>
+              <p class="form-info">Select the academic year for the report</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select formControlName="class_id" class="form-input">
+                <option [value]="null">All Classes</option>
+                <option *ngFor="let cls of classes" [value]="cls.class_id">
+                  {{ cls.class_name }}
+                </option>
+              </select>
+              <p class="form-info">Select class or leave as 'All Classes'</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Report Period</label>
+              <select formControlName="report_period" class="form-input">
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="term">Term</option>
+                <option value="yearly">Yearly</option>
+              </select>
+              <p class="form-info">Select the period for performance analysis</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card" *ngIf="studentPerformanceReport">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Student Performance Report</h3>
+              <p class="card-subtitle">Overview of student performance statistics</p>
+            </div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-graph-up-arrow"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Overall Average</div>
+                <div class="summary-value">{{ studentPerformanceReport.overall_performance?.average_percentage || 0 }}%</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-people"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Students</div>
+                <div class="summary-value">{{ studentPerformanceReport.overall_performance?.total_students || 0 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classwork Report -->
+      <div class="report-section" *ngIf="activeTab === 'classwork'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-journal-text"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Classwork Report</h2>
+            <p class="section-subtitle">Generate classwork assignments tracking report</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select filters for classwork report</p>
+            </div>
+          </div>
+
+          <form [formGroup]="classworkForm" (ngSubmit)="generateClassworkReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Academic Year</label>
+              <select formControlName="academic_year_id" class="form-input">
+                <option [value]="null">Select Academic Year</option>
+                <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+                  {{ year.academic_year_name }}
+                </option>
+              </select>
+              <p class="form-info">Select the academic year for the report</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select formControlName="class_id" class="form-input">
+                <option [value]="null">All Classes</option>
+                <option *ngFor="let cls of classes" [value]="cls.class_id">
+                  {{ cls.class_name }}
+                </option>
+              </select>
+              <p class="form-info">Select class or leave as 'All Classes'</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Report Period</label>
+              <select formControlName="report_period" class="form-input">
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+              <p class="form-info">Select the period for classwork analysis</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card" *ngIf="classworkReport">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Classwork Report</h3>
+              <p class="card-subtitle">Overview of classwork statistics</p>
+            </div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-journal-check"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total Assignments</div>
+                <div class="summary-value">{{ classworkReport.completion_stats?.total_assignments || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-percent"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Completion Rate</div>
+                <div class="summary-value">{{ classworkReport.completion_stats?.completion_rate || 0 }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HW/CW Analysis Report -->
+      <div class="report-section" *ngIf="activeTab === 'hw-cw-analysis'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-bar-chart"></i>
+          </div>
+          <div>
+            <h2 class="section-title">HW/CW Analysis</h2>
+            <p class="section-subtitle">Generate homework and classwork analysis report</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select filters for HW/CW analysis</p>
+            </div>
+          </div>
+
+          <form [formGroup]="hwCwAnalysisForm" (ngSubmit)="generateHwCwAnalysisReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Academic Year</label>
+              <select formControlName="academic_year_id" class="form-input">
+                <option [value]="null">Select Academic Year</option>
+                <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+                  {{ year.academic_year_name }}
+                </option>
+              </select>
+              <p class="form-info">Select the academic year for the report</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select formControlName="class_id" class="form-input">
+                <option [value]="null">All Classes</option>
+                <option *ngFor="let cls of classes" [value]="cls.class_id">
+                  {{ cls.class_name }}
+                </option>
+              </select>
+              <p class="form-info">Select class or leave as 'All Classes'</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Analysis Type</label>
+              <select formControlName="analysis_type" class="form-input">
+                <option value="by_subject">By Subject</option>
+                <option value="by_teacher">By Teacher</option>
+                <option value="comparative">Comparative</option>
+              </select>
+              <p class="form-info">Select the type of analysis</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card" *ngIf="hwCwAnalysisReport">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">HW/CW Analysis Report</h3>
+              <p class="card-subtitle">Overview of homework and classwork statistics</p>
+            </div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-journal-text"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total HW</div>
+                <div class="summary-value">{{ hwCwAnalysisReport.analysis_data?.total_homework || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-journal-check"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Total CW</div>
+                <div class="summary-value">{{ hwCwAnalysisReport.analysis_data?.total_classwork || 0 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coordinator CW/HW Report -->
+      <div class="report-section" *ngIf="activeTab === 'coordinator'">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-people"></i>
+          </div>
+          <div>
+            <h2 class="section-title">Coordinator Report</h2>
+            <p class="section-subtitle">Generate coordinator tracking report</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-funnel"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Report Filters</h3>
+              <p class="card-subtitle">Select filters for coordinator report</p>
+            </div>
+          </div>
+
+          <form [formGroup]="coordinatorCwHwForm" (ngSubmit)="generateCoordinatorCwHwReport()" class="settings-form">
+            <div class="form-group">
+              <label class="form-label">Academic Year</label>
+              <select formControlName="academic_year_id" class="form-input">
+                <option [value]="null">Select Academic Year</option>
+                <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+                  {{ year.academic_year_name }}
+                </option>
+              </select>
+              <p class="form-info">Select the academic year for the report</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select formControlName="class_id" class="form-input">
+                <option [value]="null">All Classes</option>
+                <option *ngFor="let cls of classes" [value]="cls.class_id">
+                  {{ cls.class_name }}
+                </option>
+              </select>
+              <p class="form-info">Select class or leave as 'All Classes'</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Report Period</label>
+              <select formControlName="report_period" class="form-input">
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+              <p class="form-info">Select the period for coordinator analysis</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isLoading">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card" *ngIf="coordinatorCwHwReport">
+          <div class="card-header">
+            <div class="card-header-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <h3 class="card-title">Coordinator CW/HW Report</h3>
+              <p class="card-subtitle">Overview of coordinator tracking statistics</p>
+            </div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="bi bi-info-circle"></i>
+              </div>
+              <div class="summary-content">
+                <div class="summary-label">Tracking Status</div>
+                <div class="summary-value">{{ coordinatorCwHwReport.tracking_data?.status || 'N/A' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

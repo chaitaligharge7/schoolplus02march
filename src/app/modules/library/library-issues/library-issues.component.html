@@ -1,0 +1,141 @@
+<div class="library-issues-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Book Issues</h1>
+      <p class="page-subtitle">Manage book issues and returns</p>
+    </div>
+
+    <div class="page-actions">
+      <a routerLink="/app/library/list" class="btn btn-outline">
+        <i class="bi bi-arrow-left"></i>
+        Back to Books
+      </a>
+
+      <a routerLink="/app/library/create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i>
+        New Book Issue
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-card">
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="filters-form">
+      <div class="filters-grid">
+        <div class="form-group">
+          <label>Search</label>
+          <input type="text" formControlName="search" class="form-control"
+            placeholder="Search by student name, book title..." (keyup.enter)="onSearch()" />
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-search">
+            <i class="bi bi-search"></i>
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Issued Books Table -->
+  <div class="table-card">
+    <div class="table-responsive" *ngIf="!isLoading">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Book</th>
+            <th>ISBN</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Fine</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let issue of issuedBooks" [class.overdue]="isOverdue(issue.due_date)">
+            <td>
+            <div class="borrower-info">
+              <!-- Display borrower name -->
+              {{ issue.student_name || issue.teacher_name }}
+              <span *ngIf="issue.student_name">(Student)</span>
+              <span *ngIf="issue.teacher_name">(Teacher)</span>
+            </div>
+            
+            <div class="borrower-details">
+              <!-- Student-specific details -->
+              <span *ngIf="issue.student_name">
+                {{ issue.admission_number }} | {{ issue.class_name }} - {{ issue.section_name }}
+              </span>
+            
+              <!-- Teacher-specific details -->
+              <span *ngIf="issue.teacher_name">
+                <!-- Example: show teacher ID or department -->
+                ID: {{ issue.teacher_id }}
+              </span>
+            </div>
+            </td>
+            <td>{{ issue.book_title }}</td>
+            <td>{{ issue.isbn || '-' }}</td>
+            <td>{{ issue.issue_date | date:'shortDate' }}</td>
+            <td [class.text-danger]="isOverdue(issue.due_date)">
+              {{ issue.due_date | date:'shortDate' }}
+            </td>
+            <td>
+              <span class="badge" [class.badge-warning]="isOverdue(issue.due_date)"
+                [class.badge-info]="!isOverdue(issue.due_date)">
+                {{ issue.return_date ? 'Returned' : (isOverdue(issue.due_date) ? 'Overdue' : 'Issued') }}
+              </span>
+            </td>
+            <td>₹{{ issue.fine_amount || 0 | number:'1.2-2' }}</td>
+            <td>
+              <div class="action-buttons" *ngIf="!issue.return_date">
+                <button (click)="returnBook(issue.book_issue_id)" class="btn-icon btn-primary" title="Return Book">
+                  <i class="bi bi-arrow-counterclockwise"></i>
+                </button>
+              </div>
+              <span *ngIf="issue.return_date" class="text-muted">Returned</span>
+            </td>
+          </tr>
+          <tr *ngIf="issuedBooks.length === 0">
+            <td colspan="8" class="text-center">
+              <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <p>No issued books found</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Loading issued books...</p>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container" *ngIf="!isLoading && pagination.pages > 1">
+      <div class="pagination-info">
+        Showing {{ (pagination.page - 1) * pagination.limit + 1 }} to
+        {{ Math.min(pagination.page * pagination.limit, pagination.total) }} of
+        {{ pagination.total }} issued books
+      </div>
+      <div class="pagination-buttons">
+        <button class="btn btn-outline" [disabled]="pagination.page === 1" (click)="onPageChange(pagination.page - 1)">
+          Previous
+        </button>
+        <span class="page-numbers">
+          Page {{ pagination.page }} of {{ pagination.pages }}
+        </span>
+        <button class="btn btn-outline" [disabled]="pagination.page === pagination.pages"
+          (click)="onPageChange(pagination.page + 1)">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

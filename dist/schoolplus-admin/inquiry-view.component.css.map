@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/security-guard/inquiry-view/inquiry-view.component.scss"],
+  "sourcesContent": [".page-container { width: 100%; padding: 1rem; }\r\n.detail-card { width: 100%; }\r\n.detail-list { display: grid; grid-template-columns: 140px 1fr; gap: 0.5rem 1rem; }\r\n.detail-list dt { font-weight: 600; color: #555; }\r\n.detail-list dd.notes { white-space: pre-wrap; }\r\n.form-actions { margin-top: 1.5rem; display: flex; gap: 0.5rem; }\r\n.loading-state, .empty-state { padding: 2rem; text-align: center; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,SAAA;AAAa,WAAA;;AAC/B,CAAA;AAAe,SAAA;;AACf,CAAA;AAAe,WAAA;AAAe,yBAAA,MAAA;AAAkC,OAAA,OAAA;;AAChE,CADA,YACA;AAAkB,eAAA;AAAkB,SAAA;;AACpC,CAFA,YAEA,EAAA,CAAA;AAAwB,eAAA;;AACxB,CAAA;AAAgB,cAAA;AAAoB,WAAA;AAAe,OAAA;;AACnD,CAAA;AAAA,CAAA;AAA+B,WAAA;AAAe,cAAA;;",
+  "names": []
+}

@@ -1,0 +1,50 @@
+<div class="fee-defaulters-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Fee Defaulters</h1>
+      <p class="page-subtitle">Students with pending or overdue fee payments</p>
+    </div>
+    <div class="header-actions">
+      <a routerLink="/app/fees/list" class="btn btn-outline">
+        <i class="bi bi-list-ul"></i>
+        All Fees
+      </a>
+    </div>
+  </div>
+  <div class="summary-card" *ngIf="!loading">
+    <div class="summary-icon summary-icon-warning">
+      <i class="bi bi-exclamation-triangle"></i>
+    </div>
+    <div class="summary-content">
+      <h3 class="summary-value">₹{{ totalPendingAmount | number:'1.2-2' }}</h3>
+      <p class="summary-label">Total Pending Amount</p>
+    </div>
+  </div>
+  <div class="additional-filters" *ngIf="classes.length > 0">
+    <div class="filter-group">
+      <label>Class:</label>
+      <app-search-select
+        [options]="classOptions"
+        [(ngModel)]="classId"
+        (valueChange)="onClassChange($event)"
+        placeholder="Search or select class">
+      </app-search-select>
+    </div>
+  </div>
+  <app-enhanced-table
+    [data]="defaulters"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [searchPlaceholder]="'Search by student name or admission no...'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+   
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

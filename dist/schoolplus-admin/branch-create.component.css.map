@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/branches/branch-create/branch-create.component.scss"],
+  "sourcesContent": [".branch-create-container {\r\n  padding: 16px 20px;\r\n  max-width: 700px;\r\n  margin: 0 auto;\r\n  .form-card { background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--radius-md); }\r\n  .form-group { margin-bottom: var(--spacing-md); label { display: block; margin-bottom: var(--spacing-xs); font-weight: 500; } .form-control { width: 100%; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); } }\r\n  .form-row { display: flex; gap: var(--spacing-md); flex-wrap: wrap; }\r\n  .form-actions { display: flex; gap: var(--spacing-md); margin-top: var(--spacing-lg); }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA,KAAA;AACA,aAAA;AACA,UAAA,EAAA;;AACA,CAJF,wBAIE,CAAA;AAAa,cAAA,IAAA;AAAiC,WAAA,IAAA;AAA4B,iBAAA,IAAA;;AAC1E,CALF,wBAKE,CAAA;AAAc,iBAAA,IAAA;;AAAkC,CALlD,wBAKkD,CAAhD,WAAgD;AAAQ,WAAA;AAAgB,iBAAA,IAAA;AAAkC,eAAA;;AAAoB,CALhI,wBAKgI,CAA9H,WAA8H,CAAA;AAAgB,SAAA;AAAa,WAAA,IAAA,cAAA,IAAA;AAA8C,iBAAA,IAAA;;AACzM,CANF,wBAME,CAAA;AAAY,WAAA;AAAe,OAAA,IAAA;AAAwB,aAAA;;AACnD,CAPF,wBAOE,CAAA;AAAgB,WAAA;AAAe,OAAA,IAAA;AAAwB,cAAA,IAAA;;",
+  "names": []
+}

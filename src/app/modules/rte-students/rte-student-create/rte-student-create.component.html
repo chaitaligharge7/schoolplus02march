@@ -1,0 +1,141 @@
+<div class="rte-student-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit RTE Student' : 'Register RTE Student' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update RTE student details' : 'Register a student under RTE (Right to Education)' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="rteForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Student Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student <span class="required">*</span></label>
+            <select
+              formControlName="student_id"
+              class="form-control"
+              [class.is-invalid]="rteForm.get('student_id')?.invalid && rteForm.get('student_id')?.touched"
+            >
+              <option [value]="null">Select Student</option>
+              <option *ngFor="let student of students" [value]="student.student_id">
+                {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="rteForm.get('student_id')?.invalid && rteForm.get('student_id')?.touched">
+              Student selection is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>RTE Number <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="rte_number"
+              class="form-control"
+              [class.is-invalid]="rteForm.get('rte_number')?.invalid && rteForm.get('rte_number')?.touched"
+              placeholder="Enter RTE number"
+            />
+            <div class="invalid-feedback" *ngIf="rteForm.get('rte_number')?.invalid && rteForm.get('rte_number')?.touched">
+              RTE number is required
+            </div>
+          </div>
+
+          <div class="form-group">
+  <label>RTE Category <span class="required">*</span></label>
+  <select
+    formControlName="rte_category"
+    class="form-control"
+    [class.is-invalid]="rteForm.get('rte_category')?.invalid && rteForm.get('rte_category')?.touched"
+  >
+    <option value="">Select Category</option>
+    <option value="General">General</option>
+    <option value="SC">SC</option>
+    <option value="ST">ST</option>
+    <option value="OBC">OBC</option>
+  </select>
+  <div class="invalid-feedback" *ngIf="rteForm.get('rte_category')?.invalid && rteForm.get('rte_category')?.touched">
+    RTE category is required
+  </div>
+</div>
+
+
+      <div class="form-group">
+  <label>Class</label>
+  <select formControlName="class_id" class="form-control">
+    <option [value]="null">Select Class</option>
+    <option *ngFor="let cls of classes" [value]="cls.class_id">{{ cls.class_name }}</option>
+  </select>
+</div>
+          <div class="form-group">
+            <label>Admission Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="admission_date"
+              class="form-control"
+              [class.is-invalid]="rteForm.get('admission_date')?.invalid && rteForm.get('admission_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="rteForm.get('admission_date')?.invalid && rteForm.get('admission_date')?.touched">
+              Admission date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Income Certificate Number</label>
+            <input
+              type="text"
+              formControlName="income_certificate_number"
+              class="form-control"
+              placeholder="Enter income certificate number"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Caste Certificate Number</label>
+            <input
+              type="text"
+              formControlName="caste_certificate_number"
+              class="form-control"
+              placeholder="Enter caste certificate number"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional remarks"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || rteForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Register' }} RTE Student</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

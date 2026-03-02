@@ -1,0 +1,63 @@
+<div class="designation-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Designation' : 'Create Designation' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update designation details' : 'Add a new designation' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/designations'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="designationForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Designation Name *</label>
+          <input
+            type="text"
+            formControlName="designation_name"
+            class="form-control"
+            placeholder="e.g., Principal, Vice Principal, Teacher"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Designation Code</label>
+          <input
+            type="text"
+            formControlName="designation_code"
+            class="form-control"
+            placeholder="e.g., PRIN, VP, TCH"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          formControlName="designation_description"
+          class="form-control"
+          rows="3"
+          placeholder="Enter designation description..."
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/designations'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || designationForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Designation</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

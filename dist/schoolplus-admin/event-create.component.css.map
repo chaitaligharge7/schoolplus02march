@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/sports/event-create/event-create.component.scss"],
+  "sourcesContent": [".page-container { width: 100%; padding: 0; }\r\n.form-card { margin-top: var(--spacing-lg); }\r\n.form-group { margin-bottom: 1rem; label { display: block; margin-bottom: 0.25rem; font-weight: 500; } .form-control { width: 100%; padding: 0.5rem; border-radius: 6px; } }\r\n.form-row { display: flex; gap: 1rem; flex-wrap: wrap; }\r\n.form-actions { margin-top: 1.5rem; display: flex; gap: 0.5rem; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,SAAA;AAAa,WAAA;;AAC/B,CAAA;AAAa,cAAA,IAAA;;AACb,CAAA;AAAc,iBAAA;;AAAqB,CAAnC,WAAmC;AAAQ,WAAA;AAAgB,iBAAA;AAAwB,eAAA;;AAAoB,CAAvG,WAAuG,CAAA;AAAgB,SAAA;AAAa,WAAA;AAAiB,iBAAA;;AACrJ,CAAA;AAAY,WAAA;AAAe,OAAA;AAAW,aAAA;;AACtC,CAAA;AAAgB,cAAA;AAAoB,WAAA;AAAe,OAAA;;",
+  "names": []
+}

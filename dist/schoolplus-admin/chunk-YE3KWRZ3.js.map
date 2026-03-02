@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/question-papers/question-papers.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const QUESTION_PAPERS_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./question-paper-list/question-paper-list.component').then(m => m.QuestionPaperListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./question-paper-list/question-paper-list.component').then(m => m.QuestionPaperListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./question-paper-create/question-paper-create.component').then(m => m.QuestionPaperCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./question-paper-create/question-paper-create.component').then(m => m.QuestionPaperCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,yBAAiC;EAC5C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE3H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE3H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyD,EAAE,KAAK,OAAK,EAAE,4BAA4B;;EAEjI;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyD,EAAE,KAAK,OAAK,EAAE,4BAA4B;;;",
+  "names": []
+}

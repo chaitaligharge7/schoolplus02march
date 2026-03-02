@@ -1,0 +1,63 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Edit Lead</h1>
+    <p class="page-subtitle">Update lead status and notes</p>
+  </div>
+  <div *ngIf="loadingData" class="loading-state">Loading...</div>
+  <form *ngIf="!loadingData && model.enquiry_id" (ngSubmit)="save()" class="form-card">
+    <div class="form-group">
+      <label>Lead Status</label>
+      <select class="form-control" [(ngModel)]="model.status" name="status">
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="opportunity">Opportunity</option>
+        <option value="campus_tour">Campus Tour</option>
+        <option value="fee_discussion">Fee Discussion</option>
+        <option value="admitted">Admitted</option>
+        <option value="dropped">Dropped</option>
+        <option value="transferred">Transferred</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Career Notes</label>
+      <textarea class="form-control" [(ngModel)]="model.career_notes" name="career_notes" rows="4"></textarea>
+    </div>
+    <div class="form-group checkbox-group">
+      <label><input type="checkbox" [(ngModel)]="model.campus_tour_done" name="campus_tour_done" /> Campus tour done</label>
+    </div>
+    <div class="form-group checkbox-group">
+      <label><input type="checkbox" [(ngModel)]="model.fee_discussion_done" name="fee_discussion_done" /> Fee discussion done</label>
+    </div>
+    <div class="form-group">
+      <label>Next Follow-up Date (Opportunity)</label>
+      <input type="date" class="form-control" [(ngModel)]="model.next_follow_up_date" name="next_follow_up_date" />
+    </div>
+    <div class="form-group">
+      <label>Follow-up Notes</label>
+      <textarea class="form-control" [(ngModel)]="model.follow_up_notes" name="follow_up_notes" rows="2"></textarea>
+    </div>
+    <div class="form-group d-flex gap-2 flex-wrap">
+      <button type="button" class="btn btn-outline-primary" [disabled]="campusTourSending" (click)="requestCampusTour()">
+        {{ campusTourSending ? 'Sending...' : 'Request Campus Tour' }}
+      </button>
+      <button type="button" class="btn btn-outline-secondary" (click)="toggleFacilities()">Facilities Panel</button>
+    </div>
+    <div class="card mb-3" *ngIf="showFacilities">
+      <div class="card-header">Facilities (real-time)</div>
+      <div class="card-body">
+        <div class="row g-2" *ngIf="facilityEntries.length">
+          <div class="col-6 col-md-4" *ngFor="let entry of facilityEntries">
+            <span class="badge bg-secondary">{{ entry.label }}</span>
+            <span *ngIf="entry.total_hostels"> Hostels: {{ entry.total_hostels }}, Rooms: {{ entry.total_rooms }}</span>
+            <span *ngIf="entry.total_routes"> Routes: {{ entry.total_routes }}</span>
+            <span *ngIf="entry.total_schedules"> Schedules: {{ entry.total_schedules }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="loading">{{ loading ? 'Saving...' : 'Update' }}</button>
+    </div>
+  </form>
+</div>

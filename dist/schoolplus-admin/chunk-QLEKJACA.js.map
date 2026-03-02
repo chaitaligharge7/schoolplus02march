@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/teaching-plan/teaching-plan.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const TEACHING_PLAN_ROUTES: Routes = [\r\n  { path: '', redirectTo: 'list', pathMatch: 'full' },\r\n  { path: 'list', loadComponent: () => import('./plan-list/plan-list.component').then(m => m.PlanListComponent) },\r\n  { path: 'create', loadComponent: () => import('./plan-create/plan-create.component').then(m => m.PlanCreateComponent) },\r\n  { path: 'edit/:id', loadComponent: () => import('./plan-create/plan-create.component').then(m => m.PlanCreateComponent) }\r\n];\r\n"],
+  "mappings": ";;;AAEO,IAAM,uBAA+B;EAC1C,EAAE,MAAM,IAAI,YAAY,QAAQ,WAAW,OAAM;EACjD,EAAE,MAAM,QAAQ,eAAe,MAAM,OAAO,qBAAiC,EAAE,KAAK,OAAK,EAAE,iBAAiB,EAAC;EAC7G,EAAE,MAAM,UAAU,eAAe,MAAM,OAAO,qBAAqC,EAAE,KAAK,OAAK,EAAE,mBAAmB,EAAC;EACrH,EAAE,MAAM,YAAY,eAAe,MAAM,OAAO,qBAAqC,EAAE,KAAK,OAAK,EAAE,mBAAmB,EAAC;;",
+  "names": []
+}

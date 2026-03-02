@@ -1,0 +1,21 @@
+<div class="confirm-dialog">
+  <div class="dialog-header">
+    <div class="dialog-icon" [class.icon-warning]="data.type === 'warning'" 
+         [class.icon-danger]="data.type === 'danger'" 
+         [class.icon-info]="data.type === 'info'">
+      <i [class]="getIconClass()"></i>
+    </div>
+    <h2 class="dialog-title">{{ data.title }}</h2>
+  </div>
+  <div class="dialog-content">
+    <p>{{ data.message }}</p>
+  </div>
+  <div class="dialog-actions">
+    <button class="btn btn-outline" (click)="onCancel()">{{ data.cancelText }}</button>
+    <button class="btn" [class.btn-danger]="data.type === 'danger'" 
+            [class.btn-warning]="data.type === 'warning'"
+            [class.btn-primary]="data.type === 'info'"
+            (click)="onConfirm()">{{ data.confirmText }}</button>
+  </div>
+</div>
+

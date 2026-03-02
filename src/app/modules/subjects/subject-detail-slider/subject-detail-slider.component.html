@@ -1,0 +1,87 @@
+<app-detail-slider
+  [visible]="visible"
+  [title]="'Subject Summary'"
+  [subtitle]="'Subject details'"
+  [profileName]="subject?.subject_name || ''"
+  [profileSubtext]="subject?.subject_code || ''"
+  (close)="onClose()">
+  <div class="slider-body">
+    <aside class="slider-sidebar">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <i class="bi bi-book"></i>
+        </div>
+        <div class="profile-name">{{ subject?.subject_name || '—' }}</div>
+        <div class="profile-meta" *ngIf="subject?.subject_code">Code: {{ subject.subject_code }}</div>
+        <div class="profile-meta" *ngIf="subject?.class_name">Class: {{ subject.class_name }}</div>
+      </div>
+      <nav class="slider-nav">
+        <button
+          *ngFor="let tab of tabs"
+          type="button"
+          class="slider-nav-btn"
+          [class.active]="activeTab === tab.id"
+          (click)="setTab(tab.id)">
+          <i class="bi" [ngClass]="tab.icon"></i>
+          <span>{{ tab.label }}</span>
+        </button>
+      </nav>
+    </aside>
+    <main class="slider-content">
+      <header class="content-header">
+        <div class="content-header-text">
+          <h2 class="content-title">Subject Summary</h2>
+          <p class="content-subtitle">Subject details</p>
+        </div>
+      </header>
+
+      <div class="content-area" *ngIf="loading">
+        <div class="content-loading"><span class="spinner"></span> Loading...</div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'profile'">
+        <div class="kpi-grid" *ngIf="profileData">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary"><i class="bi bi-upc-scan"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.subject_code || '—' }}</div>
+              <div class="kpi-label">Subject Code</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-success"><i class="bi bi-journal"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.subject_type || '—' }}</div>
+              <div class="kpi-label">Type</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-info"><i class="bi bi-trophy"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.max_marks ?? '—' }}</div>
+              <div class="kpi-label">Max Marks</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-warning"><i class="bi bi-check-circle"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.pass_marks ?? '—' }}</div>
+              <div class="kpi-label">Passing Marks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'details'">
+        <div class="detail-card" *ngIf="profileData">
+          <div class="detail-row"><span class="label">Subject Name</span><span class="value">{{ profileData.subject_name }}</span></div>
+          <div class="detail-row"><span class="label">Subject Code</span><span class="value">{{ profileData.subject_code || '—' }}</span></div>
+          <div class="detail-row"><span class="label">Type</span><span class="value">{{ profileData.subject_type || '—' }}</span></div>
+          <div class="detail-row"><span class="label">Max Marks</span><span class="value">{{ profileData.max_marks ?? '—' }}</span></div>
+          <div class="detail-row"><span class="label">Passing Marks</span><span class="value">{{ profileData.passing_marks ?? '—' }}</span></div>
+          <div class="detail-row"><span class="label">Status</span><span class="value"><span class="badge badge-info">{{ profileData.status || '—' }}</span></span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</app-detail-slider>

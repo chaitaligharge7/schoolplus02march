@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/mess-schedules/mess-schedules.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const MESS_SCHEDULES_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./mess-schedule-list/mess-schedule-list.component').then(m => m.MessScheduleListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./mess-schedule-list/mess-schedule-list.component').then(m => m.MessScheduleListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./mess-schedule-create/mess-schedule-create.component').then(m => m.MessScheduleCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./mess-schedule-create/mess-schedule-create.component').then(m => m.MessScheduleCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,wBAAgC;EAC3C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,yBAAyB;;EAExH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,yBAAyB;;EAExH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,2BAA2B;;EAE9H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,2BAA2B;;;",
+  "names": []
+}

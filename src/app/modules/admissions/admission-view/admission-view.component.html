@@ -1,0 +1,151 @@
+<div class="admission-view-container">
+  <div class="page-header no-print">
+    <div>
+      <h1 class="page-title">Admission Details</h1>
+      <p class="page-subtitle">View admission information</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="print()" *ngIf="admission">
+        <i class="bi bi-printer"></i>
+        Print
+      </button>
+      <button 
+        *ngIf="admission && admission.approval_status === 'pending'"
+        class="btn btn-success" 
+        (click)="approveAdmission('approve')">
+        <i class="bi bi-check-circle"></i>
+        Approve
+      </button>
+      <button 
+        *ngIf="admission && admission.approval_status === 'pending'"
+        class="btn btn-danger" 
+        (click)="approveAdmission('reject')">
+        <i class="bi bi-x-circle"></i>
+        Reject
+      </button>
+      <button class="btn btn-secondary" (click)="router.navigate(['/app/admissions'])">
+        <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+    </div>
+  </div>
+
+  <div class="details-card print-document admission-print" *ngIf="!isLoading && admission" id="admission-print">
+    <div class="print-header admission-print-header">
+      <h1 class="print-title">ADMISSION FORM</h1>
+      <p class="print-subtitle">Admission No: {{ admission.admission_number }} · {{ admission.academic_year_name }}</p>
+    </div>
+    <div class="details-section">
+      <h3>Admission Information</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Admission Number</label>
+          <p><strong>{{ admission.admission_number }}</strong></p>
+        </div>
+        <div class="detail-item">
+          <label>Academic Year</label>
+          <p>{{ admission.academic_year_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Applied Class</label>
+          <p>{{ admission.applied_class_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Status</label>
+          <p>
+            <span class="badge" 
+                  [class.badge-success]="admission.approval_status === 'approved'"
+                  [class.badge-warning]="admission.approval_status === 'pending'"
+                  [class.badge-danger]="admission.approval_status === 'rejected'">
+              {{ admission.approval_status }}
+            </span>
+          </p>
+        </div>
+        <div class="detail-item" *ngIf="admission.enquiry_number">
+          <label>Related Enquiry</label>
+          <p>{{ admission.enquiry_number }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <h3>Student Information</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Student Name</label>
+          <p><strong>{{ admission.student_name }}</strong></p>
+        </div>
+        <div class="detail-item">
+          <label>Date of Birth</label>
+          <p>{{ admission.date_of_birth | dateFormat }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Gender</label>
+          <p>{{ admission.gender }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Previous School</label>
+          <p>{{ admission.previous_school || '-' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <h3>Parent Information</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Parent Name</label>
+          <p>{{ admission.parent_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Parent Mobile</label>
+          <p>{{ admission.parent_mobile }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Parent Email</label>
+          <p>{{ admission.parent_email || '-' }}</p>
+        </div>
+        <div class="detail-item full-width">
+          <label>Address</label>
+          <p>{{ admission.address || '-' }}</p>
+        </div>
+      </div>
+    </div>
+
+ <!-- General Documents -->
+<div class="details-section" *ngIf="admission.documents && admission.documents.length > 0">
+  <h3>Documents</h3>
+  <div class="documents-list">
+    <div *ngFor="let doc of admission.documents" class="document-item">
+      <i class="bi bi-file-earmark-pdf"></i>
+      <a [href]="doc" target="_blank" class="document-link">{{ doc.split('/').pop() }}</a>
+    </div>
+  </div>
+</div>
+
+<!-- Admission Form File -->
+<div class="details-section" *ngIf="admission.admission_form_file">
+  <h3>Admission Form</h3>
+  <div class="documents-list">
+    <div class="document-item">
+      <i class="bi bi-file-earmark-pdf"></i>
+      <a [href]="admission.admission_form_file" target="_blank" class="document-link">
+        {{ admission.admission_form_file.split('/').pop() }}
+      </a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="details-section" *ngIf="admission.remarks">
+      <h3>Remarks</h3>
+      <p>{{ admission.remarks }}</p>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading admission...</p>
+  </div>
+</div>
+

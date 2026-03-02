@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/student-participation/student-participation.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const STUDENT_PARTICIPATION_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./participation-list/participation-list.component').then(m => m.ParticipationListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./participation-list/participation-list.component').then(m => m.ParticipationListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./participation-create/participation-create.component').then(m => m.ParticipationCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./participation-create/participation-create.component').then(m => m.ParticipationCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,+BAAuC;EAClD;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAEzH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAEzH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,4BAA4B;;EAE/H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,4BAA4B;;;",
+  "names": []
+}

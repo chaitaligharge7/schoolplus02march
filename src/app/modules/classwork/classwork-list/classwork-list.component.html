@@ -1,0 +1,63 @@
+<div class="classwork-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Classwork Management</h1>
+      <p class="page-subtitle">Manage classwork assignments and submissions</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Academic Year:</label>
+      <select class="form-control" [(ngModel)]="academicYearId" (change)="onAcademicYearChange(academicYearId)">
+        <option [value]="undefined">All Academic Years</option>
+        <option *ngFor="let year of academicYears" [value]="year.academic_year_id">
+          {{ year.academic_year_name }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Class:</label>
+      <select class="form-control" [(ngModel)]="classId" (change)="onClassChange(classId)">
+        <option [value]="undefined">All Classes</option>
+        <option *ngFor="let cls of classes" [value]="cls.class_id">{{ cls.class_name }}</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Subject:</label>
+      <select class="form-control" [(ngModel)]="subjectId" (change)="onSubjectChange(subjectId)">
+        <option [value]="undefined">All Subjects</option>
+        <option *ngFor="let subject of subjects" [value]="subject.subject_id">{{ subject.subject_name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="classwork"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'classwork_id'"
+    [addRoute]="'/app/classwork/create'"
+    [addLabel]="'Add Classwork'"
+    [searchPlaceholder]="'Search by title...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    [showViewButton]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

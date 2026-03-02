@@ -1,0 +1,73 @@
+<div class="cctv-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">CCTV Management</h1>
+      <p class="page-subtitle">Monitor and manage CCTV cameras</p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Location:</label>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="location"
+        (input)="onLocationChange(location)"
+        placeholder="Filter by location"
+      />
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <select
+        class="form-control"
+        [(ngModel)]="status"
+        (change)="onStatusChange(status)"
+      >
+        <option [value]="undefined">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="cctvList"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'cctv_id'"
+    [addRoute]="'/app/cctv/create'"
+    [addLabel]="'Add CCTV'"
+    [searchPlaceholder]="'Search by camera name or location...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Check Status Button for Selected Row -->
+  <div class="check-status-action" *ngIf="selectedRowId">
+    <button
+      class="btn btn-info"
+      (click)="checkStatus(selectedRowId)"
+      title="Check Status"
+    >
+      <i class="bi bi-arrow-clockwise"></i>
+      Check Status
+    </button>
+  </div>
+</div>

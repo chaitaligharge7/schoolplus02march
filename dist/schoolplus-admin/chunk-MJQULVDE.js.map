@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/staff-allotment/staff-allotment.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const STAFF_ALLOTMENT_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./staff-allotment-list/staff-allotment-list.component').then(m => m.StaffAllotmentListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./staff-allotment-list/staff-allotment-list.component').then(m => m.StaffAllotmentListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./staff-allotment-create/staff-allotment-create.component').then(m => m.StaffAllotmentCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./staff-allotment-create/staff-allotment-create.component').then(m => m.StaffAllotmentCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,yBAAiC;EAC5C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,2BAA2B;;EAE9H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuD,EAAE,KAAK,OAAK,EAAE,2BAA2B;;EAE9H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2D,EAAE,KAAK,OAAK,EAAE,6BAA6B;;EAEpI;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2D,EAAE,KAAK,OAAK,EAAE,6BAA6B;;;",
+  "names": []
+}

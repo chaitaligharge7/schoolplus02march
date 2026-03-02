@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/uniform-fines/uniform-fines.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const UNIFORM_FINES_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./uniform-fine-list/uniform-fine-list.component').then(m => m.UniformFineListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./uniform-fine-list/uniform-fine-list.component').then(m => m.UniformFineListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./uniform-fine-create/uniform-fine-create.component').then(m => m.UniformFineCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./uniform-fine-create/uniform-fine-create.component').then(m => m.UniformFineCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,uBAA+B;EAC1C;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAErH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,wBAAwB;;EAErH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;EAE3H;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,0BAA0B;;;",
+  "names": []
+}

@@ -1,0 +1,37 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Inquiry Management</h1>
+    <p class="page-subtitle">Inquiries forwarded from security – follow up and assign</p>
+  </div>
+  <div class="filters">
+    <div class="filter-group">
+      <label>Status</label>
+      <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <option [value]="undefined">All</option>
+        <option value="forwarded">Forwarded</option>
+        <option value="picked">Picked</option>
+        <option value="resolved">Resolved</option>
+        <option value="registered">Registered</option>
+      </select>
+    </div>
+  </div>
+  <app-enhanced-table
+    [data]="inquiries"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [rowIdKey]="rowIdKey"
+    [searchPlaceholder]="'Search visitor or purpose...'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (viewClick)="onView($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/cleaning/cleaning.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const CLEANING_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./cleaning-list/cleaning-list.component').then(m => m.CleaningListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./cleaning-list/cleaning-list.component').then(m => m.CleaningListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./cleaning-create/cleaning-create.component').then(m => m.CleaningCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./cleaning-create/cleaning-create.component').then(m => m.CleaningCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,kBAA0B;EACrC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE1G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE1G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA6C,EAAE,KAAK,OAAK,EAAE,uBAAuB;;EAEhH;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA6C,EAAE,KAAK,OAAK,EAAE,uBAAuB;;;",
+  "names": []
+}

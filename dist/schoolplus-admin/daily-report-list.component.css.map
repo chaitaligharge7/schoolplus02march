@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/security-guard/daily-report-list/daily-report-list.component.scss"],
+  "sourcesContent": [".page-container { padding: 1rem; }\r\n.filters { margin-bottom: 1rem; }\r\n.filter-group label { display: block; margin-bottom: 0.25rem; font-weight: 500; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,WAAA;;AAClB,CAAA;AAAW,iBAAA;;AACX,CAAA,aAAA;AAAsB,WAAA;AAAgB,iBAAA;AAAwB,eAAA;;",
+  "names": []
+}

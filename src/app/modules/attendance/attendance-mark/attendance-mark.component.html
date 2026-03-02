@@ -1,0 +1,138 @@
+<div class="attendance-mark-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mark Attendance</h1>
+      <p class="page-subtitle">Mark student attendance for a specific date</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-card">
+    <form [formGroup]="attendanceForm" class="filters-form">
+      <div class="filters-grid">
+        <div class="form-group">
+          <label>Class</label>
+          <select formControlName="class_id" class="form-control" (change)="onClassChange($any($event.target).value)">
+            <option [value]="null">Select Class</option>
+            <option *ngFor="let cls of classes" [value]="cls.class_id">{{ cls.class_name }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Section</label>
+          <select formControlName="section_id" class="form-control" (change)="onSectionChange()">
+            <option [value]="null">Select Section</option>
+            <option *ngFor="let sec of sections" [value]="sec.section_id">{{ sec.section_name }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input
+            type="date"
+            formControlName="attendance_date"
+            class="form-control"
+            (change)="onDateChange()"
+          />
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn btn-primary" (click)="loadAttendance()" [disabled]="isLoading">
+            <i class="bi bi-search"></i>
+            Load Students
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Attendance Table -->
+  <div class="table-card" *ngIf="students.length > 0">
+    <!-- <div class="table-header">
+      <h3>Students Attendance</h3>
+      <button class="btn btn-primary" (click)="markAttendance()" [disabled]="isSaving">
+        <span *ngIf="!isSaving">Save Attendance</span>
+        <span *ngIf="isSaving">
+          <span class="spinner-small"></span>
+          Saving...
+        </span>
+      </button>
+    </div> -->
+<div class="table-header">
+  <h3>Students Attendance</h3>
+  <div class="attendance-actions">
+    <!-- Mark All Present -->
+    <button type="button" class="btn btn-success btn-sm me-2" title="Mark All Present" (click)="markAllPresent()">
+      <i class="bi bi-check-circle-fill"></i>
+    </button>
+
+    <!-- Mark All Absent -->
+    <button type="button" class="btn btn-danger btn-sm me-2" title="Mark All Absent" (click)="markAllAbsent()">
+      <i class="bi bi-x-circle-fill"></i>
+    </button>
+
+    <!-- Save Attendance -->
+    <button class="btn btn-primary" (click)="markAttendance()" [disabled]="isSaving">
+      <span *ngIf="!isSaving">Save Attendance</span>
+      <span *ngIf="isSaving">
+        <span class="spinner-small"></span>
+        Saving...
+      </span>
+    </button>
+  </div>
+</div>
+
+
+
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Roll No.</th>
+            <th>Admission No.</th>
+            <th>Name</th>
+            <th>Attendance</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students">
+            <td>{{ student.roll_number || '-' }}</td>
+            <td>{{ student.admission_number }}</td>
+            <td>{{ student.full_name }}</td>
+            <td>
+              <select
+                [(ngModel)]="student.attendance_type_id"
+                class="form-control form-control-sm"
+                [ngModelOptions]="{standalone: true}"
+              >
+                <option *ngFor="let type of attendanceTypes" [value]="type.attendance_type_id">
+                  {{ type.attendance_type_name }}
+                </option>
+              </select>
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="student.remarks"
+                class="form-control form-control-sm"
+                placeholder="Remarks (optional)"
+                [ngModelOptions]="{standalone: true}"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="empty-state-card" *ngIf="students.length === 0 && !isLoading">
+    <i class="bi bi-calendar-x"></i>
+    <p>Select class, section, and date to load students</p>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading students...</p>
+  </div>
+</div>

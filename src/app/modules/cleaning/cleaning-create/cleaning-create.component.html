@@ -1,0 +1,144 @@
+<div class="cleaning-create-container">
+  <div class="page-header">
+    <h1 class="page-title">
+      {{ isEditMode ? "Edit Cleaning Schedule" : "Create Cleaning Schedule" }}
+    </h1>
+    <p class="page-subtitle">
+      {{
+        isEditMode
+          ? "Update schedule details"
+          : "Create a new cleaning schedule"
+      }}
+    </p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Schedule Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Location <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="location"
+              class="form-control"
+              [class.is-invalid]="
+                scheduleForm.get('location')?.invalid &&
+                scheduleForm.get('location')?.touched
+              "
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                scheduleForm.get('location')?.invalid &&
+                scheduleForm.get('location')?.touched
+              "
+            >
+              location is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Schedule Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="schedule_date"
+              class="form-control"
+              [class.is-invalid]="
+                scheduleForm.get('schedule_date')?.invalid &&
+                scheduleForm.get('schedule_date')?.touched
+              "
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                scheduleForm.get('schedule_date')?.invalid &&
+                scheduleForm.get('schedule_date')?.touched
+              "
+            >
+              Schedule date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Assigned To</label>
+            <select formControlName="assigned_to" class="form-control">
+              <option [value]="null">Select Staff Member</option>
+              <option
+                *ngFor="let staff of staffMembers"
+                [value]="staff.teacher_id"
+              >
+                {{ staff.first_name }} {{ staff.last_name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Cleaning Type <span class="required">*</span></label>
+            <select formControlName="cleaning_type" class="form-control">
+              <option value="washroom">washroom</option>
+              <option value="toilet">toilet</option>
+              <option value="classroom">classroom</option>
+              <option value="watering_plants">watering_plants</option>
+            </select>
+          </div>
+          <div>
+            <label>Completion Date<span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="created_at"
+              class="form-control"
+              [class.is-invalid]="
+                scheduleForm.get('created_at')?.invalid &&
+                scheduleForm.get('created_at')?.touched
+              "
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select formControlName="completion_status" class="form-control">
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea
+            formControlName="notes"
+            class="form-control"
+            rows="4"
+            placeholder="Enter any additional notes or instructions"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="cancel()"
+          [disabled]="isSaving"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isSaving || scheduleForm.invalid"
+        >
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving"
+            >{{ isEditMode ? "Update" : "Create" }} Schedule</span
+          >
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="full-layout">
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" 
+       [class.active]="isSidebarOpen" 
+       (click)="isSidebarOpen = false"
+       *ngIf="isMobileView()"></div>
+  
+  <!-- Mobile Header -->
+  <div class="mobile-header" *ngIf="isMobileView()">
+    <button class="mobile-menu-toggle" (click)="toggleSidebar()">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="mobile-logo">SchoolPlus</div>
+    <div style="width: 40px;"></div> <!-- Spacer for centering -->
+  </div>
+  
+  <!-- Sidebar -->
+  <aside class="sidebar" 
+         [class.sidebar-collapsed]="!isSidebarOpen && !isMobileView()"
+         [class.sidebar-open]="isSidebarOpen && isMobileView()">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <img src="assets/images/logo.png" alt="SchoolPlus" class="logo" onerror="this.style.display='none'" />
+        <h2 class="logo-text" *ngIf="isSidebarOpen || isMobileView()">SchoolPlus</h2>
+      </div>
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <i class="bi" [class.bi-chevron-left]="isSidebarOpen" [class.bi-chevron-right]="!isSidebarOpen"></i>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-menu">
+        <li *ngFor="let item of menuItems" 
+            [class.active]="isNavItemActive(item)">
+          <a [routerLink]="getNavRoute(item)" 
+             class="nav-link" 
+             [title]="item.menu_name"
+             (click)="isMobileView() && (isSidebarOpen = false)">
+            <i [class]="'bi ' + item.menu_icon"></i>
+            <span *ngIf="isSidebarOpen || isMobileView()">{{ item.menu_name }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info" *ngIf="(isSidebarOpen || isMobileView()) && currentUser">
+        <div class="user-avatar">
+          <i class="bi bi-person-circle"></i>
+        </div>
+        <div class="user-details">
+          <div class="user-name">{{ currentUser.first_name }} {{ currentUser.last_name }}</div>
+          <div class="user-role">{{ currentUser.role_name || currentUser.user_type }}</div>
+        </div>
+      </div>
+      <button class="btn-logout" (click)="logout()" [title]="(isSidebarOpen || isMobileView()) ? 'Logout' : ''">
+        <i class="bi bi-box-arrow-right"></i>
+        <span *ngIf="isSidebarOpen || isMobileView()">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" [class.main-content-expanded]="!isSidebarOpen">
+    <div class="content-wrapper">
+      <!-- 3D sub-nav: tab buttons only (when current route has sibling tabs); hidden when printing -->
+      <div class="sub-nav-3d no-print" *ngIf="currentGroupTabs.length > 0">
+        <div class="sub-nav-tabs">
+          <a *ngFor="let tab of currentGroupTabs" 
+             [routerLink]="tab.menu_route" 
+             class="sub-nav-tab" 
+             [class.active]="isTabActive(tab)"
+             (click)="isMobileView() && (isSidebarOpen = false)">
+            <i class="bi" [class]="getTabIcon(tab)"></i>
+            <span>{{ tab.menu_name }}</span>
+          </a>
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
+

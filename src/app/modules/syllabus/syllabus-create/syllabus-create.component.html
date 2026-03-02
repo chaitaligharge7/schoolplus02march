@@ -1,0 +1,106 @@
+<div class="syllabus-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit' : 'Create' }} Syllabus</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update syllabus details' : 'Create a new syllabus' }}</p>
+    </div>
+    <button class="btn btn-secondary" (click)="router.navigate(['/app/syllabus'])">
+      <i class="bi bi-arrow-left"></i>
+      Back to Syllabus
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="syllabusForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Basic Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Class <span class="required">*</span></label>
+            <select formControlName="class_id" class="form-control" (change)="onClassChange()">
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Subject <span class="required">*</span></label>
+            <select formControlName="subject_id" class="form-control">
+              <option [value]="null">Select Subject</option>
+              <option *ngFor="let subject of subjects" [value]="subject.subject_id">
+                {{ subject.subject_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label>Syllabus Title <span class="required">*</span></label>
+            <input type="text" formControlName="syllabus_title" class="form-control" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label>Description</label>
+            <textarea formControlName="syllabus_description" class="form-control" rows="4"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h3>Chapters</h3>
+          <button type="button" class="btn btn-sm btn-primary" (click)="addChapter()">
+            <i class="bi bi-plus-circle"></i>
+            Add Chapter
+          </button>
+        </div>
+        <div class="chapters-list" formArrayName="chapters">
+          <div *ngFor="let chapter of chapters.controls; let i = index" [formGroupName]="i" class="chapter-item">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Chapter Number</label>
+                <input type="number" formControlName="chapter_number" class="form-control" />
+              </div>
+              <div class="form-group flex-grow">
+                <label>Chapter Name <span class="required">*</span></label>
+                <input type="text" formControlName="chapter_name" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Estimated Completion Date</label>
+                <input type="date" formControlName="estimated_completion_date" class="form-control" />
+              </div>
+              <div class="form-group actions">
+                <button type="button" class="btn btn-sm btn-danger" (click)="removeChapter(i)" *ngIf="chapters.length > 1">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>File Upload</h3>
+        <div class="form-group">
+          <label>Syllabus File (PDF/Document)</label>
+          <input type="file" id="syllabus_file" class="form-control" accept=".pdf,.doc,.docx" />
+          <small class="form-text">Upload syllabus PDF or document file</small>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="router.navigate(['/app/syllabus'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+          <i class="bi bi-save" *ngIf="!isSaving"></i>
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Syllabus</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

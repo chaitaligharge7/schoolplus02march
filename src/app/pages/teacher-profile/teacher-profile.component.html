@@ -1,0 +1,65 @@
+<div class="page-container" *ngIf="!loading">
+  <div class="page-header">
+    <h1 class="page-title">Profile & Schedule</h1>
+    <p class="page-subtitle">Your profile and teaching timetable</p>
+  </div>
+
+  <div class="profile-card" *ngIf="profile">
+    <h2 class="section-title">Profile</h2>
+    <div class="profile-grid">
+      <div class="profile-item">
+        <span class="label">Name</span>
+        <span class="value">{{ teacher?.full_name || profile?.full_name }}</span>
+      </div>
+      <div class="profile-item" *ngIf="teacher?.employee_id">
+        <span class="label">Employee ID</span>
+        <span class="value">{{ teacher.employee_id }}</span>
+      </div>
+      <div class="profile-item" *ngIf="profile?.email">
+        <span class="label">Email</span>
+        <span class="value">{{ profile.email }}</span>
+      </div>
+      <div class="profile-item" *ngIf="teacher?.phone || profile?.phone">
+        <span class="label">Phone</span>
+        <span class="value">{{ teacher?.phone || profile?.phone }}</span>
+      </div>
+      <div class="profile-item" *ngIf="teacher?.qualification">
+        <span class="label">Qualification</span>
+        <span class="value">{{ teacher.qualification }}</span>
+      </div>
+      <div class="profile-item" *ngIf="teacher?.specialization">
+        <span class="label">Specialization</span>
+        <span class="value">{{ teacher.specialization }}</span>
+      </div>
+      <div class="profile-item" *ngIf="teacher?.date_of_joining">
+        <span class="label">Date of Joining</span>
+        <span class="value">{{ teacher.date_of_joining }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="schedule-card" *ngIf="timetable.length > 0">
+    <h2 class="section-title">Teaching Schedule</h2>
+    <div class="timetable-wrap">
+      <div class="day-block" *ngFor="let day of [1,2,3,4,5,6]">
+        <h3 class="day-title">{{ dayNames[day - 1] }}</h3>
+        <div class="period-list">
+          <div class="period-item" *ngFor="let slot of getTimetableForDay(day)">
+            <span class="period-time">{{ slot.start_time }} - {{ slot.end_time }}</span>
+            <span class="period-subject">{{ slot.subject_name }}</span>
+            <span class="period-class">{{ slot.class_name }}{{ slot.section_name ? ' - ' + slot.section_name : '' }}</span>
+          </div>
+          <p class="no-period" *ngIf="getTimetableForDay(day).length === 0">No classes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && !profile && !teacher">
+    <p>Profile data could not be loaded. You may not be linked as a teacher.</p>
+  </div>
+  <div class="empty-state" *ngIf="!loading && profile && timetable.length === 0 && teacher">
+    <p>No timetable assigned yet.</p>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>

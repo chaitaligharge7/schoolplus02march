@@ -1,0 +1,70 @@
+<div class="staff-allotment-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Staff Allotment</h1>
+      <p class="page-subtitle">
+        Manage staff assignments to classes and subjects
+      </p>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Staff ID:</label>
+      <input
+        type="number"
+        class="form-control"
+        [(ngModel)]="staffId"
+        (input)="onStaffIdChange(staffId)"
+        placeholder="Filter by Staff ID"
+      />
+    </div>
+    <div class="filter-group">
+      <label>Class ID:</label>
+      <input
+        type="number"
+        class="form-control"
+        [(ngModel)]="classId"
+        (input)="onClassIdChange(classId)"
+        placeholder="Filter by Class ID"
+      />
+    </div>
+    <div class="filter-group">
+      <label>Subject ID:</label>
+      <input
+        type="number"
+        class="form-control"
+        [(ngModel)]="subjectId"
+        (input)="onSubjectIdChange(subjectId)"
+        placeholder="Filter by Subject ID"
+      />
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="allotments"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'allotment_id'"
+    [addRoute]="'/app/staff-allotment/create'"
+    [addLabel]="'Add Allotment'"
+    [searchPlaceholder]="'Search by staff name...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (deleteClick)="ondelete($event)"
+    (editClick)="onEdit($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

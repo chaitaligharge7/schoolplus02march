@@ -1,0 +1,73 @@
+<div class="cleaning-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Cleaning Schedules</h1>
+      <p class="page-subtitle">Manage cleaning schedules and completion</p>
+    </div>
+  </div>
+
+  <!-- Housekeeping duty log (login on duty) -->
+  <div class="duty-strip card mb-3">
+    <div class="card-body py-2 d-flex align-items-center gap-3">
+      <span class="text-muted">Duty:</span>
+      <span *ngIf="!dutyOn">Not on duty</span>
+      <span *ngIf="dutyOn" class="text-success">On duty since {{ dutyLoginAt }}</span>
+      <button type="button" class="btn btn-sm btn-success" *ngIf="!dutyOn" [disabled]="dutyLoading" (click)="startDuty()">Start Duty</button>
+      <button type="button" class="btn btn-sm btn-outline-danger" *ngIf="dutyOn" [disabled]="dutyLoading" (click)="endDuty()">End Duty</button>
+    </div>
+  </div>
+
+  <!-- Additional Filters -->
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+    <div class="filter-group">
+      <label>Area:</label>
+      <input type="text" class="form-control" [(ngModel)]="area" (input)="onAreaChange(area)" placeholder="Filter by area">
+    </div>
+    <div class="filter-group">
+      <label>Status:</label>
+      <app-search-select
+        [options]="cleaningStatusOptions"
+        [(ngModel)]="status"
+        (valueChange)="onStatusChange($event)"
+        placeholder="Search or select status">
+      </app-search-select>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="schedules"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'schedule_id'"
+    [addRoute]="'/app/cleaning/create'"
+    [addLabel]="'Add Schedule'"
+    [searchPlaceholder]="'Search cleaning schedules...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+
+  <!-- Complete Action Button -->
+  <div class="complete-action" *ngIf="selectedRowId && getSelectedSchedule() && getSelectedSchedule()?.completion_status === 'pending'">
+    <button 
+      class="btn btn-success"
+      (click)="completeCleaning(selectedRowId)"
+      title="Complete Cleaning">
+      <i class="bi bi-check-circle"></i>
+      Complete Cleaning
+    </button>
+  </div>
+</div>

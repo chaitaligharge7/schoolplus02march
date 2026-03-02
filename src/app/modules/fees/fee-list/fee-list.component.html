@@ -1,0 +1,91 @@
+<div class="fee-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Fee Management</h1>
+      <p class="page-subtitle">Manage student fees and payments</p>
+    </div>
+    <div class="filter-panel header-dropdowns" [class.expanded]="showFilters" *ngIf="classes.length > 0">
+      <div class="filter-group">
+        <label>Class:</label>
+        <app-search-select
+          [options]="classOptions"
+          [(ngModel)]="classId"
+          (valueChange)="onClassChange($event)"
+          placeholder="Search or select class">
+        </app-search-select>
+      </div>
+      <div class="filter-group">
+        <label>Payment Status:</label>
+        <app-search-select
+          [options]="paymentStatusOptions"
+          [(ngModel)]="paymentStatus"
+          (valueChange)="onPaymentStatusChange($event)"
+          placeholder="Search or select status">
+        </app-search-select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-grid" *ngIf="!loading">
+    <div class="summary-card">
+      <div class="summary-icon summary-icon-primary">
+        <i class="bi bi-currency-dollar"></i>
+      </div>
+      <div class="summary-content">
+        <h3 class="summary-value">₹{{ summary.total_amount | number:'1.2-2' }}</h3>
+        <p class="summary-label">Total Amount</p>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon summary-icon-success">
+        <i class="bi bi-check-circle"></i>
+      </div>
+      <div class="summary-content">
+        <h3 class="summary-value">₹{{ summary.paid_amount | number:'1.2-2' }}</h3>
+        <p class="summary-label">Paid Amount</p>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon summary-icon-warning">
+        <i class="bi bi-exclamation-circle"></i>
+      </div>
+      <div class="summary-content">
+        <h3 class="summary-value">₹{{ summary.pending_amount | number:'1.2-2' }}</h3>
+        <p class="summary-label">Pending Amount</p>
+      </div>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="fees"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'student_fee_id'"
+    [addRoute]="'/app/fees/assign'"
+    [addLabel]="'Assign Fees'"
+    [searchPlaceholder]="'Search by student name, admission number...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    [showPayButton]="true"
+    (payClick)="handlePayment($event)"
+    [showPrintButton]="true"
+    (printClick)="onPrintReceipt($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

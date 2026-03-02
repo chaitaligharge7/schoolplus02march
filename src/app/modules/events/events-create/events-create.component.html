@@ -1,0 +1,118 @@
+<div class="events-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Event' : 'Create Event' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update event details' : 'Add a new school event' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/events'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Event Title *</label>
+          <input
+            type="text"
+            formControlName="event_title"
+            class="form-control"
+            placeholder="Enter event title"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Event Type *</label>
+          <select formControlName="event_type" class="form-control" required>
+            <option value="Sports">Sports</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Academic">Academic</option>
+            <option value="Competition">Competition</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Event Date *</label>
+          <input
+            type="date"
+            formControlName="event_date"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Event Time</label>
+          <input
+            type="time"
+            formControlName="event_time"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Location</label>
+          <input
+            type="text"
+            formControlName="location"
+            class="form-control"
+            placeholder="Enter event location"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Organizer</label>
+          <input
+            type="text"
+            formControlName="organizer"
+            class="form-control"
+            placeholder="Enter organizer name"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          formControlName="description"
+          class="form-control"
+          rows="4"
+          placeholder="Enter event description..."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Status *</label>
+        <select formControlName="status" class="form-control" required>
+          <option value="upcoming">Upcoming</option>
+          <option value="ongoing">Ongoing</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/events'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || eventForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Event</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

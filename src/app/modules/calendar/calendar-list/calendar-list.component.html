@@ -1,0 +1,139 @@
+<div class="calendar-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Academic Calendar</h1>
+      <p class="page-subtitle">Manage academic events and calendar</p>
+    </div>
+    <div class="header-actions">
+      <div class="view-mode-buttons">
+        <button class="btn btn-outline" [class.active]="viewMode === 'month'" (click)="setViewMode('month')">
+          Month
+        </button>
+        <button class="btn btn-outline" [class.active]="viewMode === 'week'" (click)="setViewMode('week')">
+          Week
+        </button>
+        <button class="btn btn-outline" [class.active]="viewMode === 'day'" (click)="setViewMode('day')">
+          Day
+        </button>
+      </div>
+      <a routerLink="/app/calendar/create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i>
+        Create Event
+      </a>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-card">
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="filters-form">
+      <div class="filters-grid">
+        <div class="form-group">
+          <label>Search</label>
+          <input
+            type="text"
+            formControlName="search"
+            class="form-control"
+            placeholder="Search events..."
+            (keyup.enter)="onSearch()"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Event Type</label>
+          <select formControlName="event_type" class="form-control">
+            <option [value]="null">All Types</option>
+            <option value="Holiday">Holiday</option>
+            <option value="Exam">Exam</option>
+            <option value="Event">Event</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Start Date</label>
+          <input
+            type="date"
+            formControlName="start_date"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>End Date</label>
+          <input
+            type="date"
+            formControlName="end_date"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-search">
+            <i class="bi bi-search"></i>
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Events List -->
+  <div class="table-card" *ngIf="!isLoading">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Event Title</th>
+            <th>Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let event of events">
+            <td>
+              <div class="event-title">{{ event.event_title }}</div>
+            </td>
+            <td>
+              <span class="badge" [class.badge-info]="event.event_type === 'Holiday'"
+                    [class.badge-warning]="event.event_type === 'Exam'"
+                    [class.badge-success]="event.event_type === 'Event'">
+                {{ event.event_type }}
+              </span>
+            </td>
+            <td>{{ (event.event_date || event.start_date) | date:'shortDate' }}</td>
+            <td>{{ event.end_date | date:'shortDate' }}</td>
+            <td>{{ event.description | truncate:50 }}</td>
+            <td>
+              <div class="action-buttons">
+                <a [routerLink]="['/app/calendar/edit', event.event_id]" class="btn-icon btn-edit" title="Edit">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <button (click)="deleteEvent(event.event_id)" class="btn-icon btn-delete" title="Delete">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="events.length === 0">
+            <td colspan="6" class="text-center">
+              <div class="empty-state">
+                <i class="bi bi-calendar-x"></i>
+                <p>No events found</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading events...</p>
+  </div>
+</div>
+

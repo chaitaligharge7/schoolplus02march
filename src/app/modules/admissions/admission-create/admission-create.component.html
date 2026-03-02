@@ -1,0 +1,166 @@
+<div class="admission-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Create Admission</h1>
+      <p class="page-subtitle" *ngIf="enquiry">Converting enquiry #{{ enquiry.enquiry_number }} to admission</p>
+      <p class="page-subtitle" *ngIf="!enquiry">Add a new student admission</p>
+    </div>
+    <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/admissions'])">
+      <i class="bi bi-arrow-left"></i>
+      Back to Admissions
+    </button>
+  </div>
+
+  <div class="split-form-content">
+    <form [formGroup]="admissionForm" (ngSubmit)="onSubmit()">
+      <div class="split-form-tabs">
+        <button type="button" *ngFor="let s of admissionSections" class="split-form-tab" [class.active]="activeSection === s.id" (click)="selectSection(s.id)">
+          <i class="bi" [class]="s.icon"></i>
+          <span>{{ s.label }}</span>
+        </button>
+      </div>
+      <div class="split-form-panel">
+        <div class="split-form-panel-header">
+          <h2 class="split-form-panel-title">{{ getActiveSectionLabel() }}</h2>
+          <button type="submit" class="btn btn-primary btn-save" [disabled]="isSaving">
+            <span *ngIf="!isSaving">Save Changes</span>
+            <span *ngIf="isSaving"><span class="spinner-small"></span> Saving...</span>
+          </button>
+        </div>
+        <div class="split-form-panel-content">
+          <!-- Student Information -->
+          <div class="split-form-section" [class.active]="activeSection === 'student'">
+            <div class="split-form-section-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Student Name <span class="required">*</span></label>
+                  <input type="text" formControlName="student_name" class="form-control" placeholder="Full name" />
+                </div>
+                <div class="form-group">
+                  <label>Date of Birth <span class="required">*</span></label>
+                  <input type="date" formControlName="date_of_birth" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>Gender <span class="required">*</span></label>
+                  <app-search-select
+                    [options]="genderOptions"
+                    formControlName="gender"
+                    placeholder="Search or select gender">
+                  </app-search-select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parent Information -->
+          <div class="split-form-section" [class.active]="activeSection === 'parent'">
+            <div class="split-form-section-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Parent Name <span class="required">*</span></label>
+                  <input type="text" formControlName="parent_name" class="form-control" placeholder="Parent/guardian name" />
+                </div>
+                <div class="form-group">
+                  <label>Parent Mobile <span class="required">*</span></label>
+                  <input type="tel" formControlName="parent_mobile" class="form-control" maxlength="10" placeholder="10-digit mobile" />
+                </div>
+                <div class="form-group">
+                  <label>Parent Email</label>
+                  <input type="email" formControlName="parent_email" class="form-control" placeholder="Email address" />
+                </div>
+                <div class="form-group full-width">
+                  <label>Address</label>
+                  <textarea formControlName="address" class="form-control" rows="3" placeholder="Address"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admission Details -->
+          <div class="split-form-section" [class.active]="activeSection === 'details'">
+            <div class="split-form-section-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Applied Class <span class="required">*</span></label>
+                  <app-search-select
+                    [options]="appliedClassOptions"
+                    formControlName="applied_class_id"
+                    placeholder="Search or select class">
+                  </app-search-select>
+                </div>
+                <div class="form-group">
+                  <label>Previous School</label>
+                  <input type="text" formControlName="previous_school" class="form-control" placeholder="Previous school name" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Facilities & Fee -->
+          <div class="split-form-section" [class.active]="activeSection === 'facilities'">
+            <div class="split-form-section-body">
+              <div class="form-group mb-3">
+                <label class="d-block">Facilities</label>
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" formControlName="opt_hostel" class="form-check-input" id="opt_hostel" />
+                  <label class="form-check-label" for="opt_hostel">Hostel</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" formControlName="opt_transport" class="form-check-input" id="opt_transport" />
+                  <label class="form-check-label" for="opt_transport">Transport</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" formControlName="opt_mess" class="form-check-input" id="opt_mess" />
+                  <label class="form-check-label" for="opt_mess">Mess</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" formControlName="opt_stationery" class="form-check-input" id="opt_stationery" />
+                  <label class="form-check-label" for="opt_stationery">Stationery</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" formControlName="opt_sports" class="form-check-input" id="opt_sports" />
+                  <label class="form-check-label" for="opt_sports">Sports</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Fee Mode</label>
+                <div>
+                  <div class="form-check">
+                    <input type="radio" formControlName="fee_mode" value="full" class="form-check-input" id="fee_full" />
+                    <label class="form-check-label" for="fee_full">Full Payment</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" formControlName="fee_mode" value="installment" class="form-check-input" id="fee_installment" />
+                    <label class="form-check-label" for="fee_installment">Installments (50% - 30% - 20%)</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documents -->
+          <div class="split-form-section" [class.active]="activeSection === 'documents'">
+            <div class="split-form-section-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Documents (Multiple)</label>
+                  <input type="file" id="documents" class="form-control" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" />
+                  <small class="form-text">Upload admission documents</small>
+                </div>
+                <div class="form-group">
+                  <label>Admission Form</label>
+                  <input type="file" id="admission_form_file" class="form-control" accept=".pdf,.jpg,.jpeg,.png" />
+                  <small class="form-text">Upload filled admission form</small>
+                </div>
+                <div class="form-group full-width">
+                  <label>Remarks</label>
+                  <textarea formControlName="remarks" class="form-control" rows="2" placeholder="Remarks"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

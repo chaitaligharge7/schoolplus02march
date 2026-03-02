@@ -1,0 +1,132 @@
+<div class="participation-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Participation' : 'Add Student Participation' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update participation details' : 'Record student participation in activities' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="participationForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Participation Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student <span class="required">*</span></label>
+            <select
+              formControlName="student_id"
+              class="form-control"
+              [class.is-invalid]="participationForm.get('student_id')?.invalid && participationForm.get('student_id')?.touched"
+            >
+              <option [value]="null">Select Student</option>
+              <option *ngFor="let student of students" [value]="student.student_id">
+                {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="participationForm.get('student_id')?.invalid && participationForm.get('student_id')?.touched">
+              Student selection is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Activity Type <span class="required">*</span></label>
+            <select
+              formControlName="activity_type"
+              class="form-control"
+            >
+              <option value="sports">Sports</option>
+              <option value="cultural">Cultural</option>
+              <option value="academic">Academic</option>
+              <option value="social">Social</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+
+          
+
+          <div class="form-group">
+            <label>Activity Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="event_name"
+              class="form-control"
+              [class.is-invalid]="participationForm.get('event_name')?.invalid && participationForm.get('event_name')?.touched"
+              placeholder="Enter activity name"
+            />
+            <div class="invalid-feedback" *ngIf="participationForm.get('event_name')?.invalid && participationForm.get('event_name')?.touched">
+              Activity name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Activity Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="event_date"
+              class="form-control"
+              [class.is-invalid]="participationForm.get('event_date')?.invalid && participationForm.get('event_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="participationForm.get('event_date')?.invalid && participationForm.get('event_date')?.touched">
+              Activity date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Achievement</label>
+            <input
+              type="text"
+              formControlName="achievement"
+              class="form-control"
+              placeholder="e.g., First Place, Best Performer"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Position</label>
+            <input
+              type="text"
+              formControlName="position"
+              class="form-control"
+              placeholder="e.g., 1st, 2nd, 3rd"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional remarks"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || participationForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Participation</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

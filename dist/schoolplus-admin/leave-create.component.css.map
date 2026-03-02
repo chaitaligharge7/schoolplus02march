@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/leave-management/leave-create/leave-create.component.scss"],
+  "sourcesContent": [".leave-create-container {\r\n  width: 100%;\r\n  padding: 0;\r\n  .form-card { background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--radius-md); }\r\n  .form-group { margin-bottom: var(--spacing-md); label { display: block; margin-bottom: var(--spacing-xs); font-weight: 500; } .form-control { width: 100%; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); } }\r\n  .form-row { display: flex; gap: var(--spacing-md); flex-wrap: wrap; }\r\n  .form-actions { display: flex; gap: var(--spacing-md); margin-top: var(--spacing-lg); }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,SAAA;AACA,WAAA;;AACA,CAHF,uBAGE,CAAA;AAAa,cAAA,IAAA;AAAiC,WAAA,IAAA;AAA4B,iBAAA,IAAA;;AAC1E,CAJF,uBAIE,CAAA;AAAc,iBAAA,IAAA;;AAAkC,CAJlD,uBAIkD,CAAhD,WAAgD;AAAQ,WAAA;AAAgB,iBAAA,IAAA;AAAkC,eAAA;;AAAoB,CAJhI,uBAIgI,CAA9H,WAA8H,CAAA;AAAgB,SAAA;AAAa,WAAA,IAAA,cAAA,IAAA;AAA8C,iBAAA,IAAA;;AACzM,CALF,uBAKE,CAAA;AAAY,WAAA;AAAe,OAAA,IAAA;AAAwB,aAAA;;AACnD,CANF,uBAME,CAAA;AAAgB,WAAA;AAAe,OAAA,IAAA;AAAwB,cAAA,IAAA;;",
+  "names": []
+}

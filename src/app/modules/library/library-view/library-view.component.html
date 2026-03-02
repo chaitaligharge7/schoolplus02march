@@ -1,0 +1,89 @@
+<div class="library-view-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Book Details</h1>
+      <p class="page-subtitle" *ngIf="book">{{ book.book_title }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" (click)="router.navigate(['/app/library'])">
+        <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+      <button class="btn btn-primary" (click)="onEdit()" *ngIf="book">
+        <i class="bi bi-pencil"></i>
+        Edit
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <span class="spinner"></span> Loading...
+  </div>
+
+  <div *ngIf="!loading && book" class="view-card">
+    <h3>Book Information</h3>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <label>Title</label>
+        <span>{{ book.book_title }}</span>
+      </div>
+      <div class="detail-item">
+        <label>ISBN</label>
+        <span>{{ book.isbn || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Author</label>
+        <span>{{ book.author || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Publisher</label>
+        <span>{{ book.publisher || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Category</label>
+        <span>{{ book.category || '-' }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Total Copies</label>
+        <span>{{ book.total_copies }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Available Copies</label>
+        <span>{{ book.available_copies }}</span>
+      </div>
+      <div class="detail-item">
+        <label>Status</label>
+        <span class="badge" [class.badge-success]="(book.available_copies || 0) > 0" [class.badge-warning]="(book.available_copies || 0) === 0">
+          {{ (book.available_copies || 0) > 0 ? 'Available' : 'Out of Stock' }}
+        </span>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Issue History</h3>
+    <div *ngIf="issueHistory.length === 0" class="empty-state">No issue history.</div>
+    <div *ngIf="issueHistory.length > 0" class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Admission No</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Return Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of issueHistory">
+            <td>{{ i.student_name || '-' }}</td>
+            <td>{{ i.admission_number || '-' }}</td>
+            <td>{{ i.issue_date }}</td>
+            <td>{{ i.due_date || '-' }}</td>
+            <td>{{ i.return_date || '-' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !book" class="empty-state">Book not found.</div>
+</div>

@@ -1,0 +1,34 @@
+<div class="designation-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Designations</h1>
+      <p class="page-subtitle">Manage designations for your school</p>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="designations"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'designation_id'"
+    [addRoute]="'/app/designations/create'"
+    [addLabel]="'Add Designation'"
+    [searchPlaceholder]="'Search designations...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

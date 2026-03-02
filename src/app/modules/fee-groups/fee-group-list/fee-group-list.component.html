@@ -1,0 +1,34 @@
+<div class="fee-group-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Fee Groups</h1>
+      <p class="page-subtitle">Manage fee groups for your school</p>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="feeGroups"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'fee_group_id'"
+    [addRoute]="'/app/fee-groups/create'"
+    [addLabel]="'Add Fee Group'"
+    [searchPlaceholder]="'Search fee groups...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

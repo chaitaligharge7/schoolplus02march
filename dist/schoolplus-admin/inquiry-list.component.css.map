@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/security-guard/inquiry-list/inquiry-list.component.scss"],
+  "sourcesContent": ["@use '../../../shared/styles/responsive' as *;\r\n.page-container { padding: 1rem; }\r\n.page-header {\r\n  margin-bottom: 1rem;\r\n  &.inquiry-list-header {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: space-between;\r\n    flex-wrap: wrap;\r\n    gap: 1rem;\r\n  }\r\n}\r\n.header-filters {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 0.5rem;\r\n  .header-filter-label {\r\n    font-size: var(--font-size-sm);\r\n    font-weight: 500;\r\n    color: var(--text-secondary);\r\n  }\r\n  .header-filter-select {\r\n    min-width: 140px;\r\n    padding: 0.35rem 0.6rem;\r\n    border: 1px solid var(--border-color);\r\n    border-radius: var(--radius-md);\r\n    font-size: var(--font-size-sm);\r\n  }\r\n}\r\n.filters { margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; }\r\n.filter-group label { display: block; margin-bottom: 0.25rem; font-weight: 500; }\r\n"],
+  "mappings": ";AACA,CAAA;AAAkB,WAAA;;AAClB,CAAA;AACE,iBAAA;;AACA,CAFF,WAEE,CAAA;AACE,WAAA;AACA,eAAA;AACA,mBAAA;AACA,aAAA;AACA,OAAA;;AAGJ,CAAA;AACE,WAAA;AACA,eAAA;AACA,OAAA;;AACA,CAJF,eAIE,CAAA;AACE,aAAA,IAAA;AACA,eAAA;AACA,SAAA,IAAA;;AAEF,CATF,eASE,CAAA;AACE,aAAA;AACA,WAAA,QAAA;AACA,UAAA,IAAA,MAAA,IAAA;AACA,iBAAA,IAAA;AACA,aAAA,IAAA;;AAGJ,CAAA;AAAW,iBAAA;AAAqB,WAAA;AAAe,OAAA;AAAW,aAAA;;AAC1D,CAAA,aAAA;AAAsB,WAAA;AAAgB,iBAAA;AAAwB,eAAA;;",
+  "names": []
+}

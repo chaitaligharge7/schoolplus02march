@@ -1,0 +1,98 @@
+<div class="fee-type-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Fee Type' : 'Create Fee Type' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update fee type details' : 'Add a new fee type' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="router.navigate(['/app/fee-types'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="feeTypeForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fee Type Name *</label>
+          <input
+            type="text"
+            formControlName="fee_type_name"
+            class="form-control"
+            placeholder="e.g., Tuition Fee, Transport Fee"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Fee Type Code</label>
+          <input
+            type="text"
+            formControlName="fee_type_code"
+            class="form-control"
+            placeholder="e.g., TUIT, TRANS"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fee Group *</label>
+          <select formControlName="fee_group_id" class="form-control" required>
+            <option [value]="null">Select Fee Group</option>
+            <option *ngFor="let group of feeGroups" [value]="group.fee_group_id">
+              {{ group.fee_group_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Fee Amount *</label>
+          <input
+            type="number"
+            formControlName="fee_amount"
+            class="form-control"
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Fee Frequency *</label>
+        <select formControlName="fee_frequency" class="form-control" required>
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
+          <option value="Yearly">Yearly</option>
+          <option value="One-time">One-time</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          formControlName="fee_description"
+          class="form-control"
+          rows="3"
+          placeholder="Enter fee type description..."
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/fee-types'])">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || feeTypeForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Fee Type</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

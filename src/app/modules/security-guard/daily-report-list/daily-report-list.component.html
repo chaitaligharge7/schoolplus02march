@@ -1,0 +1,32 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Daily Reporting</h1>
+    <p class="page-subtitle">Security shift daily reports</p>
+  </div>
+  <div class="filters">
+    <div class="filter-group">
+      <label>Report Date</label>
+      <input type="date" class="form-control" [(ngModel)]="reportDate" (change)="onDateChange()" />
+    </div>
+  </div>
+  <app-enhanced-table
+    [data]="reports"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [rowIdKey]="rowIdKey"
+    [addRoute]="'/app/security-guard/daily-report/create'"
+    [addLabel]="'Add Report'"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

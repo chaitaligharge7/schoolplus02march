@@ -1,0 +1,68 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Edit Inquiry</h1>
+    <p class="page-subtitle" *ngIf="model.inquiry_id">Inquiry #{{ model.inquiry_id }}</p>
+  </div>
+  <div *ngIf="loadingData" class="loading-state">Loading...</div>
+  <form *ngIf="!loadingData && model.inquiry_id" (ngSubmit)="save()" class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Visitor Name *</label>
+        <input type="text" class="form-control" [(ngModel)]="model.visitor_name" name="visitor_name" required />
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" class="form-control" [(ngModel)]="model.visitor_phone" name="visitor_phone" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>ID Type</label>
+        <input type="text" class="form-control" [(ngModel)]="model.visitor_id_type" name="visitor_id_type" />
+      </div>
+      <div class="form-group">
+        <label>ID Number</label>
+        <input type="text" class="form-control" [(ngModel)]="model.visitor_id_number" name="visitor_id_number" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Purpose Type (Visit Type)</label>
+      <select class="form-control" [(ngModel)]="model.purpose_type" name="purpose_type">
+        <option *ngFor="let pt of purposeTypes" [value]="pt.value">{{ pt.label }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Purpose of Visit (details)</label>
+      <textarea class="form-control" [(ngModel)]="model.purpose" name="purpose" rows="2" placeholder="Optional details"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Person to Meet</label>
+        <input type="text" class="form-control" [(ngModel)]="model.person_to_meet" name="person_to_meet" />
+      </div>
+      <div class="form-group">
+        <label>Department</label>
+        <input type="text" class="form-control" [(ngModel)]="model.department" name="department" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select class="form-control" [(ngModel)]="model.status" name="status">
+          <option value="registered">Registered</option>
+          <option value="forwarded">Forwarded</option>
+          <option value="resolved">Resolved</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div class="form-group flex-grow">
+        <label>Notes</label>
+        <textarea class="form-control" [(ngModel)]="model.notes" name="notes" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="loading">{{ loading ? 'Saving...' : 'Update' }}</button>
+    </div>
+  </form>
+</div>

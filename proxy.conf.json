@@ -1,0 +1,12 @@
+{
+  "/php_includes/*": {
+    "target": "http://localhost/schoolplus",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "headers": {
+      "Connection": "keep-alive"
+    }
+  }
+}
+

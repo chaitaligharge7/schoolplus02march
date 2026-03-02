@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/id-cards/id-cards.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const ID_CARDS_ROUTES: Routes = [\r\n  {\r\n    path: '',\r\n    loadComponent: () => import('./id-card-list/id-card-list.component').then(m => m.IdCardListComponent)\r\n  },\r\n  {\r\n    path: 'list',\r\n    loadComponent: () => import('./id-card-list/id-card-list.component').then(m => m.IdCardListComponent)\r\n  },\r\n  {\r\n    path: 'create',\r\n    loadComponent: () => import('./id-card-create/id-card-create.component').then(m => m.IdCardCreateComponent)\r\n  },\r\n  {\r\n    path: 'edit/:id',\r\n    loadComponent: () => import('./id-card-create/id-card-create.component').then(m => m.IdCardCreateComponent)\r\n  }\r\n];\r\n\r\n"],
+  "mappings": ";;;AAEO,IAAM,kBAA0B;EACrC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,mBAAmB;;EAEtG;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAuC,EAAE,KAAK,OAAK,EAAE,mBAAmB;;EAEtG;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,qBAAqB;;EAE5G;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2C,EAAE,KAAK,OAAK,EAAE,qBAAqB;;;",
+  "names": []
+}

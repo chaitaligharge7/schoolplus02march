@@ -1,0 +1,160 @@
+<div class="cctv-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit CCTV Camera' : 'Add CCTV Camera' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update camera details' : 'Add a new CCTV camera to the system' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="cctvForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Camera Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Camera Name <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="camera_name"
+              class="form-control"
+              [class.is-invalid]="cctvForm.get('camera_name')?.invalid && cctvForm.get('camera_name')?.touched"
+              placeholder="e.g., Main Entrance Camera"
+            />
+            <div class="invalid-feedback" *ngIf="cctvForm.get('camera_name')?.invalid && cctvForm.get('camera_name')?.touched">
+              Camera name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Location <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="camera_location"
+              class="form-control"
+              [class.is-invalid]="cctvForm.get('camera_location')?.invalid && cctvForm.get('camera_location')?.touched"
+              placeholder="e.g., Main Entrance, Parking Lot"
+            />
+            <div class="invalid-feedback" *ngIf="cctvForm.get('camera_location')?.invalid && cctvForm.get('camera_location')?.touched">
+              camera_location is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>IP Address <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="camera_ip"
+              class="form-control"
+              [class.is-invalid]="cctvForm.get('camera_ip')?.invalid && cctvForm.get('camera_ip')?.touched"
+              placeholder="192.168.1.100"
+            />
+            <div class="invalid-feedback" *ngIf="cctvForm.get('camera_ip')?.invalid && cctvForm.get('camera_ip')?.touched">
+              Valid IP address is required (e.g., 192.168.1.100)
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Port <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="port"
+              class="form-control"
+              [class.is-invalid]="cctvForm.get('port')?.invalid && cctvForm.get('port')?.touched"
+              min="1"
+              max="65535"
+            />
+            <div class="invalid-feedback" *ngIf="cctvForm.get('port')?.invalid && cctvForm.get('port')?.touched">
+              Valid port number is required (1-65535)
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Camera Type <span class="required">*</span></label>
+            <select
+              formControlName="camera_type"
+              class="form-control"
+            >
+              <option value="dome">Dome</option>
+              <option value="bullet">Bullet</option>
+              <option value="ptz">PTZ</option>
+              <option value="ip">IP Camera</option>
+              <option value="analog">Analog</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="camera_status"
+              class="form-control"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="maintenance">Under Maintenance</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Connection Settings</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              formControlName="username"
+              class="form-control"
+              placeholder="Camera username (optional)"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>{{ isEditMode ? 'New Password' : 'Password' }}</label>
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control"
+              [placeholder]="isEditMode ? 'Leave blank to keep current password' : 'Camera password (optional)'"
+            />
+            <small class="form-text text-muted" *ngIf="isEditMode">
+              Leave blank to keep current password
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn btn-secondary" (click)="testConnection()">
+            Test Connection
+          </button>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Additional Information</h3>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional notes about this camera"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || cctvForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Add' }} Camera</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

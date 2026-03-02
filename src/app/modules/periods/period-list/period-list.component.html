@@ -1,0 +1,34 @@
+<div class="period-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Periods</h1>
+      <p class="page-subtitle">Manage timetable periods</p>
+    </div>
+  </div>
+
+  <app-enhanced-table
+    [data]="periods"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'period_id'"
+    [addRoute]="'/app/periods/create'"
+    [addLabel]="'Add Period'"
+    [searchPlaceholder]="'Search periods...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)">
+  </app-enhanced-table>
+</div>

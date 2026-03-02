@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/doubt-handling/doubt-create/doubt-create.component.scss"],
+  "sourcesContent": [".page-container { padding: 16px 20px; max-width: 700px; margin: 0 auto; }\r\n.form-card { background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; }\r\n.form-group { margin-bottom: 1rem; label { display: block; margin-bottom: 0.25rem; font-weight: 500; } .form-control { width: 100%; padding: 0.5rem; border-radius: 6px; } }\r\n.form-row { display: flex; gap: 1rem; flex-wrap: wrap; }\r\n.form-actions { margin-top: 1.5rem; display: flex; gap: 0.5rem; }\r\n.doubt-text { padding: 0.5rem; background: var(--bg-primary); border-radius: 6px; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,WAAA,KAAA;AAAoB,aAAA;AAAkB,UAAA,EAAA;;AACxD,CAAA;AAAa,cAAA,IAAA;AAAiC,WAAA;AAAiB,iBAAA;;AAC/D,CAAA;AAAc,iBAAA;;AAAqB,CAAnC,WAAmC;AAAQ,WAAA;AAAgB,iBAAA;AAAwB,eAAA;;AAAoB,CAAvG,WAAuG,CAAA;AAAgB,SAAA;AAAa,WAAA;AAAiB,iBAAA;;AACrJ,CAAA;AAAY,WAAA;AAAe,OAAA;AAAW,aAAA;;AACtC,CAAA;AAAgB,cAAA;AAAoB,WAAA;AAAe,OAAA;;AACnD,CAAA;AAAc,WAAA;AAAiB,cAAA,IAAA;AAA+B,iBAAA;;",
+  "names": []
+}

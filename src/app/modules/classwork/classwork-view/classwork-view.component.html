@@ -1,0 +1,100 @@
+<div class="classwork-view-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Classwork Details</h1>
+      <p class="page-subtitle">View classwork and submissions</p>
+    </div>
+    <button class="btn btn-secondary" (click)="router.navigate(['/app/classwork'])">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="details-card" *ngIf="!isLoading && classwork">
+    <div class="details-section">
+      <h3>Classwork Information</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>Title</label>
+          <p><strong>{{ classwork.classwork_title }}</strong></p>
+        </div>
+        <div class="detail-item">
+          <label>Class</label>
+          <p>{{ classwork.class_name }} {{ classwork.section_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Subject</label>
+          <p>{{ classwork.subject_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Teacher</label>
+          <p>{{ classwork.teacher_first_name }} {{ classwork.teacher_last_name }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Assigned Date</label>
+          <p>{{ classwork.assigned_date | dateFormat }}</p>
+        </div>
+        <div class="detail-item">
+          <label>Due Date</label>
+          <p>{{ classwork.due_date ? (classwork.due_date | dateFormat) : '-' }}</p>
+        </div>
+      </div>
+      <div class="detail-item full-width" *ngIf="classwork.classwork_description">
+        <label>Description</label>
+        <p>{{ classwork.classwork_description }}</p>
+      </div>
+    </div>
+
+    <div class="details-section" *ngIf="submissions.length > 0">
+      <h3>Submissions ({{ submissions.length }})</h3>
+      <table class="submissions-table">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Admission No.</th>
+            <th>Submission Date</th>
+            <th>Status</th>
+            <th>Marks</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let submission of submissions">
+            <td><strong>{{ submission.first_name }} {{ submission.last_name }}</strong></td>
+            <td>{{ submission.admission_number }}</td>
+            <td>{{ submission.submission_date | dateFormat }}</td>
+            <td>
+              <span class="badge" 
+                    [class.badge-success]="submission.completion_status === 'completed'"
+                    [class.badge-warning]="submission.completion_status === 'submitted'"
+                    [class.badge-secondary]="submission.completion_status === 'pending'">
+                {{ submission.completion_status }}
+              </span>
+            </td>
+            <td>{{ submission.marks || '-' }}</td>
+            <td>
+              <button 
+                (click)="downloadFile(submission.submission_file)" 
+                class="btn-icon btn-view" 
+                title="Download"
+                *ngIf="submission.submission_file">
+                <i class="bi bi-download"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" *ngIf="submissions.length === 0">
+      <i class="bi bi-inbox"></i>
+      <p>No submissions yet</p>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading classwork...</p>
+  </div>
+</div>
+

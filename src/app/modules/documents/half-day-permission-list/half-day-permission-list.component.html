@@ -1,0 +1,149 @@
+<div class="half-day-permission-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Half Day Permissions</h1>
+      <p class="page-subtitle">Manage student half day permission requests</p>
+    </div>
+    <button class="btn btn-primary" (click)="togglePermissionForm()">
+      <i class="bi bi-plus-circle"></i>
+      {{ showPermissionForm ? 'Cancel' : 'Add Permission' }}
+    </button>
+  </div>
+
+  <!-- ADD FORM -->
+  <div class="permission-form-card" *ngIf="showPermissionForm">
+    <h3>Create Half Day Permission</h3>
+    <form [formGroup]="permissionForm" (ngSubmit)="onSubmitPermission()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Student <span class="required">*</span></label>
+          <select formControlName="student_id" class="form-control">
+            <option [value]="null">Select Student</option>
+            <option *ngFor="let student of students" [value]="student.student_id">
+              {{ student.first_name }} {{ student.last_name }} ({{ student.admission_number }})
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Permission Date <span class="required">*</span></label>
+          <input type="date" formControlName="permission_date" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Permission Time</label>
+          <input type="time" formControlName="permission_time" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label>Reason <span class="required">*</span></label>
+          <textarea formControlName="reason" class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Parent Mobile <span class="required">*</span></label>
+          <input type="tel" formControlName="parent_mobile" class="form-control" maxlength="10" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="togglePermissionForm()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">Create Permission</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- TABLE & FILTERS -->
+  <ng-container *ngIf="!showPermissionForm">
+    <div class="filters-card">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="filters-form">
+        <div class="filters-grid">
+          <div class="form-group">
+            <select formControlName="student_id" class="form-control">
+              <option [value]="null">All Students</option>
+              <option *ngFor="let student of students" [value]="student.student_id">
+                {{ student.first_name }} {{ student.last_name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <select formControlName="approval_status" class="form-control">
+              <option [value]="null">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="date" formControlName="permission_date" class="form-control" />
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-search">
+              <i class="bi bi-search"></i> Search
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-card" *ngIf="!isLoading && permissions.length > 0">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Admission No.</th>
+            <th>Permission Date</th>
+            <th>Permission Time</th>
+            <th>Reason</th>
+            <th>Parent Mobile</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let permission of permissions">
+            <td><strong>{{ permission.first_name }} {{ permission.last_name }}</strong></td>
+            <td>{{ permission.admission_number }}</td>
+            <td>{{ permission.permission_date | dateFormat }}</td>
+            <td>{{ permission.permission_time || '-' }}</td>
+            <td>{{ permission.reason }}</td>
+            <td>{{ permission.parent_mobile }}</td>
+            <td>
+              <span class="badge" [class.badge-success]="permission.approval_status === 'approved'"
+                [class.badge-warning]="permission.approval_status === 'pending'"
+                [class.badge-danger]="permission.approval_status === 'rejected'">
+                {{ permission.approval_status }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons" *ngIf="permission.approval_status === 'pending'">
+                <button (click)="approvePermission(permission, 'approve')" class="btn-icon btn-success" title="Approve">
+                  <i class="bi bi-check-circle"></i>
+                </button>
+                <button (click)="approvePermission(permission, 'reject')" class="btn-icon btn-danger" title="Reject">
+                  <i class="bi bi-x-circle"></i>
+                </button>
+              </div>
+              <span *ngIf="permission.approval_status !== 'pending'">-</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" *ngIf="!isLoading && permissions.length === 0">
+      <i class="bi bi-calendar-check"></i>
+      <p>No half day permissions found</p>
+    </div>
+
+    <div class="loading-state" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Loading permissions...</p>
+    </div>
+  </ng-container>
+</div>

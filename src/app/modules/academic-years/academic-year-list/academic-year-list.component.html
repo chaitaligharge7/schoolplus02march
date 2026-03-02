@@ -1,0 +1,48 @@
+<div class="academic-year-list-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Academic Years</h1>
+      <p class="page-subtitle">Manage academic years for your school</p>
+    </div>
+
+    <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+      <div class="filter-group">
+        <label>Status:</label>
+        <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+          <option [ngValue]="undefined">All Status</option>
+          <option value="one">Active</option>
+          <option value="zero">Inactive</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER PANEL -->
+
+  <app-enhanced-table
+    [data]="academicYears"
+    [columns]="columns"
+    [pagination]="pagination"
+    [loading]="loading"
+    [selectedRowId]="selectedRowId"
+    [rowIdKey]="'academic_year_id'"
+    [addRoute]="'/app/academic-years/create'"
+    [addLabel]="'Add Academic Year'"
+    [searchPlaceholder]="'Search academic years...'"
+    [enableExport]="true"
+    [enableDateFilter]="true"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (sortChange)="onSortChange($event)"
+    (dateFilterChange)="onDateFilterChange($event)"
+    (rowSelect)="onRowSelect($event)"
+    (refresh)="onRefresh()"
+    (addClick)="onAdd()"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    (exportClick)="onExportClick($event)"
+    (filterToggle)="onFilterToggle($event)"
+  >
+  </app-enhanced-table>
+</div>

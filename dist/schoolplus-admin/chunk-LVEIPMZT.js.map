@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/branches/branches.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const BRANCHES_ROUTES: Routes = [\r\n  { path: '', redirectTo: 'list', pathMatch: 'full' },\r\n  { path: 'list', loadComponent: () => import('./branch-list/branch-list.component').then(m => m.BranchListComponent) },\r\n  { path: 'create', loadComponent: () => import('./branch-create/branch-create.component').then(m => m.BranchCreateComponent) },\r\n  { path: 'edit/:id', loadComponent: () => import('./branch-create/branch-create.component').then(m => m.BranchCreateComponent) }\r\n];\r\n"],
+  "mappings": ";;;AAEO,IAAM,kBAA0B;EACrC,EAAE,MAAM,IAAI,YAAY,QAAQ,WAAW,OAAM;EACjD,EAAE,MAAM,QAAQ,eAAe,MAAM,OAAO,qBAAqC,EAAE,KAAK,OAAK,EAAE,mBAAmB,EAAC;EACnH,EAAE,MAAM,UAAU,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB,EAAC;EAC3H,EAAE,MAAM,YAAY,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,qBAAqB,EAAC;;",
+  "names": []
+}

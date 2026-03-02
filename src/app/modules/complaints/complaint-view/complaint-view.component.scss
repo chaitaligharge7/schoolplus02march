@@ -1,0 +1,41 @@
+.page-container {
+    padding: 1rem;
+}
+
+.detail-card {
+    max-width: 600px;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    margin: auto;
+}
+
+.detail-list {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.detail-list dt {
+    font-weight: 600;
+    color: #555;
+}
+
+.detail-list dd.notes {
+    white-space: pre-wrap;
+}
+
+.form-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.loading-state,
+.empty-state {
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #777;
+}

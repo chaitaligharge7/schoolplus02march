@@ -1,0 +1,158 @@
+<app-detail-slider
+  [visible]="visible"
+  [title]="'Teacher Summary'"
+  [subtitle]="'Complete teacher profile and analytics'"
+  [profileName]="teacher?.full_name || ''"
+  [profileSubtext]="teacher?.employee_id || ''"
+  (close)="onClose()">
+  <div class="slider-body">
+    <aside class="slider-sidebar">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <i class="bi bi-person-badge"></i>
+        </div>
+        <div class="profile-name">{{ teacher?.full_name || '—' }}</div>
+        <div class="profile-meta" *ngIf="teacher?.employee_id">ID: {{ teacher.employee_id }}</div>
+        <div class="profile-meta" *ngIf="teacher?.designation">{{ teacher.designation }}</div>
+      </div>
+      <nav class="slider-nav">
+        <button
+          *ngFor="let tab of tabs"
+          type="button"
+          class="slider-nav-btn"
+          [class.active]="activeTab === tab.id"
+          (click)="setTab(tab.id)">
+          <i class="bi" [ngClass]="tab.icon"></i>
+          <span>{{ tab.label }}</span>
+        </button>
+      </nav>
+    </aside>
+    <main class="slider-content">
+      <header class="content-header">
+        <div class="content-header-text">
+          <h2 class="content-title">Teacher Summary</h2>
+          <p class="content-subtitle">Complete teacher profile and analytics</p>
+        </div>
+      </header>
+
+      <div class="content-area" *ngIf="loading">
+        <div class="content-loading"><span class="spinner"></span> Loading...</div>
+      </div>
+
+      <!-- Profile -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'profile'">
+        <div class="kpi-grid" *ngIf="profileData">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary"><i class="bi bi-person-vcard"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.employee_id || '—' }}</div>
+              <div class="kpi-label">Employee ID</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-success"><i class="bi bi-telephone"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.mobile || profileData.user_mobile || 'N/A' }}</div>
+              <div class="kpi-label">Mobile</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-info"><i class="bi bi-envelope"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.email || 'N/A' }}</div>
+              <div class="kpi-label">Email</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-warning"><i class="bi bi-mortarboard"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.qualification || '—' }}</div>
+              <div class="kpi-label">Qualification</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary"><i class="bi bi-briefcase"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.specialization || '—' }}</div>
+              <div class="kpi-label">Specialization</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schedule -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'schedule'">
+        <div class="timetable-wrap">
+          <div class="day-block" *ngFor="let day of [1,2,3,4,5,6]">
+            <h3 class="day-title">{{ dayNames[day - 1] }}</h3>
+            <div class="period-list">
+              <div class="period-item" *ngFor="let slot of getTimetableForDay(day)">
+                <span class="period-time">{{ slot.start_time }} - {{ slot.end_time }}</span>
+                <span class="period-subject">{{ slot.subject_name }}</span>
+                <span class="period-class">{{ slot.class_name }}{{ slot.section_name ? ' - ' + slot.section_name : '' }}</span>
+              </div>
+              <p class="no-period" *ngIf="getTimetableForDay(day).length === 0">No classes</p>
+            </div>
+          </div>
+        </div>
+        <p class="empty-msg" *ngIf="timetableData.length === 0 && !loading">No schedule assigned.</p>
+      </div>
+
+      <!-- Leave -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'leave'">
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="leaveData.length">
+            <thead><tr><th>Type</th><th>Start</th><th>End</th><th>Days</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let l of leaveData">
+                <td>{{ l.leave_type }}</td>
+                <td>{{ l.start_date }}</td>
+                <td>{{ l.end_date }}</td>
+                <td>{{ l.days_count }}</td>
+                <td><span class="badge" [class.badge-success]="l.status === 'approved'" [class.badge-warning]="l.status === 'pending'" [class.badge-danger]="l.status === 'rejected'">{{ l.status }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="leaveData.length === 0 && !loading">No leave records.</p>
+        </div>
+      </div>
+
+      <!-- Doubt Handling -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'doubt-handling'">
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="doubtData.length">
+            <thead><tr><th>Student</th><th>Subject</th><th>Doubt</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let d of doubtData">
+                <td>{{ d.student_name }}</td>
+                <td>{{ d.subject_name }}</td>
+                <td>{{ (d.doubt_text || '').slice(0, 50) }}{{ (d.doubt_text || '').length > 50 ? '...' : '' }}</td>
+                <td><span class="badge" [class.badge-success]="d.status === 'resolved'" [class.badge-warning]="d.status !== 'resolved'">{{ d.status }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="doubtData.length === 0 && !loading">No doubt records for this teacher.</p>
+        </div>
+      </div>
+
+      <!-- Teaching Plan -->
+      <div class="content-area" *ngIf="!loading && activeTab === 'teaching-plan'">
+        <div class="data-table-wrap">
+          <table class="data-table" *ngIf="teachingPlanData.length">
+            <thead><tr><th>Title</th><th>Class</th><th>Subject</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let p of teachingPlanData">
+                <td>{{ p.plan_title }}</td>
+                <td>{{ p.class_name }}</td>
+                <td>{{ p.subject_name }}</td>
+                <td>{{ p.plan_date }}</td>
+                <td><span class="badge badge-info">{{ p.status || '—' }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="empty-msg" *ngIf="teachingPlanData.length === 0 && !loading">No teaching plans.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</app-detail-slider>

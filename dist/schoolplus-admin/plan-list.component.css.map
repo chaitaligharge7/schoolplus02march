@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/teaching-plan/plan-list/plan-list.component.scss"],
+  "sourcesContent": [".page-container { width: 100%; padding: 0; }\r\n.page-header { margin-bottom: 1rem; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,SAAA;AAAa,WAAA;;AAC/B,CAAA;AAAe,iBAAA;;",
+  "names": []
+}

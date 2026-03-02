@@ -1,0 +1,119 @@
+
+  <div class="examination-create-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Examination' : 'Create Examination' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update examination details' : 'Create a new examination schedule' }}</p>
+    </div>
+    <button class="btn btn-outline" (click)="cancel()">
+      <i class="bi bi-x-circle"></i>
+      Cancel
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="examinationForm" (ngSubmit)="onSubmit()">
+      <div class="form-sections">
+        <div class="form-section">
+          <h3 class="section-title">Examination Details</h3>
+          <div class="form-grid">
+            <!-- Examination Name -->
+            <div class="form-group">
+              <label>Examination Name <span class="required">*</span></label>
+              <input type="text" formControlName="examination_name" class="form-control"
+                [class.is-invalid]="examinationForm.get('examination_name')?.invalid && examinationForm.get('examination_name')?.touched"
+                placeholder="e.g., Annual Examination 2024" />
+              <div class="invalid-feedback"
+                *ngIf="examinationForm.get('examination_name')?.invalid && examinationForm.get('examination_name')?.touched">
+                Examination name is required
+              </div>
+            </div>
+
+            <!-- Examination Code -->
+            <div class="form-group">
+              <label>Examination Code <span class="required">*</span></label>
+              <input type="text" formControlName="examination_code" class="form-control"
+                [class.is-invalid]="examinationForm.get('examination_code')?.invalid && examinationForm.get('examination_code')?.touched"
+                placeholder="e.g., ANNUAL-2024" />
+              <div class="invalid-feedback"
+                *ngIf="examinationForm.get('examination_code')?.invalid && examinationForm.get('examination_code')?.touched">
+                Examination code is required
+              </div>
+            </div>
+
+            <!-- Exam Type -->
+            <div class="form-group">
+              <label>Exam Type <span class="required">*</span></label>
+              <select formControlName="exam_type_id" class="form-control"
+                [class.is-invalid]="examinationForm.get('exam_type_id')?.invalid && examinationForm.get('exam_type_id')?.touched">
+                <option [value]="null">Select Exam Type</option>
+                <option *ngFor="let type of examTypes" [value]="type.exam_type_id">
+                  {{ type.exam_type_name }}
+                </option>
+              </select>
+              <div class="invalid-feedback"
+                *ngIf="examinationForm.get('exam_type_id')?.invalid && examinationForm.get('exam_type_id')?.touched">
+                Exam type is required
+              </div>
+            </div>
+
+            <!-- Start Date -->
+            <div class="form-group">
+              <label>Start Date <span class="required">*</span></label>
+              <input type="date" formControlName="start_date" class="form-control"
+                [class.is-invalid]="examinationForm.get('start_date')?.invalid && examinationForm.get('start_date')?.touched" />
+              <div class="invalid-feedback"
+                *ngIf="examinationForm.get('start_date')?.invalid && examinationForm.get('start_date')?.touched">
+                Start date is required
+              </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="form-group">
+              <label>End Date <span class="required">*</span></label>
+              <input type="date" formControlName="end_date" class="form-control"
+                [class.is-invalid]="examinationForm.get('end_date')?.invalid && examinationForm.get('end_date')?.touched" />
+              <div class="invalid-feedback"
+                *ngIf="examinationForm.get('end_date')?.invalid && examinationForm.get('end_date')?.touched">
+                End date is required
+              </div>
+            </div>
+
+            <!-- Result Date -->
+            <div class="form-group">
+              <label>Result Date <span class="required">*</span></label>
+              <input type="date" formControlName="result_date" class="form-control"
+                [class.is-invalid]="examinationForm.get('result_date')?.invalid && examinationForm.get('result_date')?.touched" />
+              <div class="invalid-feedback"
+                *ngIf="examinationForm.get('result_date')?.invalid && examinationForm.get('result_date')?.touched">
+                Result date is required
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group full-width">
+              <label>Description</label>
+              <textarea formControlName="description" class="form-control" rows="4"
+                placeholder="Enter examination description or instructions"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update Examination' : 'Create Examination' }}</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            {{ isEditMode ? 'Updating...' : 'Creating...' }}
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+

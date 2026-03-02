@@ -1,0 +1,122 @@
+<div class="library-add-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">
+        {{ isEditMode ? 'Edit Book Issue' : 'Add Book Issue' }}
+      </h1>
+      <p class="page-subtitle">
+        {{ isEditMode ? 'Update book issue details' : 'Issue a book to student or teacher' }}
+      </p>
+    </div>
+
+    <button class="btn btn-outline" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="issueForm" (ngSubmit)="onSubmit()">
+
+      <!-- Book (search/autocomplete) -->
+      <div class="form-group">
+        <label>Book *</label>
+        <app-search-select
+          formControlName="book_id"
+          [options]="bookOptions"
+          placeholder="Search or select book..."
+        ></app-search-select>
+      </div>
+
+      <!-- Issue To -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Issue To *</label>
+          <app-search-select
+            formControlName="issue_to"
+            [options]="issueToOptions"
+            placeholder="Select..."
+          ></app-search-select>
+        </div>
+
+        <!-- Student (search/autocomplete) -->
+        <div class="form-group" *ngIf="issueForm.get('issue_to')?.value === 'student'">
+          <label>Student *</label>
+          <app-search-select
+            formControlName="student_id"
+            [options]="studentOptions"
+            placeholder="Search or select student..."
+          ></app-search-select>
+        </div>
+
+        <!-- Teacher (search/autocomplete) -->
+        <div class="form-group" *ngIf="issueForm.get('issue_to')?.value === 'teacher'">
+          <label>Teacher *</label>
+          <app-search-select
+            formControlName="teacher_id"
+            [options]="teacherOptions"
+            placeholder="Search or select teacher..."
+          ></app-search-select>
+        </div>
+      </div>
+
+
+      <!-- Dates -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Issue Date *</label>
+          <input type="date" class="form-control" formControlName="issue_date" />
+        </div>
+
+        <div class="form-group">
+          <label>Due Date *</label>
+          <input type="date" class="form-control" formControlName="due_date" />
+        </div>
+
+        <!-- <div class="form-group">
+          <label>Return Date</label>
+          <input type="date" class="form-control" formControlName="return_date" />
+        </div> -->
+      </div>
+
+      <!-- Status & Fine -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Status *</label>
+          <app-search-select
+            formControlName="issue_status"
+            [options]="statusOptions"
+            placeholder="Select status..."
+          ></app-search-select>
+        </div>
+
+        <div class="form-group">
+          <label>Fine Amount</label>
+          <input type="number" class="form-control" formControlName="fine_amount" min="0" />
+        </div>
+      </div>
+
+      <!-- Remarks -->
+      <div class="form-group">
+        <label>Remarks</label>
+        <textarea class="form-control" rows="3" formControlName="remarks" placeholder="Enter remarks"></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="goBack()">
+          Cancel
+        </button>
+
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || issueForm.invalid">
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update Issue' : 'Issue Book' }}</span>
+          <span *ngIf="isSaving">
+            <span class="spinner-small"></span>
+            Saving...
+          </span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

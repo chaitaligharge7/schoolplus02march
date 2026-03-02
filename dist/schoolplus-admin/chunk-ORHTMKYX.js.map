@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/cms/cms.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nexport const CMS_ROUTES: Routes = [\r\n  { path: '', redirectTo: 'list', pathMatch: 'full' },\r\n  { path: 'list', loadComponent: () => import('./page-list/page-list.component').then(m => m.PageListComponent) },\r\n  { path: 'create', loadComponent: () => import('./page-create/page-create.component').then(m => m.PageCreateComponent) },\r\n  { path: 'edit/:id', loadComponent: () => import('./page-create/page-create.component').then(m => m.PageCreateComponent) }\r\n];\r\n"],
+  "mappings": ";;;AAEO,IAAM,aAAqB;EAChC,EAAE,MAAM,IAAI,YAAY,QAAQ,WAAW,OAAM;EACjD,EAAE,MAAM,QAAQ,eAAe,MAAM,OAAO,qBAAiC,EAAE,KAAK,OAAK,EAAE,iBAAiB,EAAC;EAC7G,EAAE,MAAM,UAAU,eAAe,MAAM,OAAO,qBAAqC,EAAE,KAAK,OAAK,EAAE,mBAAmB,EAAC;EACrH,EAAE,MAAM,YAAY,eAAe,MAAM,OAAO,qBAAqC,EAAE,KAAK,OAAK,EAAE,mBAAmB,EAAC;;",
+  "names": []
+}

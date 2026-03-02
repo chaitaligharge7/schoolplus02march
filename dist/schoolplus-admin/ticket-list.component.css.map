@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/support-feedback/ticket-list/ticket-list.component.scss"],
+  "sourcesContent": [".page-container { width: 100%; padding: 0; }\r\n.page-header { margin-bottom: 1rem; }\r\n.filters { display: flex; gap: 1rem; margin-bottom: 1rem; }\r\n.filter-group label { display: block; font-size: 0.875rem; margin-bottom: 0.25rem; }\r\n.form-control { padding: 0.5rem; border-radius: 6px; min-width: 150px; }\r\n"],
+  "mappings": ";AAAA,CAAA;AAAkB,SAAA;AAAa,WAAA;;AAC/B,CAAA;AAAe,iBAAA;;AACf,CAAA;AAAW,WAAA;AAAe,OAAA;AAAW,iBAAA;;AACrC,CAAA,aAAA;AAAsB,WAAA;AAAgB,aAAA;AAAqB,iBAAA;;AAC3D,CAAA;AAAgB,WAAA;AAAiB,iBAAA;AAAoB,aAAA;;",
+  "names": []
+}

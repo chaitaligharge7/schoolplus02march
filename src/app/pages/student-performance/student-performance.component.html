@@ -1,0 +1,66 @@
+<div class="performance-container">
+  <div class="page-header">
+    <h1 class="page-title">Student Performance Tracking</h1>
+    <p class="page-subtitle">View student performance by academic year, class and subject</p>
+  </div>
+  <div class="filters">
+    <div class="filter-group">
+      <label>Academic Year *</label>
+      <select class="form-control" [(ngModel)]="academicYearId" (change)="load()">
+        <option [ngValue]="null">Select Academic Year</option>
+        <option *ngFor="let ay of academicYears" [ngValue]="ay.academic_year_id ?? ay.id">{{ ay.academic_year_name ?? ay.name }}</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Class</label>
+      <select class="form-control" [(ngModel)]="classId" (change)="onClassChange()">
+        <option [ngValue]="null">All Classes</option>
+        <option *ngFor="let c of classes" [ngValue]="c.class_id">{{ c.class_name }}</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Student</label>
+      <select class="form-control" [(ngModel)]="studentId" (change)="load()">
+        <option [ngValue]="null">All Students</option>
+        <option *ngFor="let s of students" [ngValue]="s.student_id">{{ s.full_name }} ({{ s.admission_number }})</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <button type="button" class="btn btn-primary" (click)="load()" [disabled]="loading">Load</button>
+    </div>
+  </div>
+  <div *ngIf="loading" class="loading">Loading performance data...</div>
+  <div *ngIf="!loading && overallPerformance" class="summary-cards">
+    <div class="card"><strong>Total Students</strong><span>{{ overallPerformance.total_students }}</span></div>
+    <div class="card"><strong>Average %</strong><span>{{ overallPerformance.average_percentage }}</span></div>
+    <div class="card"><strong>Average Marks</strong><span>{{ overallPerformance.average_marks }}</span></div>
+    <div class="card"><strong>Examinations</strong><span>{{ overallPerformance.total_examinations }}</span></div>
+  </div>
+  <div *ngIf="!loading && comparativeData" class="comparative">
+    <strong>Class average:</strong> {{ comparativeData.class_average }}% ({{ comparativeData.class_total_students }} students)
+  </div>
+  <div *ngIf="!loading && subjectPerformance.length" class="table-wrap">
+    <h3>Subject-wise Performance</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Students</th>
+          <th>Avg %</th>
+          <th>Avg Marks</th>
+          <th>Pass %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of subjectPerformance">
+          <td>{{ row.subject_name || '-' }}</td>
+          <td>{{ row.total_students }}</td>
+          <td>{{ row.avg_percentage }}</td>
+          <td>{{ row.avg_marks }}</td>
+          <td>{{ row.pass_percentage }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p *ngIf="!loading && !overallPerformance && !subjectPerformance.length" class="empty">No performance data. Select Academic Year (required) and click Load.</p>
+</div>

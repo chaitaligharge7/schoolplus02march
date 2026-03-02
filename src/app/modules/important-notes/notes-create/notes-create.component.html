@@ -1,0 +1,140 @@
+<div class="notes-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Important Note' : 'Create Important Note' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update note details' : 'Create a new important note' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="noteForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Basic Information</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Note Title <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="note_title"
+              class="form-control"
+              [class.is-invalid]="noteForm.get('note_title')?.invalid && noteForm.get('note_title')?.touched"
+              placeholder="Enter note title"
+            />
+            <div class="invalid-feedback" *ngIf="noteForm.get('note_title')?.invalid && noteForm.get('note_title')?.touched">
+              Note title is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Class <span class="required">*</span></label>
+            <select
+              formControlName="class_id"
+              class="form-control"
+              [class.is-invalid]="noteForm.get('class_id')?.invalid && noteForm.get('class_id')?.touched"
+            >
+              <option [value]="null">Select Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.class_id">
+                {{ cls.class_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Subject <span class="required">*</span></label>
+            <select
+              formControlName="subject_id"
+              class="form-control"
+              [class.is-invalid]="noteForm.get('subject_id')?.invalid && noteForm.get('subject_id')?.touched"
+            >
+              <option [value]="null">Select Subject</option>
+              <option *ngFor="let subject of subjects" [value]="subject.subject_id">
+                {{ subject.subject_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Teacher <span class="required">*</span></label>
+            <select
+              formControlName="teacher_id"
+              class="form-control"
+              [class.is-invalid]="noteForm.get('teacher_id')?.invalid && noteForm.get('teacher_id')?.touched"
+            >
+              <option [value]="null">Select Teacher</option>
+              <option *ngFor="let teacher of teachers" [value]="teacher.teacher_id">
+                {{ teacher.first_name }} {{ teacher.last_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Note Type <span class="required">*</span></label>
+            <select
+              formControlName="note_type"
+              class="form-control"
+            >
+              <option value="note">Note</option>
+              <option value="formula">Formula</option>
+              <option value="summary">Summary</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Note Content</h3>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="note_description"
+            class="form-control"
+            rows="6"
+            placeholder="Enter note description"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Upload Note File</label>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+            class="form-control"
+          />
+          <small class="form-text text-muted">Allowed formats: PDF, Word, JPG, PNG (Max 10MB)</small>
+          <div *ngIf="filePreview" class="file-preview mt-2">
+            <a [href]="filePreview" target="_blank" *ngIf="filePreview.startsWith('http')">
+              View Current File
+            </a>
+            <img *ngIf="filePreview.startsWith('data:')" [src]="filePreview" alt="Preview" class="preview-image" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || noteForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Note</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+

@@ -1,0 +1,111 @@
+<app-detail-slider
+  [visible]="visible"
+  [title]="'Course Summary'"
+  [subtitle]="'Course details and enrollments'"
+  [profileName]="courseItem?.course_name || ''"
+  [profileSubtext]="courseItem?.course_code || ''"
+  (close)="onClose()"
+>
+  <div class="slider-body">
+    <aside class="slider-sidebar">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <i class="bi bi-journal-text"></i>
+        </div>
+        <div class="profile-name">{{ courseItem?.course_name || "—" }}</div>
+        <div class="profile-meta" *ngIf="courseItem?.course_code">
+          Code: {{ courseItem.course_code }}
+        </div>
+        <div class="profile-meta" *ngIf="courseItem?.class_name">
+          Class: {{ courseItem.class_name }}
+        </div>
+        <div class="profile-meta" *ngIf="courseItem?.status">
+          Status: {{ courseItem.status }}
+        </div>
+        <div class="profile-meta" *ngIf="enrollmentsData.length">
+          Enrollments: {{ enrollmentsData.length }}
+        </div>
+      </div>
+
+      <nav class="slider-nav">
+        <button
+          *ngFor="let tab of tabs"
+          type="button"
+          class="slider-nav-btn"
+          [class.active]="activeTab === tab.id"
+          (click)="setTab(tab.id)"
+        >
+          <i class="bi" [ngClass]="tab.icon"></i>
+          <span>{{ tab.label }}</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="slider-content">
+      <header class="content-header">
+        <div class="content-header-text">
+          <h2 class="content-title">Course Summary</h2>
+          <p class="content-subtitle">Course details and enrollments</p>
+        </div>
+      </header>
+
+      <div class="content-area" *ngIf="loading">
+        <div class="content-loading">
+          <span class="spinner"></span> Loading...
+        </div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'profile'">
+        <div class="kpi-grid" *ngIf="profileData">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-primary">
+              <i class="bi bi-upc-scan"></i>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.course_code || "—" }}</div>
+              <div class="kpi-label">Course Code</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-success">
+              <i class="bi bi-book"></i>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ profileData.class_name || "—" }}</div>
+              <div class="kpi-label">Class</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-warning"><i class="bi bi-people"></i></div>
+            <div class="kpi-body">
+              <div class="kpi-value">{{ enrollmentsData.length || 0 }}</div>
+              <div class="kpi-label">Enrollments</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area" *ngIf="!loading && activeTab === 'enrollments'">
+        <div class="data-table-wrap" *ngIf="enrollmentsData.length">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Admission No.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of enrollmentsData">
+                <td>{{ s.student_name }}</td>
+                <td>{{ s.admission_number || "—" }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="empty-msg" *ngIf="enrollmentsData.length === 0 && !loading">
+          No students enrolled in this course
+        </p>
+      </div>
+    </main>
+  </div>
+</app-detail-slider>

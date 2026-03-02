@@ -1,0 +1,147 @@
+<div class="bus-document-create-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Bus Document' : 'Upload Bus Document' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Update document details' : 'Upload a new bus document' }}</p>
+  </div>
+
+  <div class="form-card" *ngIf="!isLoading">
+    <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Document Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Bus <span class="required">*</span></label>
+            <select
+              formControlName="bus_id"
+              class="form-control"
+              [class.is-invalid]="documentForm.get('bus_id')?.invalid && documentForm.get('bus_id')?.touched"
+            >
+              <option [value]="null">Select Bus</option>
+              <option *ngFor="let bus of buses" [value]="bus.bus_id">
+                {{ bus.bus_number }} - {{ bus.route_name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="documentForm.get('bus_id')?.invalid && documentForm.get('bus_id')?.touched">
+              Bus selection is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Document Type <span class="required">*</span></label>
+            <select
+              formControlName="document_type"
+              class="form-control"
+              [class.is-invalid]="documentForm.get('document_type')?.invalid && documentForm.get('document_type')?.touched"
+            >
+              <option value="insurance">Insurance</option>
+              <option value="permit">Permit</option>
+              <option value="fitness">Fitness Certificate</option>
+              <option value="license">License</option>
+              <option value="other">Other</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="documentForm.get('document_type')?.invalid && documentForm.get('document_type')?.touched">
+              Document type is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Document Number <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="document_number"
+              class="form-control"
+              [class.is-invalid]="documentForm.get('document_number')?.invalid && documentForm.get('document_number')?.touched"
+              placeholder="Enter document number"
+            />
+            <div class="invalid-feedback" *ngIf="documentForm.get('document_number')?.invalid && documentForm.get('document_number')?.touched">
+              Document number is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Issue Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="issue_date"
+              class="form-control"
+              [class.is-invalid]="documentForm.get('issue_date')?.invalid && documentForm.get('issue_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="documentForm.get('issue_date')?.invalid && documentForm.get('issue_date')?.touched">
+              Issue date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Expiry Date <span class="required">*</span></label>
+            <input
+              type="date"
+              formControlName="expiry_date"
+              class="form-control"
+              [class.is-invalid]="documentForm.get('expiry_date')?.invalid && documentForm.get('expiry_date')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="documentForm.get('expiry_date')?.invalid && documentForm.get('expiry_date')?.touched">
+              Expiry date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select
+              formControlName="status"
+              class="form-control"
+            >
+              <option value="valid">Valid</option>
+              <option value="expiring_soon">Expiring Soon</option>
+              <option value="expired">Expired</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Document File</h3>
+        <div class="form-group">
+          <label>Upload Document</label>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            accept=".pdf,.jpg,.jpeg,.png"
+            class="form-control"
+          />
+          <small class="form-text text-muted">Allowed formats: PDF, JPG, PNG (Max 10MB)</small>
+          <div *ngIf="filePreview" class="file-preview mt-2">
+            <a [href]="filePreview" target="_blank" *ngIf="filePreview.startsWith('http')">
+              View Current Document
+            </a>
+            <img *ngIf="filePreview.startsWith('data:')" [src]="filePreview" alt="Preview" class="preview-image" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Remarks</label>
+          <textarea
+            formControlName="remarks"
+            class="form-control"
+            rows="3"
+            placeholder="Enter any additional remarks"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving || documentForm.invalid">
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Upload' }} Document</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+
