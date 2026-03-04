@@ -7,7 +7,7 @@
   </div>
 
   <!-- Additional Filters -->
-  <div class="additional-filters filter-panel" [class.expanded]="showFilters">
+  <div class="additional-filters filter-panel" [class.expanded]="showFilters" *ngIf="showFilters">
     <div class="filter-group">
       <label>Academic Year:</label>
       <app-search-select
@@ -53,6 +53,7 @@
     [searchPlaceholder]="'Search by course name...'"
     [enableExport]="true"
     [enableDateFilter]="true"
+    [showViewButton]="true"
     (pageChange)="onPageChange($event)"
     (pageSizeChange)="onPageSizeChange($event)"
     (searchChange)="onSearchChange($event)"

@@ -12,16 +12,16 @@
           <div class="form-group">
             <label>Bus <span class="required">*</span></label>
             <select
-              formControlName="bus_id"
+              formControlName="vehicle_id"
               class="form-control"
-              [class.is-invalid]="documentForm.get('bus_id')?.invalid && documentForm.get('bus_id')?.touched"
+              [class.is-invalid]="documentForm.get('vehicle_id')?.invalid && documentForm.get('vehicle_id')?.touched"
             >
               <option [value]="null">Select Bus</option>
-              <option *ngFor="let bus of buses" [value]="bus.bus_id">
-                {{ bus.bus_number }} - {{ bus.route_name }}
+              <option *ngFor="let bus of buses" [value]="bus.vehicle_id">
+                {{ bus.vehicle_number }} - {{ bus.route_name }}
               </option>
             </select>
-            <div class="invalid-feedback" *ngIf="documentForm.get('bus_id')?.invalid && documentForm.get('bus_id')?.touched">
+            <div class="invalid-feedback" *ngIf="documentForm.get('vehicle_id')?.invalid && documentForm.get('vehicle_id')?.touched">
               Bus selection is required
             </div>
           </div>

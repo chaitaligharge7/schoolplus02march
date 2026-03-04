@@ -32,7 +32,7 @@ export class BusDocumentCreateComponent implements OnInit {
     private toastService: ToastService
   ) {
     this.documentForm = this.fb.group({
-      bus_id: [null, Validators.required],
+      vehicle_id: [null, Validators.required],
       document_type: ['insurance', Validators.required],
       document_number: ['', Validators.required],
       issue_date: [new Date().toISOString().split('T')[0], Validators.required],
@@ -62,10 +62,10 @@ export class BusDocumentCreateComponent implements OnInit {
           // Extract unique buses from routes
           const busMap = new Map();
           (response.data.routes || []).forEach((route: any) => {
-            if (route.bus_id && !busMap.has(route.bus_id)) {
-              busMap.set(route.bus_id, {
-                bus_id: route.bus_id,
-                bus_number: route.bus_number || `Bus ${route.bus_id}`,
+            if (route.vehicle_id && !busMap.has(route.vehicle_id)) {
+              busMap.set(route.vehicle_id, {
+                vehicle_id: route.vehicle_id,
+                vehicle_number: route.vehicle_number || `Bus ${route.vehicle_id}`,
                 route_name: route.route_name
               });
             }
@@ -85,7 +85,7 @@ export class BusDocumentCreateComponent implements OnInit {
         if (response.status === 'success' && response.data?.documents?.length > 0) {
           const doc = response.data.documents[0];
           this.documentForm.patchValue({
-            bus_id: doc.bus_id,
+            vehicle_id: doc.vehicle_id,
             document_type: doc.document_type,
             document_number: doc.document_number,
             issue_date: doc.issue_date,

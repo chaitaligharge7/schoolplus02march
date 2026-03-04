@@ -82,7 +82,7 @@ export class SubjectCreateComponent implements OnInit {
             subject_type: subject.subject_type || 'Core',
             subject_description: subject.subject_description || '',
             max_marks: subject.max_marks,
-            passing_marks: subject.passing_marks
+            pass_marks: subject.pass_marks
           });
           
           if (subject.linked_classes) {

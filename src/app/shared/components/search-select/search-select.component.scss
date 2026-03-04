@@ -1,6 +1,11 @@
 .search-select {
   position: relative;
   width: 100%;
+  z-index: 1;
+
+  &.open {
+    z-index: 2000;
+  }
 
   &.disabled {
     opacity: 0.7;
@@ -65,7 +70,7 @@
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 2100;
     max-height: 220px;
     overflow-y: auto;
   }

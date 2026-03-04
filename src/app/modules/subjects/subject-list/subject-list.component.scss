@@ -3,4 +3,22 @@
 .subject-list-container {
   width: 100%;
   padding: 0;
+
+  .page-header {
+    position: relative;
+    z-index: 20;
+    overflow: visible;
+  }
+
+  .header-dropdowns {
+    position: relative;
+    z-index: 30;
+    overflow: visible;
+  }
+
+  .page-header .filter-panel {
+    max-height: none;
+    overflow: visible;
+    min-height: auto;
+  }
 }

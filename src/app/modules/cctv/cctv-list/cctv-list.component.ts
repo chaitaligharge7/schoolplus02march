@@ -115,7 +115,7 @@ export class CctvListComponent implements OnInit {
       params.camera_location = this.location;
     }
     if (this.status) {
-      params.status = this.status;
+      params.camera_status = this.status;
     }
 
     this.cctvService.getCctvList(params).subscribe({

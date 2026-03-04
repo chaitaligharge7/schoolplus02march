@@ -46,7 +46,7 @@ export class CleaningListComponent implements OnInit {
       type: "date",
     },
     {
-      key: "assigned_to_name",
+      key: "assigned_to",
       label: "Assigned To",
       sortable: true,
       format: (value: any) => value || "-",
@@ -75,7 +75,7 @@ export class CleaningListComponent implements OnInit {
   sortDirection: "asc" | "desc" = "desc";
   startDate?: string;
   endDate?: string;
-  area?: string;
+  location?: string;
   status?: string;
   dutyOn = false;
   dutyLoginAt: string | null = null;
@@ -162,8 +162,8 @@ export class CleaningListComponent implements OnInit {
     if (this.endDate) {
       params.end_date = this.endDate;
     }
-    if (this.area) {
-      params.area = this.area;
+    if (this.location) {
+      params.location = this.location;
     }
     if (this.status) {
       params.status = this.status;
@@ -229,9 +229,9 @@ export class CleaningListComponent implements OnInit {
 
   onExportClick(event: { type: string; columns: string[] }): void {
     const exportData = this.schedules.map((schedule) => ({
-      Area: schedule.area || "-",
+      Area: schedule.location || "-",
       "Schedule Date": this.formatDate(schedule.schedule_date),
-      "Assigned To": schedule.assigned_to_name || "-",
+      "Assigned To": schedule.assigned_to || "-",
       Status: schedule.status || "-",
       "Completed Date": schedule.completed_date
         ? this.formatDate(schedule.completed_date)
@@ -274,8 +274,8 @@ export class CleaningListComponent implements OnInit {
     });
   }
 
-  onAreaChange(area: string | null | undefined): void {
-    this.area = area || undefined;
+  onAreaChange(location: string | null | undefined): void {
+    this.location = location || undefined;
     this.pagination.page = 1;
     this.loadSchedules();
   }

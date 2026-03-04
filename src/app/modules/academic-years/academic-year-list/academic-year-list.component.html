@@ -8,7 +8,11 @@
     <div class="additional-filters filter-panel" [class.expanded]="showFilters">
       <div class="filter-group">
         <label>Status:</label>
-        <select class="form-control" [(ngModel)]="status" (change)="onStatusChange(status)">
+        <select
+          class="form-control"
+          [(ngModel)]="statusFilter"
+          (change)="onStatusChange()"
+        >
           <option [ngValue]="undefined">All Status</option>
           <option value="one">Active</option>
           <option value="zero">Inactive</option>
@@ -16,8 +20,6 @@
       </div>
     </div>
   </div>
-
-  <!-- FILTER PANEL -->
 
   <app-enhanced-table
     [data]="academicYears"

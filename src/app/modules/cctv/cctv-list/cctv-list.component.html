@@ -25,7 +25,7 @@
         [(ngModel)]="status"
         (change)="onStatusChange(status)"
       >
-        <option [value]="undefined">All Status</option>
+        <option [ngValue]="undefined">All Status</option>
         <option value="active">Active</option>
         <option value="inactive">Inactive</option>
         <option value="maintenance">Maintenance</option>

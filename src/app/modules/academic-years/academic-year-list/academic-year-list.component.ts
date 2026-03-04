@@ -21,6 +21,7 @@ export class AcademicYearListComponent implements OnInit {
   showFilters = false;
   selectedRowId?: number;
   status?: string;
+  statusFilter: string | undefined;
 
   pagination = {
     page: 1,
@@ -196,10 +197,12 @@ export class AcademicYearListComponent implements OnInit {
   onRowSelect(row: any): void {
     this.selectedRowId = row.academic_year_id;
   }
-  onStatusChange(status: string | null | undefined): void {
-    this.status = status === "zero" ? "0" : status === "one" ? "1" : undefined;
+  onStatusChange(): void {
+    // Translate for API/filter logic, but don't touch this.status
+    this.status = this.statusFilter === "zero" ? "0" : this.statusFilter === "one" ? "1" : undefined;
+
     this.pagination.page = 1;
-    this.loadAcademicYears();
+    this.loadAcademicYears(); // use this.statusFilter internally
   }
   onRefresh(): void {
     this.loadAcademicYears();

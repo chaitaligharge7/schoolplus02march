@@ -83,16 +83,19 @@ export class SubjectListComponent implements OnInit {
   classId?: number;
   showFilters = false;
 
+  get classOptions(): { value: number | null; label: string }[] {
+    // const all = [{ value: null, label: "All Classes" }];
 
+    const all: { value: number | undefined; label: string }[] = [
+      { value: undefined, label: "All Classes" },
+    ];
 
-get classOptions(): { value: number | null; label: string }[] {
-  const all = [{ value: null, label: 'All Classes' }];
-  const list = (this.classes || []).map(c => ({
-    value: c.class_id,
-    label: c.class_name
-  }));
-  return [...all, ...list];
-}
+    const list = (this.classes || []).map((c) => ({
+      value: c.class_id,
+      label: c.class_name,
+    }));
+    return [...all, ...list];
+  }
 
   constructor(
     private subjectService: SubjectService,
@@ -105,9 +108,8 @@ get classOptions(): { value: number | null; label: string }[] {
 
   ngOnInit(): void {
     this.loadClasses();
-    this.loadSubjects();
+    // this.loadSubjects();
   }
-
 
   loadClasses(): void {
     this.classService.getClasses().subscribe({
@@ -117,9 +119,15 @@ get classOptions(): { value: number | null; label: string }[] {
         if (response.status === "success") {
           this.classes = response.data?.classes ?? [];
         }
+
+        // ✅ Load subjects AFTER classes are ready
+        this.loadSubjects();
       },
       error: (error) => {
         console.error("Classes API error:", error);
+
+        // Still load subjects even if classes fail
+        this.loadSubjects();
       },
     });
   }
@@ -129,7 +137,7 @@ get classOptions(): { value: number | null; label: string }[] {
       page: this.pagination.page,
       limit: this.pagination.limit,
       sort_column: this.sortColumn,
-      sort_direction: this.sortDirection.toUpperCase()
+      sort_direction: this.sortDirection.toUpperCase(),
     };
 
     if (this.searchTerm) {
@@ -142,20 +150,23 @@ get classOptions(): { value: number | null; label: string }[] {
       params.end_date = this.endDate;
     }
 
-    this.subjectService.getSubjects(this.classId, params).subscribe({
-      next: (response) => {
-        this.loading = false;
-        if (response.status === "success" && response.data) {
-          this.subjects = response.data.subjects || [];
-          this.pagination = response.data.pagination || this.pagination;
-        }
-      },
-      error: (error) => {
-        this.loading = false;
-        this.toastService.show("Error loading subjects", "error");
-        console.error("Error loading subjects:", error);
-      },
-    });
+    // this.subjectService.getSubjects(this.classId, params).subscribe({
+    this.subjectService
+      .getSubjects(this.classId ?? undefined, params)
+      .subscribe({
+        next: (response) => {
+          this.loading = false;
+          if (response.status === "success" && response.data) {
+            this.subjects = response.data.subjects || [];
+            this.pagination = response.data.pagination || this.pagination;
+          }
+        },
+        error: (error) => {
+          this.loading = false;
+          this.toastService.show("Error loading subjects", "error");
+          console.error("Error loading subjects:", error);
+        },
+      });
   }
 
   onPageChange(page: number): void {
