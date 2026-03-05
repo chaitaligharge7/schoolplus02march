@@ -39,16 +39,15 @@ export class CourseCreateComponent implements OnInit {
     private academicYearService: AcademicYearService,
     private toastService: ToastService,
     private classService: ClassService,
-    private tecaherservice: TeacherService,
+    private tecaherservice: TeacherService
   ) {
     this.courseForm = this.fb.group({
       course_name: ["", Validators.required],
       course_code: [""],
       academic_year_id: [null, Validators.required],
       course_type: ["Regular", Validators.required],
-      class_id: [null, Validators.required], // ✅ ADD THIS
+      class_id: [null, Validators.required],
       teacher_id: [null, Validators.required],
-
       start_date: [new Date().toISOString().split("T")[0], Validators.required],
       end_date: ["", Validators.required],
       max_students: [null],
@@ -99,8 +98,8 @@ export class CourseCreateComponent implements OnInit {
             course_code: course.course_code,
             academic_year_id: course.academic_year_id,
             course_type: course.course_type,
-            class_id:course.class_id,
-            teacher_id:course.teacher_id,
+            class_id: course.class_id,
+            teacher_id: course.teacher_id,
             start_date: course.start_date,
             end_date: course.end_date,
             max_students: course.max_students,
@@ -118,104 +117,65 @@ export class CourseCreateComponent implements OnInit {
     });
   }
 
-  // onSubmit(): void {
-  //   if (this.courseForm.invalid) {
-  //     this.courseForm.markAllAsTouched();
-  //     return;
-  //   }
+  onSubmit(): void {
+    if (this.courseForm.invalid) {
+      this.courseForm.markAllAsTouched();
+      return;
+    }
 
-  //   this.isSaving = true;
-  //   const formData = this.courseForm.value;
+    this.isSaving = true;
+    const formData = this.courseForm.value;
 
-  //   if (this.isEditMode && this.courseId) {
-  //     formData.course_id = this.courseId;
-  //   }
+    // ✅ DATE VALIDATION ADDED
+    const startDate = new Date(formData.start_date);
+    const endDate = new Date(formData.end_date);
 
-  //   this.courseService.createCourse(formData).subscribe({
-  //     next: (response) => {
-  //       if (response.status === "success") {
-  //         this.toastService.success(
-  //           `Course ${this.isEditMode ? "updated" : "created"} successfully`,
-  //         );
-  //         this.router.navigate(["/app/courses"]);
-  //       } else {
-  //         this.toastService.error(
-  //           response.message ||
-  //             `Failed to ${this.isEditMode ? "update" : "create"} course`,
-  //         );
-  //       }
-  //       this.isSaving = false;
-  //     },
-  //     error: () => {
-  //       this.toastService.error(
-  //         `Failed to ${this.isEditMode ? "update" : "create"} course`,
-  //       );
-  //       this.isSaving = false;
-  //     },
-  //   });
-  // }
+    if (startDate > endDate) {
+      this.toastService.error("Start date cannot be greater than End date");
+      this.isSaving = false;
+      return;
+    }
 
+    if (this.isEditMode && this.courseId) {
+      formData.course_id = this.courseId;
 
-
-onSubmit(): void {
-  if (this.courseForm.invalid) {
-    this.courseForm.markAllAsTouched();
-    return;
+      this.courseService.updateCourse(formData).subscribe({
+        next: (response) => {
+          if (response.status === "success") {
+            this.toastService.success("Course updated successfully");
+            this.router.navigate(["/app/courses"]);
+          } else {
+            this.toastService.error(response.message || "Failed to update course");
+          }
+          this.isSaving = false;
+        },
+        error: (err) => {
+          this.toastService.error(
+            err?.error?.message || err?.message || "Failed to update course"
+          );
+          this.isSaving = false;
+        },
+      });
+    } else {
+      this.courseService.createCourse(formData).subscribe({
+        next: (response) => {
+          if (response.status === "success") {
+            this.toastService.success("Course created successfully");
+            this.router.navigate(["/app/courses"]);
+          } else {
+            this.toastService.error(response.message || "Failed to create course");
+          }
+          this.isSaving = false;
+        },
+        error: (err) => {
+          this.toastService.error(
+            err?.error?.message || err?.message || "Failed to create course"
+          );
+          this.isSaving = false;
+        },
+      });
+    }
   }
-
-  this.isSaving = true;
-  const formData = this.courseForm.value;
-
-  // 🔥 If Edit Mode → call UPDATE API
-  if (this.isEditMode && this.courseId) {
-    formData.course_id = this.courseId;
-
-    this.courseService.updateCourse(formData).subscribe({
-      next: (response) => {
-        if (response.status === "success") {
-          this.toastService.success("Course updated successfully");
-          this.router.navigate(["/app/courses"]);
-        } else {
-          this.toastService.error(response.message || "Failed to update course");
-        }
-        this.isSaving = false;
-      },
-      error: (err) => {
-        this.toastService.error(err?.error?.message || err?.message || "Failed to update course");
-        this.isSaving = false;
-      },
-    });
-
-  } else {
-    // 🔥 If Create Mode → call CREATE API
-    this.courseService.createCourse(formData).subscribe({
-      next: (response) => {
-        if (response.status === "success") {
-          this.toastService.success("Course created successfully");
-          this.router.navigate(["/app/courses"]);
-        } else {
-          this.toastService.error(response.message || "Failed to create course");
-        }
-        this.isSaving = false;
-      },
-      error: (err) => {
-        this.toastService.error(err?.error?.message || err?.message || "Failed to create course");
-        this.isSaving = false;
-      },
-    });
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
 
   cancel(): void {
     this.router.navigate(["/app/courses"]);
@@ -232,7 +192,7 @@ onSubmit(): void {
   }
 
   loadTeachers(): void {
-    const params: any = {}; // or add filters here
+    const params: any = {};
 
     this.tecaherservice.getTeachers(params).subscribe({
       next: (response) => {
@@ -245,19 +205,4 @@ onSubmit(): void {
       },
     });
   }
-
-  // this.teacherService.getTeachers(params).subscribe({
-  //     next: (response) => {
-  //       this.loading = false;
-  //       if (response.status === 'success' && response.data) {
-  //         this.teachers = response.data.teachers || [];
-  //         this.pagination = response.data.pagination || this.pagination;
-  //       }
-  //     },
-  //     error: (error) => {
-  //       this.loading = false;
-  //       console.error('Error loading teachers:', error);
-  //       this.toastService.show('Error loading teachers', 'error');
-  //     }
-  //   });
 }

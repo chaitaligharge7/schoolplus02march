@@ -62,7 +62,7 @@ export class CleaningListComponent implements OnInit {
       },
     },
     {
-      key: "created_at",
+      key: "completed_at",
       label: "Completion Date",
       sortable: true,
       type: "date",
@@ -233,8 +233,8 @@ export class CleaningListComponent implements OnInit {
       "Schedule Date": this.formatDate(schedule.schedule_date),
       "Assigned To": schedule.assigned_to || "-",
       Status: schedule.status || "-",
-      "Completed Date": schedule.completed_date
-        ? this.formatDate(schedule.completed_date)
+      "Completed Date": schedule.completed_at
+        ? this.formatDate(schedule.completed_at)
         : "-",
     }));
 

@@ -41,12 +41,14 @@ export class CourseListComponent implements OnInit {
   showFilters = false;
   sliderCourse: any = null;
   sliderVisible = false;
+  
   pagination = {
     page: 1,
     limit: 20,
     total: 0,
     pages: 0,
   };
+  // statusFilter: string | undefined;
 
   columns: TableColumn[] = [
     {
@@ -187,7 +189,8 @@ export class CourseListComponent implements OnInit {
       page: this.pagination.page,
       limit: this.pagination.limit,
       sort_column: this.sortColumn,
-      sort_direction: this.sortDirection.toUpperCase(),
+      sort_direction: this.sortDirection.toUpperCase()
+      // status:this.status
     };
 
     if (this.searchTerm) {
@@ -208,7 +211,8 @@ export class CourseListComponent implements OnInit {
     if (this.status) {
       params.status = this.status;
     }
-
+console.log("STATUS VALUE:", this.status);
+console.log("PARAMS:", params);
     this.courseService.getCourses(params).subscribe({
       next: (response) => {
         this.loading = false;
@@ -357,10 +361,15 @@ export class CourseListComponent implements OnInit {
   }
 
   onStatusChange(status: string | null | undefined): void {
-    this.status = status || undefined;
+    this.status = status ?? undefined;
     this.pagination.page = 1;
     this.loadCourses();
   }
+//   onStatusChange(statusFilter: string | null | undefined): void {
+//   this.status = statusFilter ?? undefined;
+//   this.pagination.page = 1;
+//   this.loadCourses();
+// }
 
   onEdit(row: any): void {
     this.router.navigate(["/app/courses/edit", row.course_id]);

@@ -1,10 +1,21 @@
 <div class="academic-year-create-container">
   <div class="page-header">
     <div>
-      <h1 class="page-title">{{ isEditMode ? 'Edit Academic Year' : 'Create Academic Year' }}</h1>
-      <p class="page-subtitle">{{ isEditMode ? 'Update academic year details' : 'Add a new academic year' }}</p>
+      <h1 class="page-title">
+        {{ isEditMode ? "Edit Academic Year" : "Create Academic Year" }}
+      </h1>
+      <p class="page-subtitle">
+        {{
+          isEditMode
+            ? "Update academic year details"
+            : "Add a new academic year"
+        }}
+      </p>
     </div>
-    <button class="btn btn-outline" (click)="router.navigate(['/app/academic-years'])">
+    <button
+      class="btn btn-outline"
+      (click)="router.navigate(['/app/academic-years'])"
+    >
       <i class="bi bi-arrow-left"></i>
       Back
     </button>
@@ -40,8 +51,21 @@
             type="date"
             formControlName="end_date"
             class="form-control"
+            [min]="academicYearForm.get('start_date')?.value"
             required
           />
+
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              academicYearForm.get('start_date')?.value &&
+              academicYearForm.get('end_date')?.value &&
+              academicYearForm.get('start_date')?.value >
+                academicYearForm.get('end_date')?.value
+            "
+          >
+            End date must be greater than start date
+          </div>
         </div>
       </div>
 
@@ -58,11 +82,21 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn btn-outline" (click)="router.navigate(['/app/academic-years'])">
+        <button
+          type="button"
+          class="btn btn-outline"
+          (click)="router.navigate(['/app/academic-years'])"
+        >
           Cancel
         </button>
-        <button type="submit" class="btn btn-primary" [disabled]="isSaving || academicYearForm.invalid">
-          <span *ngIf="!isSaving">{{ isEditMode ? 'Update' : 'Create' }} Academic Year</span>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isSaving || academicYearForm.invalid"
+        >
+          <span *ngIf="!isSaving"
+            >{{ isEditMode ? "Update" : "Create" }} Academic Year</span
+          >
           <span *ngIf="isSaving">
             <span class="spinner-small"></span>
             Saving...
@@ -72,4 +106,3 @@
     </form>
   </div>
 </div>
-

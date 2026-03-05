@@ -198,7 +198,6 @@ export class AcademicYearListComponent implements OnInit {
     this.selectedRowId = row.academic_year_id;
   }
   onStatusChange(): void {
-    // Translate for API/filter logic, but don't touch this.status
     this.status = this.statusFilter === "zero" ? "0" : this.statusFilter === "one" ? "1" : undefined;
 
     this.pagination.page = 1;

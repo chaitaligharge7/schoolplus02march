@@ -35,7 +35,7 @@ export class CleaningCreateComponent implements OnInit {
       assigned_to: [null],
       cleaning_type:['', Validators.required],
       // location:['', Validators.required],
-      created_at:['',Validators.required],
+      completed_at:['',Validators.required],
 
       completion_status: ['', Validators.required],
       notes: ['']
@@ -74,11 +74,13 @@ export class CleaningCreateComponent implements OnInit {
         if (response.status === 'success' && response.data?.schedules?.length > 0) {
           const schedule = response.data.schedules[0];
           this.scheduleForm.patchValue({
-            area: schedule.area,
+            location: schedule.location,
             schedule_date: schedule.schedule_date,
             assigned_to: schedule.assigned_to,
-            status: schedule.status,
-            notes: schedule.notes
+            cleaning_type:schedule.cleaning_type,
+            completion_status: schedule.completion_status,
+            notes: schedule.notes,
+            completed_at:schedule.completed_at
           });
         }
         this.isLoading = false;

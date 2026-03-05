@@ -67,6 +67,17 @@ export class AcademicYearCreateComponent implements OnInit {
   }
 
   onSubmit(): void {
+
+    // ===== DATE VALIDATION ADDED =====
+    const startDate = this.academicYearForm.get('start_date')?.value;
+    const endDate = this.academicYearForm.get('end_date')?.value;
+
+    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+      this.toastService.show('Start date cannot be greater than End date', 'error');
+      return;
+    }
+    // ===== END DATE VALIDATION =====
+
     if (this.academicYearForm.invalid) {
       return;
     }
@@ -109,4 +120,3 @@ export class AcademicYearCreateComponent implements OnInit {
     }
   }
 }
-
